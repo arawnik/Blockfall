@@ -12,7 +12,7 @@ public partial class PieceData : Resource
     /// Texture of <see cref="Piece"/>.
     /// </summary>
 	[Export]
-	public Texture2D PieceTexture { get; set; }
+    public Texture2D PieceTexture { get; set; }
 
     /// <summary>
     /// The type of <see cref="Tetromino"/> that piece belongs to.

@@ -20,7 +20,7 @@ public partial class GhostTetromino : Node2D
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
-	{
+    {
         PieceScene = ResourceLoader.Load<PackedScene>(Resources.Piece);
         GhostPieceSprite = GD.Load<Texture2D>(Resources.GhostPieceSprite);
         //TetrominoData = (PieceData)Main.TetrominoResources[type];
@@ -28,7 +28,7 @@ public partial class GhostTetromino : Node2D
         ResourceLoader.Load("res://Resources/I_PieceData.tres");
 
         var cells = Autoload.TetrominoCells(TetrominoData.TetrominoType);
-        foreach ( var cell in cells)
+        foreach (var cell in cells)
         {
             var piece = PieceScene.Instantiate<Piece>();
             AddChild(piece);
