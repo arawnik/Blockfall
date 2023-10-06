@@ -11,7 +11,7 @@ public partial class Piece : Area2D
     /// Static <see cref="Vector2"/> that defines the size of each Piece.
     /// </summary>
     private static readonly Vector2 SizeVector = new(Board.PIECE_SIZE, Board.PIECE_SIZE);
-    
+
     /// <summary>
     /// Size of Piece.
     /// </summary>
@@ -32,7 +32,7 @@ public partial class Piece : Area2D
     {
     }
 
-    public void SetTexture(Texture2D texture) 
+    public void SetTexture(Texture2D texture)
     {
         Sprite2D.Texture = texture;
     }

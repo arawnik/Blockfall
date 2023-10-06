@@ -29,8 +29,8 @@ public partial class Hud : CanvasLayer
     /// </summary>
     /// <param name="delta">The elapsed time since the previous frame.</param>
     public override void _Process(double delta)
-	{
-	}
+    {
+    }
 
     /// <summary>
     /// Show game over to user.

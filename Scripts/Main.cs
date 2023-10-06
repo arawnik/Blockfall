@@ -7,5 +7,5 @@ using Godot;
 /// </summary>
 public partial class Main : Node
 {
-	//TODO: Currently pretty empty, all state logic and points etc that will be created should come here.
+    //TODO: Currently pretty empty, all state logic and points etc that will be created should come here.
 }

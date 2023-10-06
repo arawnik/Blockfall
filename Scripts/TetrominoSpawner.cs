@@ -29,11 +29,11 @@ public partial class TetrominoSpawner : Node
     /// </summary>
     private bool isGameOver = false;
 
-	/// <summary>
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
-	public override void _Ready()
-	{
+    public override void _Ready()
+    {
         board = GetNode<Board>("../Board");
         board.TetrominoLocked += OnTetrominoLocked;
         board.GameOver += OnGameOver;
@@ -79,7 +79,7 @@ public partial class TetrominoSpawner : Node
     /// </summary>
     /// <returns>Random <see cref="TetrominoType"/>.</returns>
     public static TetrominoType GetRandomTetromino()
-	{
+    {
         var values = (TetrominoType[])Enum.GetValues(typeof(TetrominoType));
         return values[GD.Randi() % values.Length];
     }

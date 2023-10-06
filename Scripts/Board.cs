@@ -14,7 +14,7 @@ public partial class Board : Node
     /// Scene that is used to instantiate new <see cref="Tetromino"/>s.
     /// </summary>
 	[Export]
-	public PackedScene TetrominoScene { get; set; }
+    public PackedScene TetrominoScene { get; set; }
 
     /// <summary>
     /// Scene that is used to instantiate new <see cref="Line"/>s into the board.
@@ -83,28 +83,28 @@ public partial class Board : Node
     /// </summary>
     /// <param name="tetromino">The <see cref="Tetromino"/> that will be added.</param>
     public void AddTetrominoToLines(Tetromino tetromino)
-	{
+    {
         //TODO: Refactor logic of getting pieces into Tetromino itself
-		var pieces = tetromino.GetChildren(false)
-			.Where(child => child is Piece)
-			.Cast<Piece>()
-			.ToList();
+        var pieces = tetromino.GetChildren(false)
+            .Where(child => child is Piece)
+            .Cast<Piece>()
+            .ToList();
         foreach (var piece in pieces)
         {
-			var lineExists = false;
-			foreach (var line in GetLines())
-			{
-				if(line.GlobalPosition.Y == piece.GlobalPosition.Y)
-				{
-					piece.Reparent(line);
-					lineExists = true;
-				}
-			}
-			if (!lineExists)
-			{
-				var newLine = LineScene.Instantiate<Line>();
-				newLine.GlobalPosition = new Vector2 (0, piece.GlobalPosition.Y);
-				AddChild(newLine);
+            var lineExists = false;
+            foreach (var line in GetLines())
+            {
+                if (line.GlobalPosition.Y == piece.GlobalPosition.Y)
+                {
+                    piece.Reparent(line);
+                    lineExists = true;
+                }
+            }
+            if (!lineExists)
+            {
+                var newLine = LineScene.Instantiate<Line>();
+                newLine.GlobalPosition = new Vector2(0, piece.GlobalPosition.Y);
+                AddChild(newLine);
                 piece.Reparent(newLine);
             }
         }

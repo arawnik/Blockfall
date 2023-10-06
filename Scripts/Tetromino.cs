@@ -84,7 +84,7 @@ public partial class Tetromino : Node2D
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
-	{
+    {
         MoveTimer = GetNode<Timer>(Resources.MoveTimer);
         PieceScene = ResourceLoader.Load<PackedScene>(Resources.Piece);
         GhostTetrominoScene = ResourceLoader.Load<PackedScene>(Resources.GhostTetromino);
@@ -94,24 +94,26 @@ public partial class Tetromino : Node2D
         CallUpdateGhostPosition = Callable.From(() => UpdateGhostPosition());
 
         TetrominoCells = Autoload.TetrominoCells(PieceData.TetrominoType);
-		foreach (var cell in TetrominoCells) 
-		{
-			var piece = PieceScene.Instantiate<Piece>();
+        foreach (var cell in TetrominoCells)
+        {
+            var piece = PieceScene.Instantiate<Piece>();
             Pieces.Add(piece);
-			AddChild(piece);
+            AddChild(piece);
             piece.SetTexture(PieceData.PieceTexture);
-			piece.Position = cell * piece.Size;
-			
-		}
+            piece.Position = cell * piece.Size;
+
+        }
 
         if (IsNextPiece)
         {
             MoveTimer.Stop();
             SetProcessInput(false);
-        } else { 
-			Position = PieceData.SpawnPosition;
+        }
+        else
+        {
+            Position = PieceData.SpawnPosition;
             WallKicks = PieceData.TetrominoType == TetrominoType.I ? Autoload.WallKicksI : Autoload.WallKicksOthers;
-            
+
             // Create ghost for the new active piece
             GhostTetromino = GhostTetrominoScene.Instantiate<GhostTetromino>();
             GhostTetromino.TetrominoData = PieceData;
@@ -184,7 +186,7 @@ public partial class Tetromino : Node2D
                     return true;
             }
         }
-        
+
         return false;
     }
 
