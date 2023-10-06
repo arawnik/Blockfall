@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://r2k16smu2kqf"]
+
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_5qf7q"]
+[ext_resource type="Texture2D" uid="uid://b7kbmqyng6b5g" path="res://Assets/Border.png" id="1_akkq8"]
+[ext_resource type="Texture2D" uid="uid://cck26gkwmha8m" path="res://Assets/GridBack.png" id="2_anyg3"]
+[ext_resource type="Script" path="res://Scripts/TetrominoSpawner.cs" id="4_pw68c"]
+[ext_resource type="Script" path="res://Scripts/Board.cs" id="5_26rnc"]
+[ext_resource type="PackedScene" uid="uid://d0pr30d2mbnue" path="res://Scenes/tetromino.tscn" id="6_p1ucf"]
+[ext_resource type="PackedScene" uid="uid://cqb4hi0u38wof" path="res://Scenes/hud.tscn" id="7_f68lv"]
+[ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="7_vlfcj"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_5qf7q")
+
+[node name="MainCamera" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Border" type="TextureRect" parent="."]
+offset_left = -256.0
+offset_top = -496.0
+offset_right = 1794.0
+offset_bottom = 3474.0
+scale = Vector2(0.25, 0.25)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_akkq8")
+metadata/_edit_group_ = true
+
+[node name="GridTexture" type="TextureRect" parent="Border"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -961.0
+offset_top = -1921.0
+offset_right = 959.0
+offset_bottom = 1928.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_anyg3")
+stretch_mode = 1
+
+[node name="PieceSpawner" type="Node" parent="."]
+script = ExtResource("4_pw68c")
+
+[node name="Board" type="Node" parent="."]
+script = ExtResource("5_26rnc")
+TetrominoScene = ExtResource("6_p1ucf")
+LineScene = ExtResource("7_vlfcj")
+
+[node name="HUD" parent="." instance=ExtResource("7_f68lv")]
