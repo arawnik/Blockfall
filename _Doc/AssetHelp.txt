@@ -1,0 +1,39 @@
+
+# Information that was used on creating the Assets
+
+
+Border size 24 x 24
+Delta value on color: 31
+median blur defaults
+
+
+
+Black edge 11 x 11
+Delta 0
+
+
+border
+	2050 x 3970
+
+Size
+	orig 192
+	edge 240
+	full 262
+
+
+https://www.rapidtables.com/web/color/index.html
+
+
+Edge 181B1F
+
+
+Back 24292F
+Ghost 626b73
+
+Blue 	266abd
+Cyan	008B8B
+Green	2e8b57
+Orange	FF8C00
+Purple	8B008B
+Red		B22222
+Yellow	CCCC00
