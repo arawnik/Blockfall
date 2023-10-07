@@ -11,10 +11,10 @@ using System.Linq;
 public partial class Board : Node
 {
     /// <summary>
-    /// Scene that is used to instantiate new <see cref="Tetromino"/>s.
+    /// Scene that is used to instantiate new <see cref="TetrominoPawn"/>s.
     /// </summary>
 	[Export]
-    public PackedScene TetrominoScene { get; set; }
+    public PackedScene TetrominoPawnScene { get; set; }
 
     /// <summary>
     /// Scene that is used to instantiate new <see cref="Line"/>s into the board.
@@ -23,7 +23,7 @@ public partial class Board : Node
     public PackedScene LineScene { get; set; }
 
     /// <summary>
-    /// Handler of signal that is emitted when <see cref="Tetromino"/> reaches end destination and is locked.
+    /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
     public delegate void TetrominoLockedEventHandler();
@@ -47,144 +47,45 @@ public partial class Board : Node
     /// </summary>
 	public const int PIECE_SIZE = 48;
 
-    //TODO: Get rid
-    protected Tetromino NextTetromino;
-
     /// <summary>
-    /// Spawn new <see cref="Tetromino"/> on board of type <see cref="TetrominoType"/>.
+    /// Spawn new <see cref="TetrominoPawn"/> on board of type <see cref="TetrominoType"/>.
     /// </summary>
-    /// <param name="type">Type of the spawned <see cref="Tetromino"/>.</param>
-    /// <param name="isNext"><see cref="true"/> if spawned <see cref="Tetromino"/> is for display. <see cref="false"/> if spawning to board.</param>
-    public void SpawnTetromino(TetrominoType type, bool isNext)
+    /// <param name="type">Type of the spawned <see cref="TetrominoPawn"/>.</param>
+    public void SpawnTetromino(TetrominoType type)
     {
-        var tetrominoData = (PieceData)Autoload.TetrominoResources[type];
-
-        var tetromino = TetrominoScene.Instantiate<Tetromino>();
-        tetromino.PieceData = tetrominoData;
-        tetromino.IsNextPiece = isNext;
-
-        //TODO: Refactor isNext out, and spawn tetromino to HUD directly.
-        if (isNext)
-        {
-            NextTetromino = tetromino;
-            ((Hud)GetNode<CanvasLayer>(Resources.HUD)).DisplayNextTetromino(tetromino);
-        }
-        else
-        {
-            tetromino.Position = tetrominoData.SpawnPosition;
-            tetromino.OtherPieces = GetAllPieces();
-            tetromino.LockTetromino += OnLockTetromino;
-            AddChild(tetromino);
-        }
+        var tetromino = Tetromino.Create<TetrominoPawn>(TetrominoPawnScene, type);
+        tetromino.LockTetromino += OnLockTetromino;
+        AddChild(tetromino);
     }
 
     /// <summary>
     /// Add <see cref="Piece"/>s of <paramref name="tetromino"/> <see cref="Line"/>s on the board.
     /// </summary>
-    /// <param name="tetromino">The <see cref="Tetromino"/> that will be added.</param>
-    public void AddTetrominoToLines(Tetromino tetromino)
+    /// <param name="tetromino">The <see cref="TetrominoPawn"/> that will be added.</param>
+    public void AddTetrominoToLines(TetrominoPawn tetromino)
     {
-        //TODO: Refactor logic of getting pieces into Tetromino itself
-        var pieces = tetromino.GetChildren(false)
-            .Where(child => child is Piece)
-            .Cast<Piece>()
-            .ToList();
-        foreach (var piece in pieces)
+        tetromino.Pieces.ForEach(piece =>
         {
-            var lineExists = false;
-            foreach (var line in GetLines())
+            var line = GetLines().FirstOrDefault(line => line.GlobalPosition.Y == piece.GlobalPosition.Y);
+            if (line != null)
             {
-                if (line.GlobalPosition.Y == piece.GlobalPosition.Y)
-                {
-                    piece.Reparent(line);
-                    lineExists = true;
-                }
+                piece.Reparent(line);
             }
-            if (!lineExists)
+            else
             {
                 var newLine = LineScene.Instantiate<Line>();
                 newLine.GlobalPosition = new Vector2(0, piece.GlobalPosition.Y);
                 AddChild(newLine);
                 piece.Reparent(newLine);
             }
-        }
+        });
     }
 
     /// <summary>
-    /// Lock <paramref name="tetromino"/> on the board and handle related logic.
-    /// Called when <see cref="Tetromino.LockTetromino"/> signal is emitted.
-    /// </summary>
-    /// <param name="tetromino">The <see cref="Tetromino"/> that was locked.</param>
-    protected void OnLockTetromino(Tetromino tetromino)
-    {
-        NextTetromino.QueueFree();
-        AddTetrominoToLines(tetromino);
-        RemoveFullLines();
-        EmitSignal(SignalName.TetrominoLocked);
-        CheckGameOver();
-    }
-
-    /// <summary>
-    /// Remove all <see cref="Line"/>s from board that are full.
-    /// </summary>
-    private void RemoveFullLines()
-    {
-        //TODO: We should probably return number of rows that were removed to use it elsewhere for points etc.
-        foreach (var line in GetLines())
-        {
-            if (line.IsLineFull())
-            {
-                MoveLinesDown(line.GlobalPosition.Y);
-                line.Free();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Check if game is over and emit <see cref="GameOver"/> signal if so.
-    /// </summary>
-    private void CheckGameOver()
-    {
-        foreach (var piece in GetAllPieces())
-        {
-            if (piece.GlobalPosition.Y == Bounds.MinY)
-            {
-                EmitSignal(SignalName.GameOver);
-                break;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Move all lines above <paramref name="y"/> one cell down.
-    /// </summary>
-    /// <param name="y">The breaking point of moved lines.</param>
-    private void MoveLinesDown(float y)
-    {
-        foreach (var line in GetLines())
-        {
-            if (line.GlobalPosition.Y < y)
-                line.GlobalPosition = new Vector2(line.GlobalPosition.X, (line.GlobalPosition.Y + PIECE_SIZE));
-        }
-    }
-
-    /// <summary>
-    /// Get all <see cref="Line"/>s of board.
-    /// </summary>
-    /// <returns><see cref="List{Line}"/> of lines on board.</returns>
-    private List<Line> GetLines()
-    {
-        return GetChildren(false)
-            .Where(child => child is Line)
-            .Cast<Line>()
-            .ToList();
-    }
-
-    /// <summary>
-    /// Get all <see cref="Piece"/> that are locked on board.
+    /// Get all <see cref="Piece"/>s that are locked in <see cref="Line"/>s of board.
     /// </summary>
     /// <returns><see cref="List{Piece}"/> of pieces on board.</returns>
-    private List<Piece> GetAllPieces()
+    public List<Piece> GetAllPiecesInLines()
     {
         var pieces = new List<Piece>();
         foreach (var line in GetLines())
@@ -195,6 +96,83 @@ public partial class Board : Node
                 .ToList());
         }
         return pieces;
+    }
+
+    /// <summary>
+    /// Get all <see cref="Line"/>s of board.
+    /// </summary>
+    /// <returns><see cref="List{Line}"/> of lines on board.</returns>
+    public IEnumerable<Line> GetLines()
+    {
+        return GetChildren(false)
+            .Where(child => child is Line)
+            .Cast<Line>();
+    }
+
+    /// <summary>
+    /// Lock <paramref name="tetromino"/> on the board and handle related logic.
+    /// Called when <see cref="TetrominoPawn.LockTetromino"/> signal is emitted.
+    /// </summary>
+    /// <param name="tetromino">The <see cref="TetrominoPawn"/> that was locked.</param>
+    protected void OnLockTetromino(TetrominoPawn tetromino)
+    {
+        AddTetrominoToLines(tetromino);
+        var linesRemoved = RemoveFullLines();
+        EmitSignal(SignalName.TetrominoLocked);
+        CheckGameOver();
+    }
+
+    /// <summary>
+    /// Remove all <see cref="Line"/>s from board that are full.
+    /// </summary>
+    /// <returns>Number of <see cref="Line"/>s removed.</returns>
+    private int RemoveFullLines()
+    {
+        var fullLines = GetLines()
+            .Where(line => line.IsLineFull())
+            .ToList();
+
+        foreach (var line in fullLines)
+        {
+            MoveLinesDown(line.GlobalPosition.Y);
+            line.Free();
+        }
+        return fullLines.Count;
+    }
+
+    /// <summary>
+    /// Check if game is over and emit <see cref="GameOver"/> signal if so.
+    /// </summary>
+    private void CheckGameOver()
+    {
+        // We only create lines when there are pieces for them. So if top line exists, game over.
+        if(GetLines().Any(line => line.GlobalPosition.Y.Equals(Bounds.MinY)))
+            EmitSignal(SignalName.GameOver);
+
+        //if (GetAllPiecesInLines().Any(piece => piece.GlobalPosition.Y.Equals(Bounds.MinY)))
+        //    EmitSignal(SignalName.GameOver);
+    }
+
+    /// <summary>
+    /// Move all lines above <paramref name="y"/> one cell down.
+    /// </summary>
+    /// <param name="y">The breaking point of moved lines.</param>
+    private void MoveLinesDown(float y)
+    {
+        GetLines()
+            .Where(line => line.GlobalPosition.Y < y)
+            .ToList()
+            .ForEach(line => line.GlobalPosition = new Vector2(line.GlobalPosition.X, (line.GlobalPosition.Y + PIECE_SIZE)));
+    }
+
+    /// <summary>
+    /// Check if position is out of Boards game bounds.
+    /// </summary>
+    /// <param name="position">The checked position.</param>
+    /// <returns><see cref="true"/> if is out of bounds, <see cref="false"/> otherwise.</returns>
+    public static bool IsPositionOutOfGameBounds(Vector2 position)
+    {
+        return position.X < Bounds.MinX || position.X > Bounds.MaxX || position.Y > Bounds.MaxY;
     }
 
     /// <summary>

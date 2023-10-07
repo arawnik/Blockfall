@@ -7,10 +7,10 @@ using System;
 /// <summary>
 /// Spawns <see cref="Tetromino"/>s to Board.
 /// </summary>
-public partial class TetrominoSpawner : Node
+public partial class Spawner : Node
 {
     /// <summary>
-    /// The currently active <see cref="Tetromino"/> that is controlled by user.
+    /// The currently active <see cref="TetrominoPawn"/> that is controlled by user.
     /// </summary>
 	public TetrominoType CurrentTetromino;
 
@@ -20,9 +20,14 @@ public partial class TetrominoSpawner : Node
     public TetrominoType NextTetromino;
 
     /// <summary>
-    /// The board we spawn <see cref="Tetromino"/>s to.
+    /// The board we spawn <see cref="CurrentTetromino"/>s to.
     /// </summary>
-    public Board board;
+    protected Board Board;
+
+    /// <summary>
+    /// The HUD where we display <see cref="NextTetromino"/>.
+    /// </summary>
+    protected Hud HUD;
 
     /// <summary>
     /// Is game over?
@@ -34,13 +39,14 @@ public partial class TetrominoSpawner : Node
     /// </summary>
     public override void _Ready()
     {
-        board = GetNode<Board>("../Board");
-        board.TetrominoLocked += OnTetrominoLocked;
-        board.GameOver += OnGameOver;
+        HUD = GetNode<Hud>(Resources.HUD);
+
+        Board = GetNode<Board>(Resources.Board);
+        Board.TetrominoLocked += OnTetrominoLocked;
+        Board.GameOver += OnGameOver;
 
         CurrentTetromino = GetRandomTetromino();
         NextTetromino = GetRandomTetromino();
-
         UpdateTetrominos();
     }
 
@@ -50,7 +56,7 @@ public partial class TetrominoSpawner : Node
     private void OnGameOver()
     {
         isGameOver = true;
-        ((Hud)GetNode<CanvasLayer>(Resources.HUD)).ShowGameOver();
+        HUD.ShowGameOver();
     }
 
     /// <summary>
@@ -60,6 +66,7 @@ public partial class TetrominoSpawner : Node
     {
         if (isGameOver)
             return;
+
         CurrentTetromino = NextTetromino;
         NextTetromino = GetRandomTetromino();
         UpdateTetrominos();
@@ -70,8 +77,8 @@ public partial class TetrominoSpawner : Node
     /// </summary>
     private void UpdateTetrominos()
     {
-        board.SpawnTetromino(CurrentTetromino, false);
-        board.SpawnTetromino(NextTetromino, true);
+        Board.SpawnTetromino(CurrentTetromino);
+        HUD.DisplayNextTetromino(NextTetromino);
     }
 
     /// <summary>
@@ -87,5 +94,6 @@ public partial class TetrominoSpawner : Node
     public static class Resources
     {
         public const string HUD = "../HUD";
+        public const string Board = "../Board";
     }
 }

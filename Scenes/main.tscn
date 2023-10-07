@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://Scripts/Main.cs" id="1_5qf7q"]
 [ext_resource type="Texture2D" uid="uid://b7kbmqyng6b5g" path="res://Assets/Border.png" id="1_akkq8"]
 [ext_resource type="Texture2D" uid="uid://cck26gkwmha8m" path="res://Assets/GridBack.png" id="2_anyg3"]
-[ext_resource type="Script" path="res://Scripts/TetrominoSpawner.cs" id="4_pw68c"]
+[ext_resource type="Script" path="res://Scripts/Spawner.cs" id="4_v7afr"]
 [ext_resource type="Script" path="res://Scripts/Board.cs" id="5_26rnc"]
-[ext_resource type="PackedScene" uid="uid://d0pr30d2mbnue" path="res://Scenes/tetromino.tscn" id="6_p1ucf"]
+[ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="6_n4vj1"]
 [ext_resource type="PackedScene" uid="uid://cqb4hi0u38wof" path="res://Scenes/hud.tscn" id="7_f68lv"]
 [ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="7_vlfcj"]
 
@@ -43,11 +43,11 @@ texture = ExtResource("2_anyg3")
 stretch_mode = 1
 
 [node name="PieceSpawner" type="Node" parent="."]
-script = ExtResource("4_pw68c")
+script = ExtResource("4_v7afr")
 
 [node name="Board" type="Node" parent="."]
 script = ExtResource("5_26rnc")
-TetrominoScene = ExtResource("6_p1ucf")
+TetrominoPawnScene = ExtResource("6_n4vj1")
 LineScene = ExtResource("7_vlfcj")
 
 [node name="HUD" parent="." instance=ExtResource("7_f68lv")]
