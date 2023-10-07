@@ -10,6 +10,11 @@ using System.Linq;
 /// </summary>
 public partial class Autoload : Node
 {
+    /// <summary>
+    /// Get <see cref="Tetromino"/> cells data.
+    /// </summary>
+    /// <param name="tetrominoType">Type of <see cref="Tetromino"/>.</param>
+    /// <returns><see cref="Vector2[]"/> with vector for each cell.</returns>
     public static Vector2[] TetrominoCells(TetrominoType tetrominoType)
     {
         return TetrominoBlocks[tetrominoType].Select(block => new Vector2(block.X, block.Y)).ToArray();
@@ -26,43 +31,61 @@ public partial class Autoload : Node
         { TetrominoType.Z, [ new Vector2(-1, 1), new Vector2( 0, 1), new Vector2( 0, 0), new Vector2(1, 0)] }
     };
 
+    /// <summary>
+    /// Wall kicks for <see cref="TetrominoType.I"/>.
+    /// </summary>
     public static readonly Vector2[][] WallKicksI = [
-        [new Vector2(0, 0), new Vector2(-2, 0), new Vector2( 1, 0), new Vector2(-2, -1), new Vector2( 1,  2)],
-        [new Vector2(0, 0), new Vector2( 2, 0), new Vector2(-1, 0), new Vector2( 2,  1), new Vector2(-1, -2)],
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2( 2, 0), new Vector2(-1,  2), new Vector2( 2, -1)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2(-2, 0), new Vector2( 1, -2), new Vector2(-2,  1)],
-        [new Vector2(0, 0), new Vector2( 2, 0), new Vector2(-1, 0), new Vector2( 2,  1), new Vector2(-1, -2)],
-        [new Vector2(0, 0), new Vector2(-2, 0), new Vector2( 1, 0), new Vector2(-2, -1), new Vector2( 1,  2)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2(-2, 0), new Vector2( 1, -2), new Vector2(-2,  1)],
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2( 2, 0), new Vector2(-1,  2), new Vector2( 2, -1)]
+        [new Vector2(0, 0), new Vector2(-2, 0), new Vector2(1, 0), new Vector2(-2, -1), new Vector2(1, 2)],
+        [new Vector2(0, 0), new Vector2(2, 0), new Vector2(-1, 0), new Vector2(2, 1), new Vector2(-1, -2)],
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(2, 0), new Vector2(-1, 2), new Vector2(2, -1)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(-2, 0), new Vector2(1, -2), new Vector2(-2, 1)],
+        [new Vector2(0, 0), new Vector2(2, 0), new Vector2(-1, 0), new Vector2(2, 1), new Vector2(-1, -2)],
+        [new Vector2(0, 0), new Vector2(-2, 0), new Vector2(1, 0), new Vector2(-2, -1), new Vector2(1, 2)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(-2, 0), new Vector2(1, -2), new Vector2(-2, 1)],
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(2, 0), new Vector2(-1, 2), new Vector2(2, -1)]
     ];
 
+    /// <summary>
+    /// Wall kicks for any other <see cref="TetrominoType"/>, except for <see cref="TetrominoType.I"/>.
+    /// </summary>
     public static readonly Vector2[][] WallKicksOthers = [
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1,  1), new Vector2(0, -2), new Vector2(-1, -2)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2( 1, -1), new Vector2(0,  2), new Vector2( 1,  2)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2( 1, -1), new Vector2(0,  2), new Vector2( 1,  2)],
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1,  1), new Vector2(0, -2), new Vector2(-1, -2)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2( 1,  1), new Vector2(0, -2), new Vector2( 1, -2)],
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(0,  2), new Vector2(-1,  2)],
-        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(0,  2), new Vector2(-1,  2)],
-        [new Vector2(0, 0), new Vector2( 1, 0), new Vector2( 1,  1), new Vector2(0, -2), new Vector2( 1, -2)]
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, 1), new Vector2(0, -2), new Vector2(-1, -2)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, 2), new Vector2(1, 2)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, 2), new Vector2(1, 2)],
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, 1), new Vector2(0, -2), new Vector2(-1, -2)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, -2), new Vector2(1, -2)],
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(0, 2), new Vector2(-1, 2)],
+        [new Vector2(0, 0), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(0, 2), new Vector2(-1, 2)],
+        [new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, -2), new Vector2(1, -2)]
     ];
 
-
-    public static readonly Dictionary<TetrominoType, Resource> TetrominoResources = new()
+    /// <summary>
+    /// <see cref="Resource"/>/<see cref="PieceData"/> info for each <see cref="TetrominoType"/>.
+    /// </summary>
+    public static readonly Dictionary<TetrominoType, PieceData> TetrominoResources = new()
     {
-        { TetrominoType.I, ResourceLoader.Load("res://Resources/I_PieceData.tres") },
-        { TetrominoType.J, ResourceLoader.Load("res://Resources/J_PieceData.tres") },
-        { TetrominoType.L, ResourceLoader.Load("res://Resources/L_PieceData.tres") },
-        { TetrominoType.O, ResourceLoader.Load("res://Resources/O_PieceData.tres") },
-        { TetrominoType.S, ResourceLoader.Load("res://Resources/S_PieceData.tres") },
-        { TetrominoType.T, ResourceLoader.Load("res://Resources/T_PieceData.tres") },
-        { TetrominoType.Z, ResourceLoader.Load("res://Resources/Z_PieceData.tres") }
+        { TetrominoType.I, ResourceLoader.Load<PieceData>("res://Resources/I_PieceData.tres") },
+        { TetrominoType.J, ResourceLoader.Load<PieceData>("res://Resources/J_PieceData.tres") },
+        { TetrominoType.L, ResourceLoader.Load<PieceData>("res://Resources/L_PieceData.tres") },
+        { TetrominoType.O, ResourceLoader.Load<PieceData>("res://Resources/O_PieceData.tres") },
+        { TetrominoType.S, ResourceLoader.Load<PieceData>("res://Resources/S_PieceData.tres") },
+        { TetrominoType.T, ResourceLoader.Load<PieceData>("res://Resources/T_PieceData.tres") },
+        { TetrominoType.Z, ResourceLoader.Load<PieceData>("res://Resources/Z_PieceData.tres") }
     };
 
+    /// <summary>
+    /// Rotation matrix for clockwise rotation.
+    /// </summary>
     public static readonly Vector2[] ClockwiseRotationMatrix = [new Vector2(0, -1), new Vector2(1, 0)];
+
+    /// <summary>
+    /// Rotation matrix for counter-clockwise rotation.
+    /// </summary>
     public static readonly Vector2[] CounterClockwiseRotationMatrix = [new Vector2(0, 1), new Vector2(-1, 0)];
 
+    /// <summary>
+    /// All defined Inputs.
+    /// </summary>
     public static class PlayerInputs
     {
         public const string Right = "Right";

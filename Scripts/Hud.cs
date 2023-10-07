@@ -1,19 +1,43 @@
 namespace Jetris.Scripts;
 
 using Godot;
+using Jetris.Scripts.Models;
 
 /// <summary>
 /// Head-Up Display also known as HUD. Will be used to display data around the screen.
 /// </summary>
 public partial class Hud : CanvasLayer
 {
+    /// <summary>
+    /// Scene that is used to instantiate new <see cref="Tetromino"/>'s.
+    /// </summary>
+	[Export]
+    public PackedScene TetrominoScene { get; set; }
+
+    /// <summary>
+    /// Container for displaying next <see cref="Tetromino"/>.
+    /// </summary>
     public PanelContainer NextPieceContainer;
+
+    /// <summary>
+    /// Container that will be shown when it's game over.
+    /// </summary>
     public PanelContainer GameOverContainer;
 
+    /// <summary>
+    /// Position where next <see cref="Tetromino"/> should be displayed.
+    /// </summary>
     public static Vector2 NextTetrominoPosition = new(65, 35);
+
+    /// <summary>
+    /// Scale of displayed next <see cref="Tetromino"/>.
+    /// </summary>
     public static Vector2 NextTetrominoScale = new(.35f, .35f);
 
-    protected Tetromino nextTetromino;
+    /// <summary>
+    /// Reference for the displayed next <see cref="Tetromino"/>.
+    /// </summary>
+    protected Tetromino NextTetromino;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -37,7 +61,7 @@ public partial class Hud : CanvasLayer
     /// </summary>
     public void ShowGameOver()
     {
-        nextTetromino?.QueueFree();
+        //FreeNextTetromino();
         GameOverContainer.Show();
     }
 
@@ -53,12 +77,21 @@ public partial class Hud : CanvasLayer
     /// Display <paramref name="tetromino"/> on the box for next <see cref="Tetromino"/>.
     /// </summary>
     /// <param name="tetromino">The <see cref="Tetromino"/> that will spawn next.</param>
-    public void DisplayNextTetromino(Tetromino tetromino)
+    public void DisplayNextTetromino(TetrominoType tetrominoType)
     {
-        nextTetromino = tetromino;
-        tetromino.Position = NextTetrominoPosition;
-        tetromino.Scale = NextTetrominoScale;
-        GetNode<PanelContainer>(Resources.NextPieceContainer).AddChild(tetromino);
+        FreeNextTetromino();
+        NextTetromino = Tetromino.Create<Tetromino>(TetrominoScene, tetrominoType);
+        NextTetromino.Position = NextTetrominoPosition;
+        NextTetromino.Scale = NextTetrominoScale;
+        GetNode<PanelContainer>(Resources.NextPieceContainer).AddChild(NextTetromino);
+    }
+
+    private void FreeNextTetromino()
+    {
+        if (NextTetromino != null && !NextTetromino.IsQueuedForDeletion())
+        {
+            NextTetromino.QueueFree();
+        }
     }
 
     public static class Resources

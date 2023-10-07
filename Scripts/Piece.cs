@@ -17,28 +17,17 @@ public partial class Piece : Area2D
     /// </summary>
     public Vector2 Size => SizeVector;
 
-    public Sprite2D Sprite2D;
-    //public CollisionShape2D CollisionShape2D;
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        Sprite2D = GetNode<Sprite2D>("./Sprite2D");
-        //CollisionShape2D = GetNode<CollisionShape2D>("./CollisionShape2D");
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-
+    /// <summary>
+    /// Set the texture for Piece.
+    /// </summary>
+    /// <param name="texture">The texture that will be set.</param>
     public void SetTexture(Texture2D texture)
     {
-        Sprite2D.Texture = texture;
+        GetNode<Sprite2D>(Resources.Sprite).Texture = texture;
     }
 
-    /*public Vector2 GetSize()
+    public static class Resources
     {
-        return Board.PIECE_SIZE;//return CollisionShape2D.Shape.GetRect().Size;
-    }*/
+        public const string Sprite = "Sprite2D";
+    }
 }
