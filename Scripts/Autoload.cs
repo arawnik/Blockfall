@@ -64,13 +64,13 @@ public partial class Autoload : Node
     /// </summary>
     public static readonly Dictionary<TetrominoType, PieceData> TetrominoResources = new()
     {
-        { TetrominoType.I, ResourceLoader.Load<PieceData>("res://Resources/I_PieceData.tres") },
-        { TetrominoType.J, ResourceLoader.Load<PieceData>("res://Resources/J_PieceData.tres") },
-        { TetrominoType.L, ResourceLoader.Load<PieceData>("res://Resources/L_PieceData.tres") },
-        { TetrominoType.O, ResourceLoader.Load<PieceData>("res://Resources/O_PieceData.tres") },
-        { TetrominoType.S, ResourceLoader.Load<PieceData>("res://Resources/S_PieceData.tres") },
-        { TetrominoType.T, ResourceLoader.Load<PieceData>("res://Resources/T_PieceData.tres") },
-        { TetrominoType.Z, ResourceLoader.Load<PieceData>("res://Resources/Z_PieceData.tres") }
+        { TetrominoType.I, ResourceLoader.Load<PieceData>("res://Resources/Pieces/I_PieceData.tres") },
+        { TetrominoType.J, ResourceLoader.Load<PieceData>("res://Resources/Pieces/J_PieceData.tres") },
+        { TetrominoType.L, ResourceLoader.Load<PieceData>("res://Resources/Pieces/L_PieceData.tres") },
+        { TetrominoType.O, ResourceLoader.Load<PieceData>("res://Resources/Pieces/O_PieceData.tres") },
+        { TetrominoType.S, ResourceLoader.Load<PieceData>("res://Resources/Pieces/S_PieceData.tres") },
+        { TetrominoType.T, ResourceLoader.Load<PieceData>("res://Resources/Pieces/T_PieceData.tres") },
+        { TetrominoType.Z, ResourceLoader.Load<PieceData>("res://Resources/Pieces/Z_PieceData.tres") }
     };
 
     /// <summary>

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://lwpyadn4g5s0"]
+
+[ext_resource type="Script" path="res://Scripts/PredefinedLine.cs" id="1_mdetu"]
+
+[node name="Line" type="Node2D"]
+script = ExtResource("1_mdetu")
+metadata/_edit_group_ = true

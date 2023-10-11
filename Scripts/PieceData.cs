@@ -19,10 +19,4 @@ public partial class PieceData : Resource
     /// </summary>
     [Export]
     public TetrominoType TetrominoType { get; set; }
-
-    /// <summary>
-    /// The position this specific <see cref="Piece"/> should be spawned to.
-    /// </summary>
-    [Export]
-    public Vector2 SpawnPosition { get; set; }
 }

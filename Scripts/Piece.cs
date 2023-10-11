@@ -15,7 +15,7 @@ public partial class Piece : Area2D
     /// <summary>
     /// Size of Piece.
     /// </summary>
-    public Vector2 Size => SizeVector;
+    public static Vector2 Size => SizeVector;
 
     /// <summary>
     /// Set the texture for Piece.

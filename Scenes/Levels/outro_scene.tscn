@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqb3uheig21ms"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/OutroScene.cs" id="1_c3vcs"]
+[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="1_e01js"]
+
+[node name="Outro" type="Node2D"]
+script = ExtResource("1_c3vcs")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 22.0
+offset_top = 59.0
+offset_right = 305.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[font size=28 name=res://Assets/Fonts/Orbitron.ttf][center]Congratulations![/center][/font]
+
+[font name=res://Assets/Fonts/SourceSans3.ttf]You have done it! Like a champion. Now you will have to choose:[/font]"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 65.0
+offset_top = 206.0
+offset_right = 265.0
+offset_bottom = 246.0
+size_flags_horizontal = 4
+metadata/_edit_group_ = true
+
+[node name="RestartButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e01js")
+text = "Restart"
+
+[node name="MenuButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e01js")
+text = "Return to menu"
+
+[connection signal="pressed" from="HBoxContainer/RestartButton" to="." method="OnRestartButtonPressed"]
+[connection signal="pressed" from="HBoxContainer/MenuButton" to="." method="OnMenuButtonPressed"]

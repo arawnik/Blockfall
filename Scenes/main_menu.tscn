@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://bksqbntvh54ye"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_6oesn"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_6oesn")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuButtonContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MenuMarginContainer" type="MarginContainer" parent="CenterContainer/MenuButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 11
+theme_override_constants/margin_bottom = 11
+
+[node name="MenuVBoxContainer" type="VBoxContainer" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer"]
+layout_mode = 2
+
+[node name="CampaignButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+text = "Campaign"
+
+[node name="RisingButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+text = "Rising difficulty"
+
+[node name="VanillaButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+text = "Vanilla"
+
+[connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/CampaignButton" to="." method="OnCampaignButtonPressed"]
+[connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/RisingButton" to="." method="OnIncreasingDifficultyButtonPressed"]
+[connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/VanillaButton" to="." method="OnVanillaButtonPressed"]

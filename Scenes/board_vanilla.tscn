@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkvr0nj50hgwh"]
+
+[ext_resource type="Script" path="res://Scripts/Board.cs" id="1_7vlr1"]
+[ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_kkcu2"]
+[ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="3_c5r76"]
+[ext_resource type="PackedScene" uid="uid://cfl26khd88gcj" path="res://Scenes/Nodes/difficulty_fixed.tscn" id="4_c2cr1"]
+[ext_resource type="PackedScene" uid="uid://1wco1fpt1lgu" path="res://Scenes/Nodes/game_rules_normal.tscn" id="5_rwnar"]
+
+[node name="Board" type="Node2D" node_paths=PackedStringArray("GameRules", "Difficulty")]
+script = ExtResource("1_7vlr1")
+GameRules = NodePath("GameRules")
+Difficulty = NodePath("Difficulty")
+TetrominoPawnScene = ExtResource("2_kkcu2")
+LineScene = ExtResource("3_c5r76")
+
+[node name="GameRules" parent="." node_paths=PackedStringArray("Board") instance=ExtResource("5_rwnar")]
+Board = NodePath("..")
+
+[node name="Difficulty" parent="." instance=ExtResource("4_c2cr1")]
