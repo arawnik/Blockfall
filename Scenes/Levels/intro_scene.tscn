@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://e501e1rcaxa4"]
+
+[ext_resource type="Script" path="res://Scripts/Levels/IntroScene.cs" id="1_ixeqx"]
+[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="1_v24yf"]
+
+[node name="Intro" type="Node2D"]
+script = ExtResource("1_ixeqx")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 22.0
+offset_top = 59.0
+offset_right = 305.0
+offset_bottom = 529.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[font size=35 name=res://Assets/Fonts/Orbitron.ttf][center]Campaign[/center][/font]
+
+[font name=res://Assets/Fonts/SourceSans3.ttf]Welcome to campaign!
+You will face varying challenges starting from simple and easy setups and gradually getting harder and more punishing.[/font]"
+
+[node name="AdvanceButton" type="Button" parent="."]
+offset_left = 91.0
+offset_top = 364.0
+offset_right = 246.0
+offset_bottom = 395.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("1_v24yf")
+text = "Let's get started"
+
+[connection signal="pressed" from="AdvanceButton" to="." method="OnAdvanceButtonPressed"]

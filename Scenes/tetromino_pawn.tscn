@@ -5,8 +5,3 @@
 [node name="TetrominoPawn" type="Node2D"]
 script = ExtResource("1_bpsqr")
 metadata/_edit_group_ = true
-
-[node name="MoveTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="MoveTimer" to="." method="OnMoveTimerTimeout"]

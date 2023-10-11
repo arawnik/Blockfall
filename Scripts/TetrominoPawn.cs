@@ -40,11 +40,6 @@ public partial class TetrominoPawn : Tetromino
     /// </summary>
     protected Vector2[][] WallKicks;
 
-    /// <summary>
-    /// Timer for when this Tetromino will move on it's own.
-    /// </summary>
-    protected Timer MoveTimer;
-
     //TODO: Remove when proper deferred call
     private Callable CallUpdateGhostPosition;
     //TODO: Remove when proper deferred call
@@ -65,6 +60,11 @@ public partial class TetrominoPawn : Tetromino
     private static readonly int movementThreshold = Board.PIECE_SIZE / 2;
 
     /// <summary>
+    /// Handle for <see cref="Board"/> that the pawn belongs to.
+    /// </summary>
+    private Board _board;
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
@@ -72,22 +72,36 @@ public partial class TetrominoPawn : Tetromino
         // First do all of the common initialization.
         base._Ready();
 
+        _board = GetParent<Board>();
+
         // Init common stuff
-        MoveTimer = GetNode<Timer>(Resources.MoveTimer);
+        _board.Difficulty.OnReady(OnMoveTimerTimeout);
+
         GhostTetrominoScene = ResourceLoader.Load<PackedScene>(Resources.GhostTetromino);
         //TODO: Replace with proper deferred call
         CallAddGhostTetrominoToRoot = Callable.From(() => GetTree().Root.AddChild(GhostTetromino));
         CallUpdateGhostPosition = Callable.From(() => UpdateGhostPosition());
 
         // Init Tetromino
-        Position = PieceData.SpawnPosition;
+        Position = Board.SPAWN_POINT;
         WallKicks = PieceData.TetrominoType == TetrominoType.I ? Autoload.WallKicksI : Autoload.WallKicksOthers;
-        OtherPieces = GetParent<Board>().GetAllPiecesInLines();
+        OtherPieces = _board.GetAllPiecesInLines();
 
         // Create ghost for the new active piece
         GhostTetromino = Tetromino.Create<TetrominoGhost>(GhostTetrominoScene, PieceData);
         CallAddGhostTetrominoToRoot.CallDeferred();
         CallUpdateGhostPosition.CallDeferred(); // TODO: Fix deferred call
+    }
+
+    /// <summary>
+    /// Called every frame. 'delta' is the elapsed time since the previous frame.
+    /// </summary>
+    /// <param name="delta">The elapsed time since the previous frame.</param>
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        _board.Difficulty.OnProcess((float)delta);
     }
 
     /// <summary>
@@ -110,7 +124,7 @@ public partial class TetrominoPawn : Tetromino
         else if (Input.IsActionJustPressed(Autoload.PlayerInputs.Down))
         {
             Move(Vector2.Down);
-            MoveTimer.Start();
+            _board.Difficulty.MoveTimer.Start();
         }
         else if (Input.IsActionJustPressed(Autoload.PlayerInputs.Drop))
         {
@@ -129,7 +143,7 @@ public partial class TetrominoPawn : Tetromino
     /// <returns><see cref="true"/> if new position is within bounds, <see cref="false"/> otherwise.</returns>
     public bool IsWithinGameBounds(Vector2 direction)
     {
-        return !Pieces.Any(piece => Board.IsPositionOutOfGameBounds(piece.Position + direction));
+        return !Pieces.Any(piece => _board.IsPositionOutOfBoard(piece.Position + direction));
     }
 
     /// <summary>
@@ -149,7 +163,7 @@ public partial class TetrominoPawn : Tetromino
     }
 
     /// <summary>
-    /// Move the tetromibo on <see cref="Board"/>.
+    /// Move the tetromino on <see cref="Board"/>.
     /// </summary>
     /// <param name="direction">Direction Vector of movement.</param>
     /// <returns><see cref="true"/> if tetromino could move, <see cref="false"/> otherwise.</returns>
@@ -213,7 +227,7 @@ public partial class TetrominoPawn : Tetromino
 
             GhostTetromino.SetGhostTetromino(finalDropPosition.Value, piecePositions);
             return true;
-        } 
+        }
         else
         {
             GhostTetromino.Hide();
@@ -245,7 +259,7 @@ public partial class TetrominoPawn : Tetromino
     /// </summary>
     private void Lock()
     {
-        MoveTimer.Stop();
+        _board.Difficulty.MoveTimer.Stop();
         EmitSignal(SignalName.LockTetromino, this);
         SetProcessInput(false);
 
@@ -324,7 +338,7 @@ public partial class TetrominoPawn : Tetromino
         for (int i = 0; i < Pieces.Count; i++)
         {
             var piece = Pieces[i];
-            piece.Position = TetrominoCells[i] * piece.Size;
+            piece.Position = TetrominoCells[i] * Piece.Size;
         }
     }
 

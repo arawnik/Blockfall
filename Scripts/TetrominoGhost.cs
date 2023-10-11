@@ -7,9 +7,6 @@ using Godot;
 /// </summary>
 public partial class TetrominoGhost : Tetromino
 {
-    [Signal]
-    public delegate void TetrominoLockedEventHandler();
-
     /// <summary>
     /// Get the texture for This tetromino.
     /// </summary>

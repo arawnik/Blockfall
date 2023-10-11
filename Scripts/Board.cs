@@ -2,18 +2,31 @@ namespace Jetris.Scripts;
 
 using Godot;
 using Jetris.Scripts.Models;
+using Jetris.Scripts.Models.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
 /// The grid board playarea.
 /// </summary>
-public partial class Board : Node
+public partial class Board : Node2D
 {
+    /// <summary>
+    /// Rules for board. Win condition, gameover etc.
+    /// </summary>
+    [Export]
+    public GameRules GameRules { get; set; }
+
+    /// <summary>
+    /// Difficulty for board.
+    /// </summary>
+    [Export]
+    public Difficulty Difficulty { get; set; }
+
     /// <summary>
     /// Scene that is used to instantiate new <see cref="TetrominoPawn"/>s.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene TetrominoPawnScene { get; set; }
 
     /// <summary>
@@ -26,13 +39,13 @@ public partial class Board : Node
     /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
-    public delegate void TetrominoLockedEventHandler();
+    public delegate void TetrominoLockedEventHandler(int linesRemoved);
 
     /// <summary>
-    /// Handler of signal that is emitted when there is <see cref="Piece"/> locked on top <see cref="Line"/> of board.
+    /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
-    public delegate void GameOverEventHandler();
+    public delegate void LineRemovedEventHandler(Line line);
 
     /// <summary>
     /// Amount of rows on the board.
@@ -48,12 +61,45 @@ public partial class Board : Node
 	public const int PIECE_SIZE = 48;
 
     /// <summary>
+    /// Size of each <see cref="Piece" /> designed for the board.
+    /// </summary>
+	public const int HALF_PIECE_SIZE = PIECE_SIZE / 2;
+
+    /// <summary>
+    /// Vector for <see cref="TetrominoPawn"/> spawn point.
+    /// </summary>
+	public static readonly Vector2 SPAWN_POINT = new(COLUMN_COUNT / 2 * PIECE_SIZE - HALF_PIECE_SIZE, Bounds.MinY);
+
+    /// <summary>
+    /// Min values for GlobalPosition that belongs to board.
+    /// </summary>
+    public Vector2 MinVector;
+
+    /// <summary>
+    /// Max values for GlobalPosition that belongs to board.
+    /// </summary>
+    public Vector2 MaxVector;
+
+
+    /// <summary>
+    /// Called when the node enters the scene tree for the first time.
+    /// </summary>
+    public override void _Ready()
+    {
+        MinVector = GlobalPosition + new Vector2(Bounds.MinX, Bounds.MinY);
+        MaxVector = GlobalPosition + new Vector2(Bounds.MaxX, Bounds.MaxY);
+
+        ProcessPredefinedLines();
+    }
+    
+    /// <summary>
     /// Spawn new <see cref="TetrominoPawn"/> on board of type <see cref="TetrominoType"/>.
     /// </summary>
     /// <param name="type">Type of the spawned <see cref="TetrominoPawn"/>.</param>
     public void SpawnTetromino(TetrominoType type)
     {
         var tetromino = Tetromino.Create<TetrominoPawn>(TetrominoPawnScene, type);
+        //tetromino.Difficulty = Difficulty;
         tetromino.LockTetromino += OnLockTetromino;
         AddChild(tetromino);
     }
@@ -74,11 +120,13 @@ public partial class Board : Node
             else
             {
                 var newLine = LineScene.Instantiate<Line>();
+                AddChild(newLine); // Have to add before setting pos or it will break.
                 newLine.GlobalPosition = new Vector2(0, piece.GlobalPosition.Y);
-                AddChild(newLine);
+
                 piece.Reparent(newLine);
             }
         });
+        tetromino.QueueFree();
     }
 
     /// <summary>
@@ -110,6 +158,27 @@ public partial class Board : Node
     }
 
     /// <summary>
+    /// Get all <see cref="PredefinedLine"/>s that were added to board.
+    /// </summary>
+    /// <returns><see cref="List{PredefinedLine}"/> of predefined lines on board.</returns>
+    public IEnumerable<PredefinedLine> GetPredefinedLines()
+    {
+        return GetChildren(false)
+            .Where(child => child is PredefinedLine)
+            .Cast<PredefinedLine>();
+    }
+
+    /// <summary>
+    /// Check if position is out of Boards game bounds.
+    /// </summary>
+    /// <param name="position">The checked position.</param>
+    /// <returns><see cref="true"/> if is out of bounds, <see cref="false"/> otherwise.</returns>
+    public bool IsPositionOutOfBoard(Vector2 position)
+    {
+        return position.X < MinVector.X || position.X > MaxVector.X || position.Y > MaxVector.Y;
+    }
+
+    /// <summary>
     /// Lock <paramref name="tetromino"/> on the board and handle related logic.
     /// Called when <see cref="TetrominoPawn.LockTetromino"/> signal is emitted.
     /// </summary>
@@ -118,8 +187,8 @@ public partial class Board : Node
     {
         AddTetrominoToLines(tetromino);
         var linesRemoved = RemoveFullLines();
-        EmitSignal(SignalName.TetrominoLocked);
-        CheckGameOver();
+        EmitSignal(SignalName.TetrominoLocked, linesRemoved);
+        GameRules.CheckGameOver();
     }
 
     /// <summary>
@@ -135,22 +204,10 @@ public partial class Board : Node
         foreach (var line in fullLines)
         {
             MoveLinesDown(line.GlobalPosition.Y);
+            EmitSignal(SignalName.LineRemoved, line);
             line.Free();
         }
         return fullLines.Count;
-    }
-
-    /// <summary>
-    /// Check if game is over and emit <see cref="GameOver"/> signal if so.
-    /// </summary>
-    private void CheckGameOver()
-    {
-        // We only create lines when there are pieces for them. So if top line exists, game over.
-        if(GetLines().Any(line => line.GlobalPosition.Y.Equals(Bounds.MinY)))
-            EmitSignal(SignalName.GameOver);
-
-        //if (GetAllPiecesInLines().Any(piece => piece.GlobalPosition.Y.Equals(Bounds.MinY)))
-        //    EmitSignal(SignalName.GameOver);
     }
 
     /// <summary>
@@ -166,13 +223,33 @@ public partial class Board : Node
     }
 
     /// <summary>
-    /// Check if position is out of Boards game bounds.
+    /// Process all <see cref="PredefinedLine"/>s into regular <see cref="Line"/>s on board.
     /// </summary>
-    /// <param name="position">The checked position.</param>
-    /// <returns><see cref="true"/> if is out of bounds, <see cref="false"/> otherwise.</returns>
-    public static bool IsPositionOutOfGameBounds(Vector2 position)
+    private void ProcessPredefinedLines()
     {
-        return position.X < Bounds.MinX || position.X > Bounds.MaxX || position.Y > Bounds.MaxY;
+        var pieceScene = ResourceLoader.Load<PackedScene>(Resources.Piece);
+        var presetPieceSprite = GD.Load<Texture2D>(Resources.PresetPieceSprite);
+
+        foreach (var predefinedLine in GetPredefinedLines())
+        {
+            var newLine = LineScene.Instantiate<Line>();
+            newLine.GlobalPosition = new Vector2(-HALF_PIECE_SIZE, predefinedLine.Row * PIECE_SIZE - HALF_PIECE_SIZE);
+            foreach (var pieceIndex in predefinedLine.Pieces)
+            {
+                var piece = pieceScene.Instantiate<Piece>();
+                newLine.AddChild(piece);
+                piece.SetTexture(presetPieceSprite);
+                piece.Position = new Vector2(pieceIndex * Piece.Size.X, 0); //new Vector2(pieceIndex, 0) * piece.Size;
+            }
+
+            if (GameRules is GameRulesClearPreset gameRulesClearPreset)
+            {
+                gameRulesClearPreset.ClearableLines.Add(newLine);
+            }
+
+            RemoveChild(predefinedLine);
+            AddChild(newLine);
+        }
     }
 
     /// <summary>
@@ -180,15 +257,15 @@ public partial class Board : Node
     /// </summary>
     public static class Bounds
     {
-        public const int MinX = -216;
-        public const int MaxX = 216;
-        public const int MaxY = 457;
-        public const int MinY = -456;
+        public const int MinX = HALF_PIECE_SIZE;
+        public const int MaxX = (COLUMN_COUNT) * PIECE_SIZE;
+        public const int MinY = HALF_PIECE_SIZE;
+        public const int MaxY = ROW_COUNT * PIECE_SIZE;
     }
 
     public static class Resources
     {
-        public const string Line = "res://Scenes/line.tscn";
-        public const string HUD = "../HUD";
+        public const string PresetPieceSprite = "res://Assets/Pieces/Preset.png";
+        public const string Piece = "res://Scenes/piece.tscn";
     }
 }

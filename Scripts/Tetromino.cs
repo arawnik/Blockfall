@@ -10,17 +10,17 @@ using System.Collections.Generic;
 public partial class Tetromino : Node2D
 {
     /// <summary>
-    /// List of all <see cref="Piece"/>s of the Tetromino.
+    /// Scene that is used to instantiate new <see cref="Piece"/>s.
     /// </summary>
-    public List<Piece> Pieces { get; set; } = new();
+    public PackedScene PieceScene;
 
     //TODO: Check if needed, are used for calculating rotation of pieces
     public Vector2[] TetrominoCells;
 
     /// <summary>
-    /// Scene that is used to instantiate new <see cref="Piece"/>s.
+    /// List of all <see cref="Piece"/>s of the Tetromino.
     /// </summary>
-    protected PackedScene PieceScene;
+    public List<Piece> Pieces { get; set; } = new();
 
     /// <summary>
     /// Data of <see cref="Piece"/>s that belong to the Tetromino.
@@ -47,14 +47,14 @@ public partial class Tetromino : Node2D
             Pieces.Add(piece);
             AddChild(piece);
             piece.SetTexture(PieceTexture);
-            piece.Position = cell * piece.Size;
+            piece.Position = cell * Piece.Size;
         }
     }
 
     /// <summary>
     /// Create new instance of Tetromino. Instantiate with <paramref name="tetrominoScene"/> and set required data.
     /// </summary>
-    /// <typeparam name="T">Type of created <see cref="Tetromino"/>.</typeparam>
+    /// <typeparam name="T">Strictier type of created <see cref="Tetromino"/>.</typeparam>
     /// <param name="tetrominoScene">The Scene that is used to Instantiate.</param>
     /// <param name="type">Type of created Tetromino.</param>
     /// <returns>Initialized Tetromino.</returns>
@@ -68,10 +68,10 @@ public partial class Tetromino : Node2D
     /// <summary>
     /// Create new instance of Tetromino. Instantiate with <paramref name="tetrominoScene"/> and set required data.
     /// </summary>
-    /// <typeparam name="T">Type of created <see cref="Tetromino"/>.</typeparam>
+    /// <typeparam name="T">Strictier type of created <see cref="Tetromino"/>.</typeparam>
     /// <param name="tetrominoScene">The Scene that is used to Instantiate.</param>
     /// <param name="pieceData">Data for initializing the <see cref="Tetromino"/>.</param>
-    /// <returns></returns>
+    /// <returns>Initialized Tetromino.</returns>
     public static T Create<T>(PackedScene tetrominoScene, PieceData pieceData)
         where T : Tetromino
     {
@@ -86,7 +86,7 @@ public partial class Tetromino : Node2D
         public const string MoveTimer = "MoveTimer";
         public const string Board = "MoveTimer";
 
-        public const string GhostPieceSprite = "res://Assets/Ghost.png";
+        public const string GhostPieceSprite = "res://Assets/Pieces/Ghost.png";
 
         public const string Piece = "res://Scenes/piece.tscn";
         public const string GhostTetromino = "res://Scenes/tetromino_ghost.tscn";

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b40qfxdyv6huf"
-path="res://.godot/imported/Cyan.png-93cfe51a913c97141257e6898bf95a28.ctex"
+uid="uid://cck26gkwmha8m"
+path="res://.godot/imported/GridBack.png-d9c83ec7f3cb88555d06f64209d2b92f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cyan.png"
-dest_files=["res://.godot/imported/Cyan.png-93cfe51a913c97141257e6898bf95a28.ctex"]
+source_file="res://Assets/Pieces/GridBack.png"
+dest_files=["res://.godot/imported/GridBack.png-d9c83ec7f3cb88555d06f64209d2b92f.ctex"]
 
 [params]
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqm58wdgh40i2"]
+
+[ext_resource type="Script" path="res://Scripts/Models/Nodes/GameRulesClearPreset.cs" id="1_w2r2j"]
+
+[node name="GameRules" type="Node"]
+script = ExtResource("1_w2r2j")
