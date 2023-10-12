@@ -14,6 +14,11 @@ public partial class GameRulesClearPreset : GameRules
     public List<Line> ClearableLines { get; set; } = new List<Line>();
 
     /// <summary>
+    /// Explanation for the win condition that will be displayed in HUD.
+    /// </summary>
+    public override string WinConditionText => "Clear all preset rows to win";
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()

@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dc63wnb4jphqj"]
+
+[ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="1_xvv1f"]
+
+[resource]
+default_font = ExtResource("1_xvv1f")
+default_font_size = 22
+/fonts/asd = ExtResource("1_xvv1f")

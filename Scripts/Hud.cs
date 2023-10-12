@@ -2,6 +2,7 @@ namespace Jetris.Scripts;
 
 using Godot;
 using Jetris.Scripts.Models;
+using Jetris.Scripts.Models.Nodes;
 
 /// <summary>
 /// Head-Up Display also known as HUD. Will be used to display data around the screen.
@@ -41,6 +42,21 @@ public partial class Hud : CanvasLayer
     /// Container that will be shown when it's game's end.
     /// </summary>
     public PanelContainer GameEndContainer;
+
+    /// <summary>
+    /// Container that displays win condition.
+    /// </summary>
+    public VBoxContainer WinConditionContainer;
+
+    /// <summary>
+    /// Label to display text for wind condition.
+    /// </summary>
+    public RichTextLabel WinConditionTextLabel;
+
+    /// <summary>
+    /// Bar that displays the active difficulty level.
+    /// </summary>
+    public ProgressBar DifficultyBar;
 
     /// <summary>
     /// Label that displays info at game end.
@@ -94,6 +110,11 @@ public partial class Hud : CanvasLayer
     {
         NextPieceContainer = GetNode<PanelContainer>(Resources.NextPieceContainer);
         GameEndContainer = GetNode<PanelContainer>(Resources.GameEndContainer);
+
+        WinConditionContainer = GetNode<VBoxContainer>(Resources.WinConditionContainer);
+        WinConditionTextLabel = GetNode<RichTextLabel>(Resources.WinConditionTextLabel);
+        DifficultyBar = GetNode<ProgressBar>(Resources.DifficultyBar);
+
         GameEndLabel = GetNode<Label>(Resources.GameEndLabel);
         ScoringLabel = GetNode<Label>(Resources.ScoringLabel);
         HighScoreLabel = GetNode<Label>(Resources.HighScoreLabel);
@@ -101,6 +122,34 @@ public partial class Hud : CanvasLayer
         RestartButton = GetNode<Button>(Resources.RestartButton);
         AdvanceButton = GetNode<Button>(Resources.AdvanceButton);
         MenuButton = GetNode<Button>(Resources.MenuButton);
+    }
+
+    /// <summary>
+    /// Initialize difficultybar.
+    /// </summary>
+    /// <param name="difficulty">Instance of the difficulty that will be displayed.</param>
+    public void InitDifficulty(Difficulty difficulty)
+    {
+        DifficultyBar.MinValue = difficulty.Min;
+        DifficultyBar.MaxValue = difficulty.Max;
+        DisplayDifficulty(difficulty.Current);
+    }
+
+    /// <summary>
+    /// Initialize win condition
+    /// </summary>
+    /// <param name="difficulty">Instance of the difficulty that will be displayed.</param>
+    public void InitWinCondition(GameRules rules)
+    {
+        if(rules.DisplayWinCondition)
+        {
+            WinConditionTextLabel.Text = rules.WinConditionText;
+            WinConditionContainer.Show();
+        }
+        else
+        {
+            WinConditionContainer.Hide();
+        }
     }
 
     /// <summary>
@@ -157,6 +206,21 @@ public partial class Hud : CanvasLayer
     }
 
     /// <summary>
+    /// Update difficulty bar.
+    /// </summary>
+    /// <param name="current">Current difficulty value</param>
+    public void DisplayDifficulty(float current)
+    {
+        var min = (float)DifficultyBar.MinValue;
+        var max = (float)DifficultyBar.MaxValue;
+        DifficultyBar.Value = current;
+
+        var green = Map(max - current + min, min, max, 0f, 1f);
+        var red = Map(current, min, max, 0f, 1f);
+        DifficultyBar.Modulate = new Color(red, green, 0);
+    }
+
+    /// <summary>
     /// Handler for when RestartButton is pressed.
     /// </summary>
     public void OnRestartButtonPressed()
@@ -179,6 +243,11 @@ public partial class Hud : CanvasLayer
     {
         EmitSignal(SignalName.MenuState);
     }
+    
+    private float Map(float x, float in_min, float in_max, float out_min, float out_max)
+    {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
 
     /// <summary>
     /// Remove next tetromino from HUD.
@@ -195,6 +264,10 @@ public partial class Hud : CanvasLayer
     {
         public const string NextPieceContainer = "NextPieceContainer";
         public const string GameEndContainer = "GameEndContainer";
+
+        public const string WinConditionContainer = "WinConditionContainer";
+        public const string WinConditionTextLabel = "WinConditionContainer/WinConditionTextLabel";
+        public const string DifficultyBar = "DifficultyContainer/DifficultyBar";
 
         public const string GameEndLabel = "GameEndContainer/MarginContainer/VBoxContainer/GameEndLabel";
         public const string ScoringLabel = "ScoringContainer/ScoringLabel";

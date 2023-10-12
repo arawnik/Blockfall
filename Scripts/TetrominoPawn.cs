@@ -94,17 +94,6 @@ public partial class TetrominoPawn : Tetromino
     }
 
     /// <summary>
-    /// Called every frame. 'delta' is the elapsed time since the previous frame.
-    /// </summary>
-    /// <param name="delta">The elapsed time since the previous frame.</param>
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-
-        _board.Difficulty.OnProcess((float)delta);
-    }
-
-    /// <summary>
     /// Handle input.
     /// </summary>
     /// <param name="event">Event with input details.</param>

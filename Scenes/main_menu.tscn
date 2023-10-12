@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bksqbntvh54ye"]
+[gd_scene load_steps=4 format=3 uid="uid://bksqbntvh54ye"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_6oesn"]
+[ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="2_1u0j0"]
+
+[sub_resource type="Theme" id="Theme_8uu63"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_6oesn")
@@ -24,17 +27,21 @@ theme_override_constants/margin_bottom = 11
 
 [node name="MenuVBoxContainer" type="VBoxContainer" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer"]
 layout_mode = 2
+theme = SubResource("Theme_8uu63")
 
 [node name="CampaignButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_1u0j0")
 text = "Campaign"
 
 [node name="RisingButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_1u0j0")
 text = "Rising difficulty"
 
 [node name="VanillaButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_1u0j0")
 text = "Vanilla"
 
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/CampaignButton" to="." method="OnCampaignButtonPressed"]

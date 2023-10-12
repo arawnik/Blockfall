@@ -58,8 +58,22 @@ public partial class Game : Node
     {
         HUD = GetNode<Hud>(Resources.HUD);
         HUD.DisplayHighscore(_highScore);
+        HUD.InitDifficulty(Board.Difficulty);
+        HUD.InitWinCondition(Board.GameRules);
 
         Spawner.OnReady(UpdateTetrominos);
+    }
+
+    /// <summary>
+    /// Called every frame. 'delta' is the elapsed time since the previous frame.
+    /// </summary>
+    /// <param name="delta">The elapsed time since the previous frame.</param>
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        Board.Difficulty.OnProcess((float)delta);
+        HUD.DisplayDifficulty(Board.Difficulty.Current);
     }
 
     /// <summary>

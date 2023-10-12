@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqb4hi0u38wof"]
+[gd_scene load_steps=6 format=3 uid="uid://cqb4hi0u38wof"]
 
 [ext_resource type="Script" path="res://Scripts/Hud.cs" id="1_3xmyb"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="1_7bnq4"]
 [ext_resource type="PackedScene" uid="uid://d0pr30d2mbnue" path="res://Scenes/tetromino.tscn" id="2_4oj4m"]
+[ext_resource type="Theme" uid="uid://dkb32drs0ri8a" path="res://Theme/basic_theme.tres" id="4_hjl7v"]
+[ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="5_x54fb"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_3xmyb")
@@ -125,6 +127,68 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
+
+[node name="DifficultyContainer" type="VBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -69.0
+offset_right = 117.0
+offset_bottom = -12.0
+grow_vertical = 0
+tooltip_text = "Current difficulty:
+ 1% is easiest
+100% is hardest"
+theme = ExtResource("4_hjl7v")
+metadata/_edit_group_ = true
+
+[node name="DifficultyLabel" type="Label" parent="DifficultyContainer"]
+layout_mode = 2
+theme = ExtResource("5_x54fb")
+text = "Difficulty"
+horizontal_alignment = 1
+
+[node name="DifficultyBar" type="ProgressBar" parent="DifficultyContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 10.0
+value = 4.0
+
+[node name="WinConditionContainer" type="VBoxContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -69.0
+offset_right = -2.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(1.00793, 1)
+size_flags_horizontal = 8
+size_flags_vertical = 10
+tooltip_text = "Current difficulty:
+ 1% is easiest
+100% is hardest"
+theme = ExtResource("4_hjl7v")
+metadata/_edit_group_ = true
+
+[node name="WinConditionLabel" type="Label" parent="WinConditionContainer"]
+layout_mode = 2
+theme = ExtResource("5_x54fb")
+text = "Win condition"
+horizontal_alignment = 1
+
+[node name="WinConditionTextLabel" type="RichTextLabel" parent="WinConditionContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Win condition belongs here"
 
 [connection signal="pressed" from="GameEndContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="OnRestartButtonPressed"]
 [connection signal="pressed" from="GameEndContainer/MarginContainer/VBoxContainer/AdvanceButton" to="." method="OnAdvanceButtonPressed"]

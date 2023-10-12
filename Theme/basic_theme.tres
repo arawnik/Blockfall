@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dkb32drs0ri8a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hlbtw"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0.0196078, 0.0196078, 0.0196078, 0.952941)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_color = Color(0, 0, 0, 0.894118)
+
+[resource]
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_hlbtw")
