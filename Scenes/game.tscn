@@ -46,3 +46,6 @@ stretch_mode = 1
 position = Vector2(86, 176)
 
 [node name="HUD" parent="." instance=ExtResource("8_tlslc")]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+follow_viewport_enabled = true
