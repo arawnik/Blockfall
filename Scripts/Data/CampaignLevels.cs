@@ -107,8 +107,18 @@ public partial class CampaignLevels : Resource
     private static readonly string[] _levels =
     [
         "intro_scene",
+        // Just preset with increasing difficulty
         "level_1_board",
         "level_2_board",
+        "level_3_board",
+        "level_4_board",
+        "level_5_board",
+        "level_6_board",
+        "level_7_board",
+        "level_8_board",
+        "level_10_board",
+        // Next difficulty
+        "level_x_board",
         "outro_scene",
     ];
 }

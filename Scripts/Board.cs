@@ -91,7 +91,7 @@ public partial class Board : Node2D
 
         ProcessPredefinedLines();
     }
-    
+
     /// <summary>
     /// Spawn new <see cref="TetrominoPawn"/> on board of type <see cref="TetrominoType"/>.
     /// </summary>
@@ -99,7 +99,6 @@ public partial class Board : Node2D
     public void SpawnTetromino(TetrominoType type)
     {
         var tetromino = Tetromino.Create<TetrominoPawn>(TetrominoPawnScene, type);
-        //tetromino.Difficulty = Difficulty;
         tetromino.LockTetromino += OnLockTetromino;
         AddChild(tetromino);
     }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8tib8ssji8w3"]
+[gd_scene load_steps=7 format=3 uid="uid://btutnhqcwxqxf"]
 
 [ext_resource type="Script" path="res://Scripts/Board.cs" id="1_smk5f"]
 [ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_asmr4"]
@@ -18,7 +18,10 @@ LineScene = ExtResource("3_qu85a")
 Board = NodePath("..")
 
 [node name="Difficulty" parent="." instance=ExtResource("4_qcbvd")]
-InitialDifficulty = 3.0
+
+[node name="Line 18" parent="." instance=ExtResource("4_285wg")]
+Row = 18
+Pieces = PackedInt32Array(2, 4, 6, 8)
 
 [node name="Line19" parent="." instance=ExtResource("4_285wg")]
 Row = 19

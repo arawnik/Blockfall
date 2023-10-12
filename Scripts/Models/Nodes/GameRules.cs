@@ -27,6 +27,16 @@ public abstract partial class GameRules : Node
     public Board Board {  get; set; }
 
     /// <summary>
+    /// Display win condition if <see cref="true"/>. Hide otherwise.
+    /// </summary>
+    public bool DisplayWinCondition => WinConditionText != string.Empty;
+
+    /// <summary>
+    /// Explanation for the win condition that will be displayed in HUD.
+    /// </summary>
+    public abstract string WinConditionText { get; }
+
+    /// <summary>
     /// Check if game is over and emit <see cref="GameOver"/> signal if so.
     /// </summary>
     public void CheckGameOver()

@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqb3uheig21ms"]
+[gd_scene load_steps=5 format=3 uid="uid://cqb3uheig21ms"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/OutroScene.cs" id="1_c3vcs"]
-[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="1_e01js"]
+[ext_resource type="FontFile" uid="uid://6f0hm4xq67te" path="res://Assets/Fonts/SourceSans3.ttf" id="2_thdu1"]
+[ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="3_lvni0"]
+
+[sub_resource type="Theme" id="Theme_1jf57"]
 
 [node name="Outro" type="Node2D"]
 script = ExtResource("1_c3vcs")
@@ -15,32 +18,36 @@ anchor_bottom = 0.5
 offset_left = 22.0
 offset_top = 59.0
 offset_right = 305.0
-offset_bottom = 184.0
+offset_bottom = 206.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("2_thdu1")
 bbcode_enabled = true
 text = "[font size=28 name=res://Assets/Fonts/Orbitron.ttf][center]Congratulations![/center][/font]
 
-[font name=res://Assets/Fonts/SourceSans3.ttf]You have done it! Like a champion. Now you will have to choose:[/font]"
+You have done it! Like a champion. Now you will have to choose:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 65.0
+offset_left = 22.0
 offset_top = 206.0
-offset_right = 265.0
+offset_right = 395.0
 offset_bottom = 246.0
+scale = Vector2(0.75, 0.75)
 size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource("3_lvni0")
 metadata/_edit_group_ = true
 
 [node name="RestartButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_e01js")
-text = "Restart"
+theme = SubResource("Theme_1jf57")
+text = "Restart campaign"
 
 [node name="MenuButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_e01js")
+theme = ExtResource("3_lvni0")
 text = "Return to menu"
 
 [connection signal="pressed" from="HBoxContainer/RestartButton" to="." method="OnRestartButtonPressed"]

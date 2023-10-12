@@ -5,4 +5,8 @@
 /// </summary>
 public partial class GameRulesNormal : GameRules
 {
+    /// <summary>
+    /// Explanation for the win condition that will be displayed in HUD.
+    /// </summary>
+    public override string WinConditionText => string.Empty;
 }
