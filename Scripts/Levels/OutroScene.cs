@@ -12,7 +12,7 @@ public partial class OutroScene : Node2D
     /// </summary>
     public void OnRestartButtonPressed()
     {
-        GetParent<Main>().RestartCampaign();
+        GetParent<Main>().CampaignRestart();
     }
 
     /// <summary>

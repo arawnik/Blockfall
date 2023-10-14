@@ -40,13 +40,8 @@ public partial class CampaignLevels : Resource
     {
         get
         {
-            int index = Array.IndexOf(_levels, CurrentLevel);
-            var next = _levels[index + 1];
-            if (next != null) {
-                CurrentLevel = next;
-                return this[next];
-            }
-            return null;
+            Advance();
+            return this[CurrentLevel];
         }
     }
 
@@ -56,6 +51,19 @@ public partial class CampaignLevels : Resource
     public void Restart()
     {
         CurrentLevel = _levels[0];
+    }
+
+    /// <summary>
+    /// Move campaign to next level.
+    /// </summary>
+    public void Advance()
+    {
+        int index = Array.IndexOf(_levels, CurrentLevel);
+        var next = _levels[index + 1];
+        if (next != null)
+        {
+            CurrentLevel = next;
+        }
     }
 
     /// <summary>

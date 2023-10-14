@@ -37,6 +37,12 @@ public partial class Board : Node2D
     public PackedScene LineScene { get; set; }
 
     /// <summary>
+    /// Boolean that tells if board is campaign board.
+    /// </summary>
+    [Export]
+    public bool IsCampaignBoard { get; set; } = false;
+
+    /// <summary>
     /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
