@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpficykfe56fd"]
+
+[ext_resource type="Script" path="res://Scripts/Models/Nodes/RuleConditions/LoseLimitedMoves.cs" id="1_0p1qf"]
+
+[node name="LoseCondition" type="Node"]
+script = ExtResource("1_0p1qf")

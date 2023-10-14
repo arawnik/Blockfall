@@ -69,9 +69,19 @@ public partial class Hud : CanvasLayer
     public Label ScoringLabel;
 
     /// <summary>
-    /// Label that displays highscore info.
+    /// Label that displays scoring text.
     /// </summary>
-    public Label HighScoreLabel;
+    public Label ScoringTextLabel;
+
+    /// <summary>
+    /// Label that displays best score info.
+    /// </summary>
+    public Label BestScoreLabel;
+
+    /// <summary>
+    /// Label that displays best score text.
+    /// </summary>
+    public Label BestScoreTextLabel;
 
     /// <summary>
     /// Button used for restarting.
@@ -117,8 +127,11 @@ public partial class Hud : CanvasLayer
 
         GameEndLabel = GetNode<Label>(Resources.GameEndLabel);
         ScoringLabel = GetNode<Label>(Resources.ScoringLabel);
-        HighScoreLabel = GetNode<Label>(Resources.HighScoreLabel);
-
+        ScoringTextLabel = GetNode<Label>(Resources.ScoringTextLabel);
+        
+        BestScoreLabel = GetNode<Label>(Resources.BestScoreLabel);
+        BestScoreTextLabel = GetNode<Label>(Resources.BestScoreTextLabel);
+        
         RestartButton = GetNode<Button>(Resources.RestartButton);
         AdvanceButton = GetNode<Button>(Resources.AdvanceButton);
         MenuButton = GetNode<Button>(Resources.MenuButton);
@@ -136,14 +149,17 @@ public partial class Hud : CanvasLayer
     }
 
     /// <summary>
-    /// Initialize win condition
+    /// Initialize details related to <see cref="GameRules"/>
     /// </summary>
-    /// <param name="difficulty">Instance of the difficulty that will be displayed.</param>
-    public void InitWinCondition(GameRules rules)
+    /// <param name="difficulty">Instance of the gamerules that will be displayed.</param>
+    public void InitGameRulesOnHud(GameRules rules)
     {
-        if(rules.DisplayWinCondition)
+        InitBestscore(rules.BestScore, rules.LoseCondition.BestScoreText);
+        InitScoring(rules.Scoring, rules.LoseCondition.ScoringText);
+
+        if (rules.WinCondition.DisplayWinCondition)
         {
-            WinConditionTextLabel.Text = rules.WinConditionText;
+            WinConditionTextLabel.Text = rules.WinCondition.WinConditionText;
             WinConditionContainer.Show();
         }
         else
@@ -197,12 +213,25 @@ public partial class Hud : CanvasLayer
     }
 
     /// <summary>
-    /// Display highscore
+    /// Display best score
     /// </summary>
-    /// <param name="highscore">The highscore value.</param>
-    public void DisplayHighscore(int highscore)
+    /// <param name="bestscore">The best score value.</param>
+    /// <param name="bestScoreStr">The best score label string.</param>
+    public void InitBestscore(int bestscore, string bestScoreStr)
     {
-        HighScoreLabel.Text = highscore.ToString();
+        BestScoreLabel.Text = bestscore.ToString();
+        BestScoreTextLabel.Text = bestScoreStr;
+    }
+
+    /// <summary>
+    /// Display scoring info
+    /// </summary>
+    /// <param name="scoring">Scoring current value.</param>
+    /// <param name="scoringText">Scoring label string.</param>
+    public void InitScoring(int scoring, string scoringText)
+    {
+        ScoringLabel.Text = scoring.ToString();
+        ScoringTextLabel.Text = scoringText;
     }
 
     /// <summary>
@@ -271,7 +300,9 @@ public partial class Hud : CanvasLayer
 
         public const string GameEndLabel = "GameEndContainer/MarginContainer/VBoxContainer/GameEndLabel";
         public const string ScoringLabel = "ScoringContainer/ScoringLabel";
-        public const string HighScoreLabel = "HighScoreContainer/HighScoreLabel";
+        public const string ScoringTextLabel = "ScoringContainer/ScoringTextLabel";
+        public const string BestScoreLabel = "BestScoreContainer/BestScoreLabel";
+        public const string BestScoreTextLabel = "BestScoreContainer/BestScoreTextLabel";
 
         public const string RestartButton = "GameEndContainer/MarginContainer/VBoxContainer/RestartButton";
         public const string AdvanceButton = "GameEndContainer/MarginContainer/VBoxContainer/AdvanceButton";

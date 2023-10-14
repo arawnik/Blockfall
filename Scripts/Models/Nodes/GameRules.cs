@@ -1,12 +1,13 @@
 ﻿namespace Jetris.Scripts.Models.Nodes;
 
 using Godot;
-using System.Linq;
+using Jetris.Scripts.Models.RuleConditions;
+using System;
 
 /// <summary>
 /// Node responsible for handling rules of <see cref="Game"/>. Win / Lose conditions etc.
 /// </summary>
-public abstract partial class GameRules : Node
+public partial class GameRules : Node
 {
     /// <summary>
     /// Handler of signal that is emitted when game is lost.
@@ -21,38 +22,109 @@ public abstract partial class GameRules : Node
     public delegate void GameWinEventHandler();
 
     /// <summary>
+    /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
+    /// </summary>
+    [Signal]
+    public delegate void ScoringUpdatedEventHandler();
+
+    /// <summary>
+    /// Handler of signal that is emitted when next <see cref="TetrominoPawn"/> should be spawned.
+    /// </summary>
+    [Signal]
+    public delegate void NextPawnEventHandler();
+
+    /// <summary>
     /// Reference to the board of which rules are being checked.
     /// </summary>
     [Export]
     public Board Board {  get; set; }
 
     /// <summary>
-    /// Display win condition if <see cref="true"/>. Hide otherwise.
+    /// Reference to the lose condition.
     /// </summary>
-    public bool DisplayWinCondition => WinConditionText != string.Empty;
+    [Export]
+    public ConditionLose LoseCondition { get; set; }
 
     /// <summary>
-    /// Explanation for the win condition that will be displayed in HUD.
+    /// Reference to the win condition.
     /// </summary>
-    public abstract string WinConditionText { get; }
+    [Export]
+    public ConditionWin WinCondition { get; set; }
 
     /// <summary>
-    /// Check if game is over and emit <see cref="GameOver"/> signal if so.
+    /// Delegate for fetching multiplier for scoring events.
     /// </summary>
-    public void CheckGameOver()
+    public GetScoringMultiplier getScoringMultiplier { get; set; }
+
+    /// <summary>
+    /// Current scoring.
+    /// </summary>
+    public int Scoring { get; set; }
+
+    /// <summary>
+    /// Best score on category.
+    /// </summary>
+    public int BestScore { get; set; }
+
+    /// <summary>
+    /// Is game over?
+    /// </summary>
+    public bool IsGameOver { get; set; } = false;
+
+    /// <summary>
+    /// Send signal when score is updated.
+    /// </summary>
+    public void SignalScoreUpdated()
     {
-        // We only create lines when there are pieces for them. So if top line exists, game over.
-        if (IsGameOver())
-            EmitSignal(SignalName.GameOver);
+        EmitSignal(SignalName.ScoringUpdated);
     }
 
     /// <summary>
-    /// Check if game is over.
+    /// Advance to next <see cref="TetrominoPawn"/>.
     /// </summary>
-    /// <returns><see cref="true"/> if game is over/lost, <see cref="false"/> otherwise.</returns>
-    public virtual bool IsGameOver()
+    public void Advance()
     {
-        // We only create lines when there are pieces for them. So if top line exists, game over.
-        return Board.GetLines().Any(line => line.GlobalPosition.Y == Board.MinVector.Y);
+        EmitSignal(SignalName.NextPawn);
     }
+
+    /// <summary>
+    /// Send signal when game is over.
+    /// </summary>
+    public void ProcessGameOver()
+    {
+        IsGameOver = true;
+        EmitSignal(SignalName.GameOver);
+    }
+
+    /// <summary>
+    /// Send signal when game is won.
+    /// </summary>
+    public void ProcessGameWin()
+    {
+        IsGameOver = true;
+        EmitSignal(SignalName.GameWin);
+    }
+
+    /// <summary>
+    /// Check if best score should be updated, and update if necessary.
+    /// </summary>
+    /// <param name="bestScore">the current best score.</param>
+    /// <returns><see cref="true"/> if active <see cref="Scoring"/> is new best score, <see cref="false"/> otherwise.</returns>
+    public bool CheckUpdateBestScore(out int bestScore)
+    {
+        if (LoseCondition.CheckBestScore())
+        {
+            BestScore = Scoring;
+            bestScore = BestScore;
+            return true;
+        }
+        bestScore = BestScore;
+        return false;
+    }
+
+    /// <summary>
+    /// Delegate for fetching multiplier for scoring events.
+    /// </summary>
+    /// <returns>Multiplier for scoring events.</returns>
+    public delegate float GetScoringMultiplier();
 }

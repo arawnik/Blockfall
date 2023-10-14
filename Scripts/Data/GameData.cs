@@ -9,22 +9,22 @@ using Jetris.Scripts.Data;
 public partial class GameData : Resource
 {
     /// <summary>
-    /// Highscore for Vanilla game mode.
+    /// Best score for Vanilla game mode.
     /// </summary>
     [Export]
-    public int VanillaHighScore { get; private set; } = 0;
+    public int VanillaBestScore { get; private set; } = 0;
 
     /// <summary>
-    /// Highscore for Increasing difficulty game mode.
+    /// Best score for Increasing difficulty game mode.
     /// </summary>
     [Export]
-    public int IncreasingDifficultyHighScore { get; private set; } = 0;
+    public int IncreasingDifficultyBestScore { get; private set; } = 0;
 
     /// <summary>
-    /// Highscores for campaign levels.
+    /// Best scores for campaign levels.
     /// </summary>
     [Export]
-    public Godot.Collections.Dictionary<string, int> CampaignHighScores { get; set; } = new();
+    public Godot.Collections.Dictionary<string, int> CampaignBestScores { get; set; } = new();
 
     /// <summary>
     /// Information related to campaign levels, and current state.
@@ -38,63 +38,46 @@ public partial class GameData : Resource
     private const string GAME_DATA_PATH = "user://gamedata.tres";
 
     /// <summary>
-    /// Check if <see cref="VanillaHighScore"/> should be updated.
+    /// Update <see cref="VanillaBestScore"/>.
     /// </summary>
-    /// <param name="currentPoints">Current points to check.</param>
-    /// <returns><see cref="true"/> if <paramref name="currentPoints"/> is new <see cref="VanillaHighScore"/>, <see cref="false"/> otherwise.</returns>
-    public bool CheckVanillaHighScore(int currentPoints)
+    /// <param name="newBestScore">New best score.</param>
+    public void UpdateVanillaBestScore(int newBestScore)
     {
-        if (currentPoints > VanillaHighScore)
-        {
-            VanillaHighScore = currentPoints;
-            this.Save();
-            return true;
-        }
-        return false;
+        VanillaBestScore = newBestScore;
+        this.Save();
     }
 
     /// <summary>
-    /// Check if <see cref="IncreasingDifficultyHighScore"/> should be updated.
+    /// Update <see cref="IncreasingDifficultyBestScore"/>.
     /// </summary>
-    /// <param name="currentPoints">Current points to check.</param>
-    /// <returns><see cref="true"/> if <paramref name="currentPoints"/> is new <see cref="IncreasingDifficultyHighScore"/>, <see cref="false"/> otherwise.</returns>
-    public bool CheckIncreasingDifficultyHighScore(int currentPoints)
+    /// <param name="newBestScore">New best score.</param>
+    public void UpdateIncreasingDifficultyBestScore(int newBestScore)
     {
-        if (currentPoints > IncreasingDifficultyHighScore)
-        {
-            IncreasingDifficultyHighScore = currentPoints;
-            this.Save();
-            return true;
-        }
-        return false;
+        IncreasingDifficultyBestScore = newBestScore;
+        this.Save();
     }
 
     /// <summary>
-    /// Check if campaign level's highscore should be updated.
+    /// Update current campaign's best score.
     /// </summary>
-    /// <param name="currentPoints">Current points to check.</param>
-    /// <returns><see cref="true"/> if <paramref name="currentPoints"/> is new highscore for campaign level, <see cref="false"/> otherwise.</returns>
-    public bool CheckCampaignHighScore(int currentPoints)
+    /// <param name="newBestScore">New best score.</param>
+    public void UpdateCurrentCampaignBestScore(int newBestScore)
     {
-        if (currentPoints > CurrentCampaignHighScore())
-        {
-            CampaignHighScores[CampaignLevels.CurrentLevel] = currentPoints;
-            Save();
-            return true;
-        }
-        return false;
+
+        CampaignBestScores[CampaignLevels.CurrentLevel] = newBestScore;
+        Save();
     }
 
     /// <summary>
-    /// Highscore for currently active campaign highscore.
+    /// Best score for currently active campaign best score.
     /// </summary>
-    public int CurrentCampaignHighScore()
+    public int CurrentCampaignBestScore()
     {
-        if(!CampaignHighScores.ContainsKey(CampaignLevels.CurrentLevel))
+        if(!CampaignBestScores.ContainsKey(CampaignLevels.CurrentLevel))
         {
-            CampaignHighScores[CampaignLevels.CurrentLevel] = 0;
+            CampaignBestScores[CampaignLevels.CurrentLevel] = 0;
         }
-        return CampaignHighScores[CampaignLevels.CurrentLevel];
+        return CampaignBestScores[CampaignLevels.CurrentLevel];
     }
 
     /// <summary>
@@ -120,6 +103,9 @@ public partial class GameData : Resource
         return gameData;
     }
 
-
-    public delegate bool CheckHighScore(int currentScore);
+    /// <summary>
+    /// Delegate for updating best score for category.
+    /// </summary>
+    /// <param name="newBestScore">New best score.</param>
+    public delegate void UpdateBestScore(int newBestScore);
 }

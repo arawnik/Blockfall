@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://b8t6brfug8k54"]
+
+[ext_resource type="Script" path="res://Scripts/Board.cs" id="1_ki1t1"]
+[ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_hu62j"]
+[ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="3_bm8d7"]
+[ext_resource type="PackedScene" uid="uid://5t8hw2m5ytl1" path="res://Scenes/Nodes/game_rules.tscn" id="4_alygt"]
+[ext_resource type="PackedScene" uid="uid://dpficykfe56fd" path="res://Scenes/Nodes/lose_limited_moves.tscn" id="5_d1juu"]
+[ext_resource type="PackedScene" uid="uid://dwkk2mhkf4vyt" path="res://Scenes/Nodes/win_clear_preset.tscn" id="6_2hftk"]
+[ext_resource type="PackedScene" uid="uid://uc56c38fa20d" path="res://Scenes/Nodes/difficulty_increasing.tscn" id="7_duorw"]
+[ext_resource type="PackedScene" uid="uid://lwpyadn4g5s0" path="res://Scenes/predefined_line.tscn" id="8_mwsdb"]
+
+[node name="Board" type="Node2D" node_paths=PackedStringArray("GameRules", "Difficulty")]
+script = ExtResource("1_ki1t1")
+GameRules = NodePath("GameRules")
+Difficulty = NodePath("Difficulty")
+TetrominoPawnScene = ExtResource("2_hu62j")
+LineScene = ExtResource("3_bm8d7")
+
+[node name="GameRules" parent="." node_paths=PackedStringArray("Board", "LoseCondition", "WinCondition") instance=ExtResource("4_alygt")]
+Board = NodePath("..")
+LoseCondition = NodePath("LoseCondition")
+WinCondition = NodePath("WinCondition")
+
+[node name="LoseCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("5_d1juu")]
+TotalPawns = 40
+GameRules = NodePath("..")
+
+[node name="WinCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("6_2hftk")]
+GameRules = NodePath("..")
+
+[node name="Difficulty" parent="." instance=ExtResource("7_duorw")]
+
+[node name="Line16" parent="." instance=ExtResource("8_mwsdb")]
+Row = 16
+Pieces = PackedInt32Array(2, 9)
+
+[node name="Line18" parent="." instance=ExtResource("8_mwsdb")]
+Row = 18
+Pieces = PackedInt32Array(1, 2, 10)
+
+[node name="Line19" parent="." instance=ExtResource("8_mwsdb")]
+Row = 19
+Pieces = PackedInt32Array(1, 2, 9, 10)
+
+[node name="Line20" parent="." instance=ExtResource("8_mwsdb")]
+Row = 20
+Pieces = PackedInt32Array(1, 10)

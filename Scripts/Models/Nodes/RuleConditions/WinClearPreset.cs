@@ -1,12 +1,12 @@
-﻿namespace Jetris.Scripts.Models.Nodes;
+﻿namespace Jetris.Scripts.Models.RuleConditions;
 
 using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Game rules for boards where you have to clear preset lines to win.
+/// 
 /// </summary>
-public partial class GameRulesClearPreset : GameRules
+public partial class WinClearPreset : ConditionWin
 {
     /// <summary>
     /// The lines that need to be cleared to win.
@@ -25,7 +25,7 @@ public partial class GameRulesClearPreset : GameRules
     {
         base._Ready();
 
-        Board.LineRemoved += CheckLineRemove;
+        GameRules.Board.LineRemoved += CheckLineRemove;
     }
 
     /// <summary>
@@ -34,9 +34,9 @@ public partial class GameRulesClearPreset : GameRules
     /// <param name="line">The checked line.</param>
     private void CheckLineRemove(Line line)
     {
-        if(ClearableLines.Remove(line) && !ClearableLines.Any())
+        if (ClearableLines.Remove(line) && !ClearableLines.Any())
         {
-            EmitSignal(SignalName.GameWin);
+            GameRules.ProcessGameWin();
         }
     }
 }
