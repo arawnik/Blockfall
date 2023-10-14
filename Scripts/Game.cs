@@ -6,7 +6,7 @@ using Jetris.Scripts.Models.Nodes;
 using static Jetris.Scripts.Save.GameData;
 
 /// <summary>
-/// The game of tetris.
+/// The game of blocks falling.
 /// </summary>
 public partial class Game : Node
 {
@@ -27,29 +27,9 @@ public partial class Game : Node
     protected Board Board;
 
     /// <summary>
-    /// Is game over?
+    /// Callback for updating best score.
     /// </summary>
-    private bool isGameOver = false;
-
-    /// <summary>
-    /// Current points.
-    /// </summary>
-    private int _points = 0;
-
-    /// <summary>
-    /// Highscore
-    /// </summary>
-    private int _highScore = 0;
-
-    /// <summary>
-    /// Callback for checking highscore.
-    /// </summary>
-    private CheckHighScore _checkHighScore;
-
-    /// <summary>
-    /// TODO: Link difficulty into point calculations
-    /// </summary>
-    private int currentDifficultyLevel = 1;
+    private UpdateBestScore _updateBestScore;
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -57,9 +37,8 @@ public partial class Game : Node
     public override void _Ready()
     {
         HUD = GetNode<Hud>(Resources.HUD);
-        HUD.DisplayHighscore(_highScore);
         HUD.InitDifficulty(Board.Difficulty);
-        HUD.InitWinCondition(Board.GameRules);
+        HUD.InitGameRulesOnHud(Board.GameRules);
 
         Spawner.OnReady(UpdateTetrominos);
     }
@@ -72,6 +51,9 @@ public partial class Game : Node
     {
         base._Process(delta);
 
+        //Stop here on gameover.
+        if (Board.GameRules.IsGameOver)
+            return;
         Board.Difficulty.OnProcess((float)delta);
         HUD.DisplayDifficulty(Board.Difficulty.Current);
     }
@@ -88,13 +70,26 @@ public partial class Game : Node
     }
 
     /// <summary>
+    /// Advance to next <see cref="TetrominoPawn"/>.
+    /// </summary>
+    public void NextPawn()
+    {
+        Spawner.Advance();
+    }
+
+    /// <summary>
     /// Called when <see cref="Board"/> emits <see cref="Board.GameOver"/> signal.
     /// </summary>
     private void OnGameOver()
     {
-        isGameOver = true;
+        if(
+            Board.GameRules.WinCondition.UpdateBestScoreOnLose && 
+            Board.GameRules.CheckUpdateBestScore(out var bestScore))
+        {
+            _updateBestScore(bestScore);
+        }
+
         HUD.ShowGameOver();
-        _checkHighScore(_points);
     }
 
     /// <summary>
@@ -102,51 +97,19 @@ public partial class Game : Node
     /// </summary>
     private void OnGameWin()
     {
-        isGameOver = true;
-        HUD.ShowGameWin();
-        _checkHighScore(_points);
-    }
-
-    /// <summary>
-    /// Called when <see cref="Board"/> emits <see cref="Board.TetrominoLocked"/> signal.
-    /// </summary>
-    private void OnTetrominoLocked(int linesRemoved)
-    {
-        if (isGameOver)
-            return;
-
-        UpdatePoints(linesRemoved);
-
-        Spawner.Advance();
-    }
-
-    /// <summary>
-    /// Update points based on amount of <paramref name="linesRemoved"/>.
-    /// </summary>
-    /// <param name="linesRemoved">Amount of lines removed when <see cref="TetrominoPawn"/> reach bottom.</param>
-    private void UpdatePoints(int linesRemoved)
-    {
-        switch (linesRemoved)
+        if (Board.GameRules.CheckUpdateBestScore(out var bestScore))
         {
-            case 1:
-                _points += 40 * currentDifficultyLevel;
-                HUD.DisplayPoints(_points);
-                break;
-            case 2:
-                _points += 100 * currentDifficultyLevel;
-                HUD.DisplayPoints(_points);
-                break;
-            case 3:
-                _points += 300 * currentDifficultyLevel;
-                HUD.DisplayPoints(_points);
-                break;
-            case 4:
-                _points += 1200 * currentDifficultyLevel;
-                HUD.DisplayPoints(_points);
-                break;
-            default:
-                break;
+            _updateBestScore(bestScore);
         }
+        HUD.ShowGameWin();
+    }
+
+    /// <summary>
+    /// Update HUD when scoring is updated.
+    /// </summary>
+    private void OnScoringUpdated()
+    {
+        HUD.DisplayPoints(Board.GameRules.Scoring);
     }
 
     /// <summary>
@@ -154,20 +117,19 @@ public partial class Game : Node
     /// </summary>
     /// <param name="gameScene">Scene for creating new instances of game.</param>
     /// <param name="board">Board that is being played.</param>
-    /// <param name="highScore">Current highscore that matches <paramref name="board"/>.</param>
-    /// <param name="checkHighScore">Callback for updating highscore that matches <paramref name="board"/>.</param>
     /// <returns>New game.</returns>
-    public static Game Create(PackedScene gameScene, Board board, int highScore, CheckHighScore checkHighScore)
+    public static Game Create(PackedScene gameScene, Board board, int highScore, UpdateBestScore updateBestScore)
     {
         var game = gameScene.Instantiate<Game>();
-        game._highScore = highScore;
-        game._checkHighScore = checkHighScore;
+        game._updateBestScore = updateBestScore;
 
         var boardNode = game.GetNode<Node2D>(Resources.BoardNode);
         game.Board = board;
         boardNode.AddChild(board);
 
-        board.TetrominoLocked += game.OnTetrominoLocked;
+        board.GameRules.BestScore = highScore;
+        board.GameRules.ScoringUpdated += game.OnScoringUpdated;
+        board.GameRules.NextPawn += game.NextPawn;
         board.GameRules.GameOver += game.OnGameOver;
         board.GameRules.GameWin += game.OnGameWin;
 
@@ -179,7 +141,5 @@ public partial class Game : Node
         public const string Board = "Board";
         public const string BoardNode = "BoardNode";
         public const string HUD = "HUD";
-
-        public const string BoardScene = "res://Scenes/board.tscn";
     }
 }

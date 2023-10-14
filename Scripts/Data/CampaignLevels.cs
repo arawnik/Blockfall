@@ -61,12 +61,12 @@ public partial class CampaignLevels : Resource
     /// <summary>
     /// All levels keys.
     /// </summary>
-    public IEnumerable<string> Keys => _levels;
+    public static IEnumerable<string> Keys => _levels;
 
     /// <summary>
     /// Amount of levels.
     /// </summary>
-    public int Count => _levels.Length;
+    public static int Count => _levels.Length;
 
     /// <summary>
     /// Get Campaign level by key.
@@ -107,7 +107,7 @@ public partial class CampaignLevels : Resource
     private static readonly string[] _levels =
     [
         "intro_scene",
-        // Just preset with increasing difficulty
+        // Preset with increasing difficulty
         "level_1_board",
         "level_2_board",
         "level_3_board",
@@ -116,9 +116,22 @@ public partial class CampaignLevels : Resource
         "level_6_board",
         "level_7_board",
         "level_8_board",
+        "level_9_board",
         "level_10_board",
+        // Preset with limited pawns
+        "level_11_board",
+        "level_12_board",
+        "level_13_board",
+        "level_14_board",
+        "level_15_board",
+        "level_16_board",
+        "level_17_board",
+        "level_18_board",
+        "level_19_board",
+        "level_20_board",
+        //TODO: Move down preset increasing difficulty
         // Next difficulty
-        "level_x_board",
+        //"level_x_board",
         "outro_scene",
     ];
 }

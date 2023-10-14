@@ -1,0 +1,39 @@
+[gd_scene load_steps=9 format=3 uid="uid://ba7x741fp0djj"]
+
+[ext_resource type="Script" path="res://Scripts/Board.cs" id="1_mdceg"]
+[ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_u3nqa"]
+[ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="3_yq8r2"]
+[ext_resource type="PackedScene" uid="uid://5t8hw2m5ytl1" path="res://Scenes/Nodes/game_rules.tscn" id="4_jpjkt"]
+[ext_resource type="PackedScene" uid="uid://dpficykfe56fd" path="res://Scenes/Nodes/lose_limited_moves.tscn" id="5_03gpw"]
+[ext_resource type="PackedScene" uid="uid://uc56c38fa20d" path="res://Scenes/Nodes/difficulty_increasing.tscn" id="5_7llck"]
+[ext_resource type="PackedScene" uid="uid://lwpyadn4g5s0" path="res://Scenes/predefined_line.tscn" id="6_fjp3f"]
+[ext_resource type="PackedScene" uid="uid://dwkk2mhkf4vyt" path="res://Scenes/Nodes/win_clear_preset.tscn" id="6_u7myy"]
+
+[node name="Board" type="Node2D" node_paths=PackedStringArray("GameRules", "Difficulty")]
+script = ExtResource("1_mdceg")
+GameRules = NodePath("GameRules")
+Difficulty = NodePath("Difficulty")
+TetrominoPawnScene = ExtResource("2_u3nqa")
+LineScene = ExtResource("3_yq8r2")
+
+[node name="GameRules" parent="." node_paths=PackedStringArray("Board", "LoseCondition", "WinCondition") instance=ExtResource("4_jpjkt")]
+Board = NodePath("..")
+LoseCondition = NodePath("LoseCondition")
+WinCondition = NodePath("WinCondition")
+
+[node name="LoseCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("5_03gpw")]
+TotalPawns = 40
+GameRules = NodePath("..")
+
+[node name="WinCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("6_u7myy")]
+GameRules = NodePath("..")
+
+[node name="Difficulty" parent="." instance=ExtResource("5_7llck")]
+
+[node name="Line19" parent="." instance=ExtResource("6_fjp3f")]
+Row = 19
+Pieces = PackedInt32Array(4, 5)
+
+[node name="Line20" parent="." instance=ExtResource("6_fjp3f")]
+Row = 20
+Pieces = PackedInt32Array(3, 4, 5, 6)

@@ -3,6 +3,7 @@ namespace Jetris.Scripts;
 using Godot;
 using Jetris.Scripts.Models;
 using Jetris.Scripts.Models.Nodes;
+using Jetris.Scripts.Models.RuleConditions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -187,7 +188,6 @@ public partial class Board : Node2D
         AddTetrominoToLines(tetromino);
         var linesRemoved = RemoveFullLines();
         EmitSignal(SignalName.TetrominoLocked, linesRemoved);
-        GameRules.CheckGameOver();
     }
 
     /// <summary>
@@ -226,28 +226,37 @@ public partial class Board : Node2D
     /// </summary>
     private void ProcessPredefinedLines()
     {
-        var pieceScene = ResourceLoader.Load<PackedScene>(Resources.Piece);
-        var presetPieceSprite = GD.Load<Texture2D>(Resources.PresetPieceSprite);
-
-        foreach (var predefinedLine in GetPredefinedLines())
+        if (GameRules.WinCondition is WinClearPreset WinClearPreset)
         {
-            var newLine = LineScene.Instantiate<Line>();
-            newLine.GlobalPosition = new Vector2(-HALF_PIECE_SIZE, predefinedLine.Row * PIECE_SIZE - HALF_PIECE_SIZE);
-            foreach (var pieceIndex in predefinedLine.Pieces)
-            {
-                var piece = pieceScene.Instantiate<Piece>();
-                newLine.AddChild(piece);
-                piece.SetTexture(presetPieceSprite);
-                piece.Position = new Vector2(pieceIndex * Piece.Size.X, 0); //new Vector2(pieceIndex, 0) * piece.Size;
-            }
+            var pieceScene = ResourceLoader.Load<PackedScene>(Resources.Piece);
+            var presetPieceSprite = GD.Load<Texture2D>(Resources.PresetPieceSprite);
 
-            if (GameRules is GameRulesClearPreset gameRulesClearPreset)
+            foreach (var predefinedLine in GetPredefinedLines())
             {
-                gameRulesClearPreset.ClearableLines.Add(newLine);
-            }
+                var newLine = LineScene.Instantiate<Line>();
+                newLine.GlobalPosition = new Vector2(-HALF_PIECE_SIZE, predefinedLine.Row * PIECE_SIZE - HALF_PIECE_SIZE);
+                foreach (var pieceIndex in predefinedLine.Pieces)
+                {
+                    var piece = pieceScene.Instantiate<Piece>();
+                    newLine.AddChild(piece);
+                    piece.SetTexture(presetPieceSprite);
+                    piece.Position = new Vector2(pieceIndex * Piece.Size.X, 0); //new Vector2(pieceIndex, 0) * piece.Size;
+                }
 
-            RemoveChild(predefinedLine);
-            AddChild(newLine);
+                WinClearPreset.ClearableLines.Add(newLine);
+
+
+                RemoveChild(predefinedLine);
+                AddChild(newLine);
+            }
+        }
+        else
+        {
+            //Just remove if not valid for our board.
+            foreach (var predefinedLine in GetPredefinedLines())
+            {
+                RemoveChild(predefinedLine);
+            }
         }
     }
 

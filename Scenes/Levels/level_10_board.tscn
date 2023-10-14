@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://sakjc0trevim"]
+[gd_scene load_steps=9 format=3 uid="uid://sakjc0trevim"]
 
 [ext_resource type="Script" path="res://Scripts/Board.cs" id="1_0e8lk"]
 [ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_27lan"]
 [ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="3_ijd16"]
-[ext_resource type="PackedScene" uid="uid://cqm58wdgh40i2" path="res://Scenes/Nodes/game_rules_clear_preset.tscn" id="4_wajm5"]
+[ext_resource type="PackedScene" uid="uid://5t8hw2m5ytl1" path="res://Scenes/Nodes/game_rules.tscn" id="4_wajm5"]
+[ext_resource type="PackedScene" uid="uid://d1pkkbbosoepk" path="res://Scenes/Nodes/lose_endless.tscn" id="5_3pq1g"]
 [ext_resource type="PackedScene" uid="uid://uc56c38fa20d" path="res://Scenes/Nodes/difficulty_increasing.tscn" id="5_utwdb"]
+[ext_resource type="PackedScene" uid="uid://dwkk2mhkf4vyt" path="res://Scenes/Nodes/win_clear_preset.tscn" id="6_nneec"]
 [ext_resource type="PackedScene" uid="uid://lwpyadn4g5s0" path="res://Scenes/predefined_line.tscn" id="6_ti8ci"]
 
 [node name="Board" type="Node2D" node_paths=PackedStringArray("GameRules", "Difficulty")]
@@ -14,8 +16,16 @@ Difficulty = NodePath("Difficulty")
 TetrominoPawnScene = ExtResource("2_27lan")
 LineScene = ExtResource("3_ijd16")
 
-[node name="GameRules" parent="." node_paths=PackedStringArray("Board") instance=ExtResource("4_wajm5")]
+[node name="GameRules" parent="." node_paths=PackedStringArray("Board", "LoseCondition", "WinCondition") instance=ExtResource("4_wajm5")]
 Board = NodePath("..")
+LoseCondition = NodePath("LoseCondition")
+WinCondition = NodePath("WinCondition")
+
+[node name="LoseCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("5_3pq1g")]
+GameRules = NodePath("..")
+
+[node name="WinCondition" parent="GameRules" node_paths=PackedStringArray("GameRules") instance=ExtResource("6_nneec")]
+GameRules = NodePath("..")
 
 [node name="Difficulty" parent="." instance=ExtResource("5_utwdb")]
 

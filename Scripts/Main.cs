@@ -23,7 +23,7 @@ public partial class Main : Node2D
     public PackedScene MainMenuScene { get; set; }
 
     /// <summary>
-    /// Game data. Keeps track of everything.
+    /// Game data. Keeps track of all game data.
     /// </summary>
     private GameData GameData;
 
@@ -158,7 +158,7 @@ public partial class Main : Node2D
     {
         var boardScene = ResourceLoader.Load<PackedScene>(Resources.BoardVanillaScene);
         var board = boardScene.Instantiate<Board>();
-        ActivateGame(board, GameData.VanillaHighScore, GameData.CheckVanillaHighScore);
+        ActivateGame(board, GameData.VanillaBestScore, GameData.UpdateVanillaBestScore);
     }
 
     /// <summary>
@@ -168,18 +168,7 @@ public partial class Main : Node2D
     {
         var boardScene = ResourceLoader.Load<PackedScene>(Resources.BoardIncreasingDifficultyScene);
         var board = boardScene.Instantiate<Board>();
-        ActivateGame(board, GameData.IncreasingDifficultyHighScore, GameData.CheckIncreasingDifficultyHighScore);
-    }
-
-    /// <summary>
-    /// Activate <paramref name="node"/> as <see cref="_activeNode"/> under Main.
-    /// </summary>
-    /// <param name="node"></param>
-    private void ActivateNode(Node node)
-    {
-        _activeNode?.QueueFree();
-        _activeNode = node;
-        AddChild(_activeNode);
+        ActivateGame(board, GameData.IncreasingDifficultyBestScore, GameData.UpdateIncreasingDifficultyBestScore);
     }
 
     /// <summary>
@@ -194,8 +183,9 @@ public partial class Main : Node2D
         if (isBoard)
         {
             var board = scene.Instantiate<Board>();
-            ActivateGame(board, GameData.CurrentCampaignHighScore(), GameData.CheckCampaignHighScore);
-        } else
+            ActivateGame(board, GameData.CurrentCampaignBestScore(), GameData.UpdateCurrentCampaignBestScore);
+        }
+        else
         {
             ActivateNode(scene.Instantiate());
         }
@@ -206,14 +196,26 @@ public partial class Main : Node2D
     /// </summary>
     /// <param name="board">Active board for game.</param>
     /// <param name="highScore">Highscore for <paramref name="board"/>.</param>
+    /// <param name="updateBestScore">Delegate for updating best score.</param>
     /// <returns>Initialized <see cref="Game"/></returns>
-    private void ActivateGame(Board board, int highScore, CheckHighScore checkHighScore)
+    private void ActivateGame(Board board, int highScore, UpdateBestScore updateBestScore)
     {
-        var game = Game.Create(GameScene, board, highScore, checkHighScore);
+        var game = Game.Create(GameScene, board, highScore, updateBestScore);
         ActivateNode(game);
         game.HUD.RestartState += OnRestartState;
         game.HUD.AdvanceState += OnAdvanceState;
         game.HUD.MenuState += OnMenuState;
+    }
+
+    /// <summary>
+    /// Activate <paramref name="node"/> as <see cref="_activeNode"/> under Main.
+    /// </summary>
+    /// <param name="node"></param>
+    private void ActivateNode(Node node)
+    {
+        _activeNode?.QueueFree();
+        _activeNode = node;
+        AddChild(_activeNode);
     }
 
     public static class Resources
