@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqb4hi0u38wof"]
+[gd_scene load_steps=7 format=3 uid="uid://cqb4hi0u38wof"]
 
 [ext_resource type="Script" path="res://Scripts/Hud.cs" id="1_3xmyb"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="1_7bnq4"]
 [ext_resource type="PackedScene" uid="uid://d0pr30d2mbnue" path="res://Scenes/tetromino.tscn" id="2_4oj4m"]
 [ext_resource type="Theme" uid="uid://dkb32drs0ri8a" path="res://Theme/basic_theme.tres" id="4_hjl7v"]
 [ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="5_x54fb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0664"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_3xmyb")
@@ -40,6 +42,7 @@ metadata/_edit_lock_ = true
 
 [node name="GameEndContainer" type="PanelContainer" parent="."]
 visible = false
+self_modulate = Color(0.227451, 0.227451, 0.227451, 1)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -50,6 +53,7 @@ offset_top = -100.0
 offset_right = 75.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v0664")
 metadata/_edit_lock_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="GameEndContainer"]
@@ -61,6 +65,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameEndContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 11
 
 [node name="GameEndLabel" type="Label" parent="GameEndContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -73,12 +78,14 @@ autowrap_mode = 2
 visible = false
 layout_mode = 2
 size_flags_vertical = 8
+theme = ExtResource("5_x54fb")
 text = "Restart"
 
 [node name="AdvanceButton" type="Button" parent="GameEndContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 8
+theme = ExtResource("5_x54fb")
 text = "Advance"
 
 [node name="MenuButton" type="Button" parent="GameEndContainer/MarginContainer/VBoxContainer"]
