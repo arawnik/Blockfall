@@ -1,12 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://bksqbntvh54ye"]
+[gd_scene load_steps=7 format=3 uid="uid://bksqbntvh54ye"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_6oesn"]
 [ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="2_1u0j0"]
+[ext_resource type="Texture2D" uid="uid://vbujrq253abk" path="res://Assets/MainMenu.png" id="2_er8b3"]
+[ext_resource type="Theme" uid="uid://dkb32drs0ri8a" path="res://Theme/basic_theme.tres" id="3_ed7ji"]
+[ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="4_e5qj7"]
 
-[sub_resource type="Theme" id="Theme_8uu63"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46g5k"]
+bg_color = Color(0, 0, 0, 0.654902)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.380392)
+shadow_size = 8
+shadow_offset = Vector2(2, 3)
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_6oesn")
+
+[node name="BackgroundSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_er8b3")
+centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -17,17 +33,20 @@ grow_vertical = 2
 
 [node name="MenuButtonContainer" type="PanelContainer" parent="CenterContainer"]
 layout_mode = 2
+theme = ExtResource("3_ed7ji")
+theme_override_styles/panel = SubResource("StyleBoxFlat_46g5k")
 
 [node name="MenuMarginContainer" type="MarginContainer" parent="CenterContainer/MenuButtonContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 11
-theme_override_constants/margin_top = 11
-theme_override_constants/margin_right = 11
-theme_override_constants/margin_bottom = 11
+theme_override_constants/margin_left = 21
+theme_override_constants/margin_top = 21
+theme_override_constants/margin_right = 21
+theme_override_constants/margin_bottom = 21
 
 [node name="MenuVBoxContainer" type="VBoxContainer" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer"]
 layout_mode = 2
-theme = SubResource("Theme_8uu63")
+theme = ExtResource("3_ed7ji")
+theme_override_constants/separation = 6
 
 [node name="CampaignButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
@@ -43,6 +62,20 @@ text = "Rising difficulty"
 layout_mode = 2
 theme = ExtResource("2_1u0j0")
 text = "Vanilla"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 149.0
+offset_top = 15.0
+offset_right = 286.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color(0.14902, 0.415686, 0.741176, 1)
+theme_override_colors/font_shadow_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = ExtResource("4_e5qj7")
+theme_override_font_sizes/font_size = 50
+text = "Jetris"
 
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/CampaignButton" to="." method="OnCampaignButtonPressed"]
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/RisingButton" to="." method="OnIncreasingDifficultyButtonPressed"]

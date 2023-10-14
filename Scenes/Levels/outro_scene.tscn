@@ -1,40 +1,65 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqb3uheig21ms"]
+[gd_scene load_steps=8 format=3 uid="uid://cqb3uheig21ms"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/OutroScene.cs" id="1_c3vcs"]
+[ext_resource type="Texture2D" uid="uid://broh48qbdrtib" path="res://Assets/SceneBack.png" id="2_55au8"]
 [ext_resource type="FontFile" uid="uid://6f0hm4xq67te" path="res://Assets/Fonts/SourceSans3.ttf" id="2_thdu1"]
+[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="3_aswnn"]
 [ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="3_lvni0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1tq8"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.972549)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="Theme" id="Theme_1jf57"]
 
 [node name="Outro" type="Node2D"]
 script = ExtResource("1_c3vcs")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 22.0
-offset_top = 59.0
-offset_right = 305.0
-offset_bottom = 206.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+[node name="BackgroundSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_55au8")
+centered = false
+
+[node name="HeaderLabel" type="Label" parent="."]
+offset_left = 38.0
+offset_top = 24.0
+offset_right = 289.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("3_aswnn")
+theme_override_font_sizes/font_size = 28
+text = "Congratulations!"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 38.0
+offset_top = 80.0
+offset_right = 294.0
+offset_bottom = 180.0
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_b1tq8")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("2_thdu1")
 bbcode_enabled = true
-text = "[font size=28 name=res://Assets/Fonts/Orbitron.ttf][center]Congratulations![/center][/font]
-
-You have done it! Like a champion. Now you will have to choose:"
+text = "You have done it! Like a champion. Now you will have to choose:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 22.0
-offset_top = 206.0
-offset_right = 395.0
-offset_bottom = 246.0
-scale = Vector2(0.75, 0.75)
+offset_left = 42.0
+offset_top = 205.0
+offset_right = 423.0
+offset_bottom = 245.0
+scale = Vector2(0.65, 0.65)
 size_flags_horizontal = 4
 size_flags_vertical = 6
 theme = ExtResource("3_lvni0")

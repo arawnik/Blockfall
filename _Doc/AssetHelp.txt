@@ -1,6 +1,10 @@
 
 # Information that was used on creating the Assets
 
+Board: 324 x 648
+
+648 x 1296
+
 
 Border size 24 x 24
 Delta value on color: 31

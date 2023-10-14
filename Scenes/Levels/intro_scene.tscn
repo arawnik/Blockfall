@@ -1,41 +1,67 @@
-[gd_scene load_steps=3 format=3 uid="uid://e501e1rcaxa4"]
+[gd_scene load_steps=6 format=3 uid="uid://e501e1rcaxa4"]
 
 [ext_resource type="Script" path="res://Scripts/Levels/IntroScene.cs" id="1_ixeqx"]
+[ext_resource type="Texture2D" uid="uid://broh48qbdrtib" path="res://Assets/SceneBack.png" id="2_3xfxi"]
 [ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="2_hjwrj"]
+[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="3_13jre"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mjbj2"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.972549)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="Intro" type="Node2D"]
 script = ExtResource("1_ixeqx")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 22.0
-offset_top = 59.0
-offset_right = 305.0
-offset_bottom = 438.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-bbcode_enabled = true
-text = "[font size=35 name=res://Assets/Fonts/Orbitron.ttf][center]Campaign[/center][/font]
+[node name="BackgroundSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_3xfxi")
+centered = false
 
-[font name=res://Assets/Fonts/SourceSans3.ttf]Welcome to campaign!
+[node name="HeaderLabel" type="Label" parent="."]
+offset_left = 86.0
+offset_top = 24.0
+offset_right = 275.0
+offset_bottom = 69.0
+theme_override_fonts/font = ExtResource("3_13jre")
+theme_override_font_sizes/font_size = 35
+text = "Campaign"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 31.0
+offset_top = 95.0
+offset_right = 287.0
+offset_bottom = 375.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_mjbj2")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font name=res://Assets/Fonts/SourceSans3.ttf]Welcome to campaign!
 You will face varying challenges starting from simple and easy setups and gradually getting harder and more punishing.
 
 We will start with nice and easy clearing of predefined rows with slowly increasing difficulty.[/font]"
 
 [node name="AdvanceButton" type="Button" parent="."]
-offset_left = 73.0
-offset_top = 438.0
-offset_right = 255.0
-offset_bottom = 472.0
+offset_left = 71.0
+offset_top = 386.0
+offset_right = 253.0
+offset_bottom = 420.0
 size_flags_horizontal = 4
 size_flags_vertical = 6
 theme = ExtResource("2_hjwrj")
+theme_type_variation = &"Active"
 text = "Let's get started"
 
 [connection signal="pressed" from="AdvanceButton" to="." method="OnAdvanceButtonPressed"]

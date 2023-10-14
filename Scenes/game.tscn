@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://v337fqprcsyq"]
+[gd_scene load_steps=7 format=3 uid="uid://v337fqprcsyq"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_tqbe0"]
 [ext_resource type="Texture2D" uid="uid://b7kbmqyng6b5g" path="res://Assets/Border.png" id="2_e48ge"]
+[ext_resource type="Texture2D" uid="uid://broh48qbdrtib" path="res://Assets/SceneBack.png" id="2_tstnj"]
 [ext_resource type="Texture2D" uid="uid://cck26gkwmha8m" path="res://Assets/Pieces/GridBack.png" id="3_t17xa"]
 [ext_resource type="PackedScene" uid="uid://dm6pi5srix7jp" path="res://Scenes/spawner.tscn" id="5_qs46n"]
 [ext_resource type="PackedScene" uid="uid://cqb4hi0u38wof" path="res://Scenes/hud.tscn" id="8_tlslc"]
@@ -9,6 +10,11 @@
 [node name="Game" type="Node" node_paths=PackedStringArray("Spawner")]
 script = ExtResource("1_tqbe0")
 Spawner = NodePath("Spawner")
+
+[node name="BackgroundSprite" type="Sprite2D" parent="."]
+modulate = Color(0.345098, 0.345098, 0.345098, 1)
+texture = ExtResource("2_tstnj")
+centered = false
 
 [node name="Spawner" parent="." instance=ExtResource("5_qs46n")]
 

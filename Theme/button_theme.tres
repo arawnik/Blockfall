@@ -1,8 +1,69 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dc63wnb4jphqj"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://dc63wnb4jphqj"]
 
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="1_xvv1f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcilr"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.133333, 0.262745, 0.690196, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.666667, 0.666667, 0.666667, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.466667)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omelc"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.109804, 0.219608, 0.596078, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.466667)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1403g"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.14902, 0.286275, 0.741176, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.466667)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wmtur"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.0392157, 0.105882, 0.32549, 0.780392)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.466667)
+shadow_size = 4
 
 [resource]
 default_font = ExtResource("1_xvv1f")
 default_font_size = 22
 /fonts/asd = ExtResource("1_xvv1f")
+Button/styles/focus = SubResource("StyleBoxFlat_rcilr")
+Button/styles/hover = SubResource("StyleBoxFlat_omelc")
+Button/styles/normal = SubResource("StyleBoxFlat_1403g")
+Button/styles/pressed = SubResource("StyleBoxFlat_wmtur")
