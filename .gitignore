@@ -15,4 +15,5 @@ export_presets.cfg
 
 # Ignore local generated files
 android/
+_Out
 test.zip
