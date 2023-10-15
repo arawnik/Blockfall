@@ -22,6 +22,12 @@ public partial class GameRules : Node
     public delegate void GameWinEventHandler();
 
     /// <summary>
+    /// Handler of signal that is emitted when campaign event is cleared.
+    /// </summary>
+    [Signal]
+    public delegate void CampaignLevelClearedEventHandler();
+
+    /// <summary>
     /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
@@ -103,6 +109,8 @@ public partial class GameRules : Node
     {
         IsGameOver = true;
         EmitSignal(SignalName.GameWin);
+        if (Board.IsCampaignBoard)
+            EmitSignal(SignalName.CampaignLevelCleared);
     }
 
     /// <summary>

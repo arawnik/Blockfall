@@ -15,6 +15,7 @@ GameRules = NodePath("GameRules")
 Difficulty = NodePath("Difficulty")
 TetrominoPawnScene = ExtResource("2_0s3ni")
 LineScene = ExtResource("3_4rp0p")
+IsCampaignBoard = true
 
 [node name="GameRules" parent="." node_paths=PackedStringArray("Board", "LoseCondition", "WinCondition") instance=ExtResource("4_risrv")]
 Board = NodePath("..")

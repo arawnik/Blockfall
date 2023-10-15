@@ -24,7 +24,7 @@ public partial class Game : Node
     /// <summary>
     /// Reference to the <see cref="Board"/>.
     /// </summary>
-    protected Board Board;
+    public Board Board;
 
     /// <summary>
     /// Callback for updating best score.

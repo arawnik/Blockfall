@@ -43,15 +43,14 @@ public abstract partial class ConditionLose : Node
 
     /// <summary>
     /// Check if game is over and emit <see cref="GameOver"/> signal if so.
-    /// <paramref name="linesRemoved">Number of lines removed on event.</paramref>
     /// </summary>
-    public void CheckTetrominoLocked(int linesRemoved)
+    public void CheckTetrominoLocked()
     {
         if (GameRules.IsGameOver)
             return;
 
         // We only create lines when there are pieces for them. So if top line exists, game over.
-        if (CheckGameOverConditionOnTetrominoLocked(linesRemoved))
+        if (CheckGameOverOnTetrominoLocked())
         {
             GameRules.ProcessGameOver();
             return;
@@ -62,9 +61,8 @@ public abstract partial class ConditionLose : Node
     /// <summary>
     /// Pile up the game over conditions that happen on Tetromino Locked event.
     /// </summary>
-    /// <paramref name="linesRemoved">Number of lines removed on event.</paramref>
     /// <returns><see cref="true"/> if game is over/lost, <see cref="false"/> otherwise.</returns>
-    public virtual bool CheckGameOverConditionOnTetrominoLocked(int linesRemoved)
+    public virtual bool CheckGameOverOnTetrominoLocked()
     {
         // We only create lines when there are pieces for them. So if top line exists, game over.
         return GameRules.Board.GetLines().Any(line => line.GlobalPosition.Y == GameRules.Board.MinVector.Y);

@@ -93,7 +93,7 @@ public partial class Main : Node2D
         switch (CurrentAppState)
         {
             case AppState.Campaign:
-                CampaignNextLevel();
+                CampaignCurrentLevel();
                 break;
             default:
                 break;
@@ -123,16 +123,6 @@ public partial class Main : Node2D
     }
 
     /// <summary>
-    /// Move to next campaign level and start it.
-    /// </summary>
-    public void CampaignNextLevel()
-    {
-        var scene = GameData.CampaignLevels.Next;
-        var isBoard = GameData.CampaignLevels.CurrentIsBoard;
-        ActivateCampaignGame(scene, isBoard);
-    }
-
-    /// <summary>
     /// Start current campaign level.
     /// </summary>
     public void CampaignCurrentLevel()
@@ -145,10 +135,19 @@ public partial class Main : Node2D
     /// <summary>
     /// Restart campaign.
     /// </summary>
-    public void RestartCampaign()
+    public void CampaignRestart()
     {
         GameData.CampaignLevels.Restart();
-        CampaignCurrentLevel();
+        GameData.Save();
+    }
+
+    /// <summary>
+    /// Advance campaign.
+    /// </summary>
+    public void CampaignAdvance()
+    {
+        GameData.CampaignLevels.Advance();
+        GameData.Save();
     }
 
     /// <summary>
@@ -205,6 +204,7 @@ public partial class Main : Node2D
         game.HUD.RestartState += OnRestartState;
         game.HUD.AdvanceState += OnAdvanceState;
         game.HUD.MenuState += OnMenuState;
+        game.Board.GameRules.CampaignLevelCleared += CampaignAdvance;
     }
 
     /// <summary>

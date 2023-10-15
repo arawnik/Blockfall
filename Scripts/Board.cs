@@ -37,16 +37,22 @@ public partial class Board : Node2D
     public PackedScene LineScene { get; set; }
 
     /// <summary>
-    /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
+    /// Boolean that tells if board is campaign board.
     /// </summary>
-    [Signal]
-    public delegate void TetrominoLockedEventHandler(int linesRemoved);
+    [Export]
+    public bool IsCampaignBoard { get; set; } = false;
 
     /// <summary>
     /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
     /// </summary>
     [Signal]
-    public delegate void LineRemovedEventHandler(Line line);
+    public delegate void TetrominoLockedEventHandler();
+
+    /// <summary>
+    /// Handler of signal that is emitted when <see cref="TetrominoPawn"/> reaches end destination and is locked.
+    /// </summary>
+    [Signal]
+    public delegate void LinesRemovedEventHandler(Line[] lines);
 
     /// <summary>
     /// Amount of rows on the board.
@@ -186,27 +192,25 @@ public partial class Board : Node2D
     protected void OnLockTetromino(TetrominoPawn tetromino)
     {
         AddTetrominoToLines(tetromino);
-        var linesRemoved = RemoveFullLines();
-        EmitSignal(SignalName.TetrominoLocked, linesRemoved);
+        RemoveFullLines();
+        EmitSignal(SignalName.TetrominoLocked);
     }
 
     /// <summary>
     /// Remove all <see cref="Line"/>s from board that are full.
     /// </summary>
-    /// <returns>Number of <see cref="Line"/>s removed.</returns>
-    private int RemoveFullLines()
+    private void RemoveFullLines()
     {
         var fullLines = GetLines()
             .Where(line => line.IsLineFull())
-            .ToList();
+            .ToArray();
 
+        EmitSignal(SignalName.LinesRemoved, fullLines);
         foreach (var line in fullLines)
         {
             MoveLinesDown(line.GlobalPosition.Y);
-            EmitSignal(SignalName.LineRemoved, line);
             line.Free();
         }
-        return fullLines.Count;
     }
 
     /// <summary>
