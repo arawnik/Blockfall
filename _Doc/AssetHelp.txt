@@ -1,6 +1,11 @@
 
 # Information that was used on creating the Assets
 
+
+magick convert icon.png -define icon:auto-resize=16,32,48,128,256 icon.ico
+
+
+
 Board: 324 x 648
 
 648 x 1296

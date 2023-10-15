@@ -1,7 +1,7 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
-using Jetris.Scripts.Models;
+using Blockfall.Scripts.Models;
 using System.Collections.Generic;
 
 /// <summary>

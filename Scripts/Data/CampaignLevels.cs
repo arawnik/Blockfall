@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Jetris.Scripts.Data;
+namespace Blockfall.Scripts.Data;
 
 /// <summary>
 /// Resource for handling and storing campaign levels.

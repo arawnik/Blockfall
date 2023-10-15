@@ -1,8 +1,8 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
-using Jetris.Scripts.Models;
-using Jetris.Scripts.Models.Nodes;
+using Blockfall.Scripts.Models;
+using Blockfall.Scripts.Models.Nodes;
 
 /// <summary>
 /// Head-Up Display also known as HUD. Will be used to display data around the screen.

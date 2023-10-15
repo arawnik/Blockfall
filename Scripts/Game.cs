@@ -1,9 +1,9 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
-using Jetris.Scripts.Models;
-using Jetris.Scripts.Models.Nodes;
-using static Jetris.Scripts.Save.GameData;
+using Blockfall.Scripts.Models;
+using Blockfall.Scripts.Models.Nodes;
+using static Blockfall.Scripts.Save.GameData;
 
 /// <summary>
 /// The game of blocks falling.

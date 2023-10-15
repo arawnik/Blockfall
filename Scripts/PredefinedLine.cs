@@ -1,4 +1,4 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
 using System;

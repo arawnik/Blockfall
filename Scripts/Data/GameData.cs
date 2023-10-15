@@ -1,7 +1,7 @@
-﻿namespace Jetris.Scripts.Save;
+﻿namespace Blockfall.Scripts.Save;
 
 using Godot;
-using Jetris.Scripts.Data;
+using Blockfall.Scripts.Data;
 
 /// <summary>
 /// Resource to handle save game.

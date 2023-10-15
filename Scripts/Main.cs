@@ -1,9 +1,9 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
-using Jetris.Scripts.Models;
-using Jetris.Scripts.Save;
-using static Jetris.Scripts.Save.GameData;
+using Blockfall.Scripts.Models;
+using Blockfall.Scripts.Save;
+using static Blockfall.Scripts.Save.GameData;
 
 /// <summary>
 /// The main frame for the game, we handle global stuff and states here.

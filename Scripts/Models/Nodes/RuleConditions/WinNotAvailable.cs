@@ -1,4 +1,4 @@
-﻿namespace Jetris.Scripts.Models.RuleConditions;
+﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
 /// <summary>
 /// 

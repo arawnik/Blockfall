@@ -1,9 +1,9 @@
-namespace Jetris.Scripts;
+namespace Blockfall.Scripts;
 
 using Godot;
-using Jetris.Scripts.Models;
-using Jetris.Scripts.Models.Nodes;
-using Jetris.Scripts.Models.RuleConditions;
+using Blockfall.Scripts.Models;
+using Blockfall.Scripts.Models.Nodes;
+using Blockfall.Scripts.Models.RuleConditions;
 using System.Collections.Generic;
 using System.Linq;
 

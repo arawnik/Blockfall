@@ -1,4 +1,4 @@
-namespace Jetris.Scripts.Levels;
+namespace Blockfall.Scripts.Levels;
 
 using Godot;
 

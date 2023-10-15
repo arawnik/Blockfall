@@ -1,4 +1,4 @@
-﻿namespace Jetris.Scripts.Models.RuleConditions;
+﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
 /// <summary>
 /// Endless game with points condition for <see cref="GameRules"/>.

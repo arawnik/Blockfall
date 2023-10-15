@@ -64,9 +64,9 @@ theme = ExtResource("2_1u0j0")
 text = "Vanilla"
 
 [node name="Label" type="Label" parent="."]
-offset_left = 149.0
+offset_left = 100.0
 offset_top = 15.0
-offset_right = 286.0
+offset_right = 309.0
 offset_bottom = 73.0
 theme_override_colors/font_color = Color(0.14902, 0.415686, 0.741176, 1)
 theme_override_colors/font_shadow_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
@@ -75,7 +75,7 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_constants/shadow_outline_size = 3
 theme_override_fonts/font = ExtResource("4_e5qj7")
 theme_override_font_sizes/font_size = 50
-text = "Jetris"
+text = "Blockfall"
 
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/CampaignButton" to="." method="OnCampaignButtonPressed"]
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/RisingButton" to="." method="OnIncreasingDifficultyButtonPressed"]

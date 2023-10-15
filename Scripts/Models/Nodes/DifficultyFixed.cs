@@ -1,4 +1,4 @@
-﻿namespace Jetris.Scripts.Models;
+﻿namespace Blockfall.Scripts.Models;
 
 using Godot;
 

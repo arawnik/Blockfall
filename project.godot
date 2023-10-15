@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Jetris"
+config/name="Blockfall"
 config/description="Block dropping game with campaign that includes various combinations of difficulty and goals to reach for win."
 config/version="0.1.0"
 run/main_scene="res://Scenes/main.tscn"
@@ -31,7 +31,7 @@ window/handheld/orientation=1
 
 [dotnet]
 
-project/assembly_name="Jetris"
+project/assembly_name="Blockfall"
 
 [input]
 

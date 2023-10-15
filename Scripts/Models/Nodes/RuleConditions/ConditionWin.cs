@@ -1,7 +1,7 @@
-﻿namespace Jetris.Scripts.Models.RuleConditions;
+﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
 using Godot;
-using Jetris.Scripts.Models.Nodes;
+using Blockfall.Scripts.Models.Nodes;
 
 /// <summary>
 /// Define win condition for <see cref="GameRules"/>.
