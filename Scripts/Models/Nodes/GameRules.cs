@@ -108,8 +108,6 @@ public partial class GameRules : Node
     public void ProcessGameWin()
     {
         IsGameOver = true;
-        if(Board.IsCampaignBoard)
-            EmitSignal(SignalName.CampaignLevelCleared);
         EmitSignal(SignalName.GameWin);
         if (Board.IsCampaignBoard)
             EmitSignal(SignalName.CampaignLevelCleared);
