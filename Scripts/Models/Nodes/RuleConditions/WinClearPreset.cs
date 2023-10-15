@@ -25,16 +25,17 @@ public partial class WinClearPreset : ConditionWin
     {
         base._Ready();
 
-        GameRules.Board.LineRemoved += CheckLineRemove;
+        GameRules.Board.LinesRemoved += CheckLineRemove;
     }
 
     /// <summary>
-    /// Check if removed line was one of the ones needed to clear for win.
+    /// Check if removed lines were the ones needed to clear for win, and if it's all gone.
     /// </summary>
-    /// <param name="line">The checked line.</param>
-    private void CheckLineRemove(Line line)
+    /// <param name="lines">The checked lines.</param>
+    private void CheckLineRemove(Line[] lines)
     {
-        if (ClearableLines.Remove(line) && !ClearableLines.Any())
+        ClearableLines = ClearableLines.Except(lines).ToList();
+        if (!ClearableLines.Any())
         {
             GameRules.ProcessGameWin();
         }
