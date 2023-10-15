@@ -61,7 +61,7 @@ public partial class Board : Node2D
     /// <summary>
     /// Amount of columns on the board.
     /// </summary>
-    public const int COLUMN_COUNT = 10;
+    public const int COLUMN_COUNT = 11;
     /// <summary>
     /// Size of each <see cref="Piece" /> designed for the board.
     /// </summary>
@@ -75,7 +75,7 @@ public partial class Board : Node2D
     /// <summary>
     /// Vector for <see cref="TetrominoPawn"/> spawn point.
     /// </summary>
-	public static readonly Vector2 SPAWN_POINT = new(COLUMN_COUNT / 2 * PIECE_SIZE - HALF_PIECE_SIZE, Bounds.MinY);
+	public static readonly Vector2 SPAWN_POINT = new((COLUMN_COUNT + 1)  / 2 * PIECE_SIZE - HALF_PIECE_SIZE, Bounds.MinY);
 
     /// <summary>
     /// Min values for GlobalPosition that belongs to board.
@@ -270,7 +270,7 @@ public partial class Board : Node2D
     public static class Bounds
     {
         public const int MinX = HALF_PIECE_SIZE;
-        public const int MaxX = (COLUMN_COUNT) * PIECE_SIZE;
+        public const int MaxX = COLUMN_COUNT * PIECE_SIZE;
         public const int MinY = HALF_PIECE_SIZE;
         public const int MaxY = ROW_COUNT * PIECE_SIZE;
     }

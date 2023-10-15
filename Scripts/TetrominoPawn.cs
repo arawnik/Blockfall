@@ -83,7 +83,7 @@ public partial class TetrominoPawn : Tetromino
         CallUpdateGhostPosition = Callable.From(() => UpdateGhostPosition());
 
         // Init Tetromino
-        Position = Board.SPAWN_POINT;
+        Position = PieceData.SpawnOffsetLeft ? Board.SPAWN_POINT + Vector2.Left * Board.PIECE_SIZE : Board.SPAWN_POINT;
         WallKicks = PieceData.TetrominoType == TetrominoType.I ? Autoload.WallKicksI : Autoload.WallKicksOthers;
         OtherPieces = _board.GetAllPiecesInLines();
 

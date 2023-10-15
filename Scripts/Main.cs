@@ -127,6 +127,7 @@ public partial class Main : Node2D
     /// </summary>
     public void CampaignCurrentLevel()
     {
+        GD.Print(GameData.CampaignLevels.Current);
         var scene = GameData.CampaignLevels.Current;
         var isBoard = GameData.CampaignLevels.CurrentIsBoard;
         ActivateCampaignGame(scene, isBoard);

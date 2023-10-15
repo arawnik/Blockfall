@@ -12,6 +12,8 @@ public partial class IntroScene : Node2D
     /// </summary>
 	public void OnAdvanceButtonPressed()
 	{
-        GetParent<Main>().CampaignCurrentLevel();
+        var main = GetParent<Main>();
+        main.CampaignAdvance();
+        main.CampaignCurrentLevel();
     }
 }

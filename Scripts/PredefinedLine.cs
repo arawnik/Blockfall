@@ -32,9 +32,9 @@ public partial class PredefinedLine : Node2D
     }
 
     /// <summary>
-    /// Pieces on the created <see cref="Line"/>. 0 being leftmost <see cref="Piece"/>, and 10 on the right.
+    /// Pieces on the created <see cref="Line"/>. 0 being leftmost <see cref="Piece"/>, and 11 on the right.
     /// </summary>
-    [Export(PropertyHint.Range, "0,10,")]
+    [Export(PropertyHint.Range, "0,11,")]
     public int[] Pieces { get; set; }
 
     public static class Resources

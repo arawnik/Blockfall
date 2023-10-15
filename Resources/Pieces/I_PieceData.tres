@@ -7,3 +7,4 @@
 script = ExtResource("2_n2twm")
 PieceTexture = ExtResource("1_pgj4o")
 TetrominoType = 0
+SpawnOffsetLeft = true

@@ -19,4 +19,10 @@ public partial class PieceData : Resource
     /// </summary>
     [Export]
     public TetrominoType TetrominoType { get; set; }
+
+    /// <summary>
+    /// Tells if this <see cref="TetrominoType"/> should be offset to left on spawn.
+    /// </summary>
+    [Export]
+    public bool SpawnOffsetLeft { get; set; }
 }

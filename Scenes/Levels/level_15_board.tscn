@@ -31,10 +31,14 @@ GameRules = NodePath("..")
 
 [node name="Difficulty" parent="." instance=ExtResource("7_3fq1i")]
 
+[node name="Line18" parent="." instance=ExtResource("8_23ktm")]
+Row = 18
+Pieces = PackedInt32Array(6)
+
 [node name="Line19" parent="." instance=ExtResource("8_23ktm")]
 Row = 19
-Pieces = PackedInt32Array(1, 10)
+Pieces = PackedInt32Array(1, 6, 11)
 
 [node name="Line20" parent="." instance=ExtResource("8_23ktm")]
 Row = 20
-Pieces = PackedInt32Array(1, 2, 9, 10)
+Pieces = PackedInt32Array(1, 2, 6, 10, 11)
