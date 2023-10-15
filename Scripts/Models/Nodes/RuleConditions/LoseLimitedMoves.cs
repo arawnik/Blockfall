@@ -35,11 +35,10 @@ public partial class LoseLimitedMoves : ConditionLose
     /// <summary>
     /// Pile up the game over conditions that happen on Tetromino Locked event.
     /// </summary>
-    /// <paramref name="linesRemoved">Number of lines removed on event.</paramref>
     /// <returns><see cref="true"/> if game is over/lost, <see cref="false"/> otherwise.</returns>
-    public override bool CheckGameOverConditionOnTetrominoLocked(int linesRemoved)
+    public override bool CheckGameOverOnTetrominoLocked()
     {
-        return CheckUpdatePawns() || base.CheckGameOverConditionOnTetrominoLocked (linesRemoved);
+        return CheckUpdatePawns() || base.CheckGameOverOnTetrominoLocked();
     }
 
     /// <summary>

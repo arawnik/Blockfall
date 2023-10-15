@@ -21,7 +21,7 @@ public partial class LoseEndless : ConditionLose
     public override void _Ready()
     {
         base._Ready();
-        GameRules.Board.TetrominoLocked += UpdatePoints;
+        GameRules.Board.LinesRemoved += UpdatePoints;
     }
 
     /// <summary>
@@ -34,13 +34,13 @@ public partial class LoseEndless : ConditionLose
     }
 
     /// <summary>
-    /// Update points based on amount of <paramref name="linesRemoved"/>.
+    /// Update points based on <paramref name="removedLines"/>.
     /// </summary>
-    /// <param name="linesRemoved">amount of removed lines.</param>
-    public void UpdatePoints(int linesRemoved)
+    /// <param name="removedLines">The lines that got removed.</param>
+    public void UpdatePoints(Line[] removedLines)
     {
         var currentDifficultyLevel = 1;// Mathf.FloorToInt(GameRules.getScoringMultiplier());
-        switch (linesRemoved)
+        switch (removedLines.Length)
         {
             case 1:
                 GameRules.Scoring += 40 * currentDifficultyLevel;

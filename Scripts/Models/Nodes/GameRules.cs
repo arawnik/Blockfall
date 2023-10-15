@@ -111,6 +111,8 @@ public partial class GameRules : Node
         if(Board.IsCampaignBoard)
             EmitSignal(SignalName.CampaignLevelCleared);
         EmitSignal(SignalName.GameWin);
+        if (Board.IsCampaignBoard)
+            EmitSignal(SignalName.CampaignLevelCleared);
     }
 
     /// <summary>
