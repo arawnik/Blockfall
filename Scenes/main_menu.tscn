@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bksqbntvh54ye"]
+[gd_scene load_steps=8 format=3 uid="uid://bksqbntvh54ye"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_6oesn"]
 [ext_resource type="Theme" uid="uid://dc63wnb4jphqj" path="res://Theme/button_theme.tres" id="2_1u0j0"]
 [ext_resource type="Texture2D" uid="uid://vbujrq253abk" path="res://Assets/MainMenu.png" id="2_er8b3"]
 [ext_resource type="Theme" uid="uid://dkb32drs0ri8a" path="res://Theme/basic_theme.tres" id="3_ed7ji"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="4_e5qj7"]
+[ext_resource type="FontFile" uid="uid://br2ysgnmgaa5h" path="res://Assets/Fonts/Orbitron.ttf" id="4_uo4g7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_46g5k"]
 bg_color = Color(0, 0, 0, 0.654902)
@@ -48,10 +49,29 @@ layout_mode = 2
 theme = ExtResource("3_ed7ji")
 theme_override_constants/separation = 6
 
+[node name="CampaignLabel" type="Label" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_uo4g7")
+theme_override_font_sizes/font_size = 20
+text = "Campaign"
+horizontal_alignment = 1
+
 [node name="CampaignButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_1u0j0")
 text = "Campaign"
+
+[node name="LevelButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_1u0j0")
+text = "Replay levels"
+
+[node name="EndlessLabel" type="Label" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_uo4g7")
+theme_override_font_sizes/font_size = 20
+text = "Endless"
+horizontal_alignment = 1
 
 [node name="RisingButton" type="Button" parent="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer"]
 layout_mode = 2
@@ -78,5 +98,6 @@ theme_override_font_sizes/font_size = 50
 text = "Blockfall"
 
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/CampaignButton" to="." method="OnCampaignButtonPressed"]
+[connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/LevelButton" to="." method="OnLevelButtonPressed"]
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/RisingButton" to="." method="OnIncreasingDifficultyButtonPressed"]
 [connection signal="pressed" from="CenterContainer/MenuButtonContainer/MenuMarginContainer/MenuVBoxContainer/VanillaButton" to="." method="OnVanillaButtonPressed"]

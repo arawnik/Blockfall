@@ -8,6 +8,7 @@ public enum AppState
 {
     MainMenu,
     Campaign,
+    LevelSelect,
     GameVanilla,
     GameIncreasingDifficulty
 }

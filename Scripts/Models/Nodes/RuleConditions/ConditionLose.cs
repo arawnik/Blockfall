@@ -26,6 +26,11 @@ public abstract partial class ConditionLose : Node
     public abstract string BestScoreText { get; }
 
     /// <summary>
+    /// Displayed difficulty description with difficulty explanation for lose condition.
+    /// </summary>
+    public abstract string DifficultyExtensionText { get; }
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()

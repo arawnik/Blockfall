@@ -17,6 +17,11 @@ public abstract partial class Difficulty : Node
     public Timer MoveTimer { get; set; }
 
     /// <summary>
+    /// Displayed difficulty description.
+    /// </summary>
+    public abstract string DifficultyText { get; }
+
+    /// <summary>
     /// Private handle for <see cref="Current"/>.
     /// </summary>
     private float _current;

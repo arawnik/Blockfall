@@ -1,4 +1,5 @@
 ﻿using Godot;
+using SoulNETLib.Common.Extension;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -81,16 +82,14 @@ public partial class CampaignLevels : Resource
     /// </summary>
     /// <param name="key">The key of level.</param>
     /// <returns>Campaign level scene.</returns>
-    public PackedScene this[string key] => ContainsKey(key)
-        ? ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{key}.tscn")
-        : null;
+    public PackedScene this[string key] => GetValue(key);
 
     /// <summary>
     /// Check if campaign level by <see cref="key"/> exists.
     /// </summary>
     /// <param name="key">The key of level.</param>
     /// <returns><see cref="true"/> if campaign level by <see cref="key"/> exists, <see cref="false"/> otherwise.</returns>
-    public bool ContainsKey(string key)
+    public static bool ContainsKey(string key)
     {
         return _levels.Contains(key);
     }
@@ -101,10 +100,44 @@ public partial class CampaignLevels : Resource
     /// <param name="key">The key of level.</param>
     /// <param name="value">Campaign level scene, or <see cref="null"/> if it doesn't exist.</param>
     /// <returns><see cref="true"/> if campaign level by <see cref="key"/> exists, <see cref="false"/> otherwise.</returns>
-    public bool TryGetValue(string key, [MaybeNullWhen(false)] out PackedScene value)
+    public static bool TryGetValue(string key, [MaybeNullWhen(false)] out PackedScene value)
     {
-        value = this[key];
+        value = GetValue(key);
         return value != null;
+    }
+
+    /// <summary>
+    /// Get campaign level by <see cref="key"/>.
+    /// </summary>
+    /// <param name="key">The key of level.</param>
+    /// <returns>Campaign level scene.</returns>
+    private static PackedScene GetValue(string key)
+    {
+        return ContainsKey(key)
+        ? ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{key}.tscn")
+        : null;
+    }
+
+    /// <summary>
+    /// Turn level string into a parsed name
+    /// </summary>
+    /// <param name="levelText">The string that will be parsed</param>
+    /// <returns>Parsed <paramref name="levelText"/>.</returns>
+    public static string LevelToName(string levelText)
+    {
+        if(levelText.TryRemoveEnd("_board", out var boardText))
+        {
+            boardText = boardText.FirstCharToUpper();
+            boardText = boardText.Replace('_', ' ');
+            return boardText;
+        }
+
+        if (levelText.TryRemoveEnd("_scene", out var sceneText))
+        {
+            sceneText = sceneText.FirstCharToUpper();
+            return sceneText;
+        }
+        return string.Empty;
     }
 
     /// <summary>

@@ -18,6 +18,11 @@ public partial class LoseLimitedMoves : ConditionLose
     public override string BestScoreText => "Most left";
 
     /// <summary>
+    /// Displayed difficulty description with difficulty explanation for lose condition.
+    /// </summary>
+    public override string DifficultyExtensionText => "with limited pawns";
+
+    /// <summary>
     /// Amount of <see cref="TetrominoPawn"/>s available.
     /// </summary>
     [Export]

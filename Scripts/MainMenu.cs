@@ -16,6 +16,14 @@ public partial class MainMenu : CanvasLayer
     }
 
     /// <summary>
+    /// Handler for when LevelButton is pressed.
+    /// </summary>
+    public void OnLevelButtonPressed()
+    {
+        GetParent<Main>().UpdateAppState(Models.AppState.LevelSelect);
+    }
+
+    /// <summary>
     /// Handler for when VanillaButton is pressed.
     /// </summary>
     public void OnVanillaButtonPressed()

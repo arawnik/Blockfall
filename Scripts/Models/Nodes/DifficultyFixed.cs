@@ -14,6 +14,11 @@ public partial class DifficultyFixed : Difficulty
     public float Difficulty { get; private set; } = 1;
 
     /// <summary>
+    ///  Displayed difficulty description.
+    /// </summary>
+    public override string DifficultyText => "Fixed difficulty";
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()

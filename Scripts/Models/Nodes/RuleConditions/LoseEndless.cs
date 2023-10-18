@@ -16,6 +16,11 @@ public partial class LoseEndless : ConditionLose
     public override string BestScoreText => "Highscore";
 
     /// <summary>
+    /// Displayed difficulty description with difficulty explanation for lose condition.
+    /// </summary>
+    public override string DifficultyExtensionText => "with endless board";
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()

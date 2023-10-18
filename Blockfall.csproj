@@ -8,4 +8,7 @@
   <ItemGroup>
     <Folder Include="Scenes\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SoulNETLib.Common" Version="0.1.1" />
+  </ItemGroup>
 </Project>

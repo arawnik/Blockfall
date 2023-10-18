@@ -2,6 +2,10 @@
 
 using Godot;
 using Blockfall.Scripts.Data;
+using System.Linq;
+using System.Collections.Generic;
+using System;
+using SoulNETLib.Common.Extension;
 
 /// <summary>
 /// Resource to handle save game.
@@ -58,26 +62,37 @@ public partial class GameData : Resource
     }
 
     /// <summary>
-    /// Update current campaign's best score.
+    /// Update campaign level best score for <paramref name="levelName"/>.
     /// </summary>
+    /// <param name="levelName">Name of the campaign level.</param>
     /// <param name="newBestScore">New best score.</param>
-    public void UpdateCurrentCampaignBestScore(int newBestScore)
+    public void UpdateCampaignBestScore(string levelName, int newBestScore)
     {
 
-        CampaignBestScores[CampaignLevels.CurrentLevel] = newBestScore;
+        CampaignBestScores[levelName] = newBestScore;
         Save();
+    }
+
+    /// <summary>
+    /// Best score for <paramref name="levelName"/> campaign level.
+    /// </summary>
+    /// <param name="levelName">Name of the level that is checked.</param>
+    /// <returns>Current best score that matches <paramref name="levelName"/>.</returns>
+    public int CampaignBestScore(string levelName)
+    {
+        if(!CampaignBestScores.ContainsKey(levelName))
+        {
+            CampaignBestScores[levelName] = 0;
+        }
+        return CampaignBestScores[levelName];
     }
 
     /// <summary>
     /// Best score for currently active campaign best score.
     /// </summary>
-    public int CurrentCampaignBestScore()
+    public List<KeyValuePair<string, int>> CampaignClearedLevels()
     {
-        if(!CampaignBestScores.ContainsKey(CampaignLevels.CurrentLevel))
-        {
-            CampaignBestScores[CampaignLevels.CurrentLevel] = 0;
-        }
-        return CampaignBestScores[CampaignLevels.CurrentLevel];
+        return CampaignBestScores.OrderBy(level => level.Key.GetDigitsInt()).ToList();
     }
 
     /// <summary>

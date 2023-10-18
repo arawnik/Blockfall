@@ -21,6 +21,11 @@ public partial class DifficultyIncreasing : Difficulty
     public float DeltaMultiplier { get; private set; } = 0.01f;
 
     /// <summary>
+    ///  Displayed difficulty description.
+    /// </summary>
+    public override string DifficultyText => "Rising difficulty";
+
+    /// <summary>
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()

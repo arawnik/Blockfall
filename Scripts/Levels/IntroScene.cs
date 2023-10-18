@@ -13,7 +13,7 @@ public partial class IntroScene : Node2D
 	public void OnAdvanceButtonPressed()
 	{
         var main = GetParent<Main>();
-        main.CampaignAdvance();
+        main.CampaignAdvanceCurrent();
         main.CampaignCurrentLevel();
     }
 }

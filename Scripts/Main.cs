@@ -23,6 +23,12 @@ public partial class Main : Node2D
     public PackedScene MainMenuScene { get; set; }
 
     /// <summary>
+    /// Scene that is used to instantiate new <see cref="LevelSelect"/>.
+    /// </summary>
+	[Export]
+    public PackedScene LevelScene { get; set; }
+
+    /// <summary>
     /// Game data. Keeps track of all game data.
     /// </summary>
     private GameData GameData;
@@ -62,6 +68,12 @@ public partial class Main : Node2D
         {
             case AppState.MainMenu:
                 ActivateNode(MainMenuScene.Instantiate<MainMenu>());
+                break;
+            case AppState.LevelSelect:
+                var levelSelect = LevelScene.Instantiate<LevelSelect>();
+                levelSelect.Levels = GameData.CampaignClearedLevels();
+                levelSelect.ActivateAction = ActivateCampaignGame;
+                ActivateNode(levelSelect);
                 break;
             case AppState.Campaign:
                 CampaignCurrentLevel();
@@ -127,10 +139,10 @@ public partial class Main : Node2D
     /// </summary>
     public void CampaignCurrentLevel()
     {
-        GD.Print(GameData.CampaignLevels.Current);
         var scene = GameData.CampaignLevels.Current;
+        var levelName = GameData.CampaignLevels.CurrentLevel;
         var isBoard = GameData.CampaignLevels.CurrentIsBoard;
-        ActivateCampaignGame(scene, isBoard);
+        ActivateCampaignGame(scene, levelName, isBoard);
     }
 
     /// <summary>
@@ -143,9 +155,21 @@ public partial class Main : Node2D
     }
 
     /// <summary>
+    /// Advance campaign if current level.
+    /// </summary>
+    /// <param name="levelName">Name of the played level.</param>
+    public void CampaignAdvance(string levelName)
+    {
+        if(GameData.CampaignLevels.CurrentLevel == levelName)
+        {
+            CampaignAdvanceCurrent();
+        }
+    }
+
+    /// <summary>
     /// Advance campaign.
     /// </summary>
-    public void CampaignAdvance()
+    public void CampaignAdvanceCurrent()
     {
         GameData.CampaignLevels.Advance();
         GameData.Save();
@@ -175,15 +199,16 @@ public partial class Main : Node2D
     /// Activate a campaign game.
     /// </summary>
     /// <param name="scene">Scene that should be activated, either scene or board, depending on <paramref name="isBoard"/>.</param>
+    /// <param name="levelName">Name of the activated level.</param>
     /// <param name="isBoard">if <see cref="true"/> <paramref name="scene"/> is a <see cref="Board"/>. Otherwise it's a Scene.</param>
     /// <returns>Initialized <see cref="Node"/></returns>
-    private void ActivateCampaignGame(PackedScene scene, bool isBoard)
+    private void ActivateCampaignGame(PackedScene scene, string levelName, bool isBoard)
     {
         GameData.Save();
         if (isBoard)
         {
             var board = scene.Instantiate<Board>();
-            ActivateGame(board, GameData.CurrentCampaignBestScore(), GameData.UpdateCurrentCampaignBestScore);
+            ActivateGame(board, GameData.CampaignBestScore(levelName), (bestScore) => GameData.UpdateCampaignBestScore(levelName, bestScore), levelName);
         }
         else
         {
@@ -197,15 +222,16 @@ public partial class Main : Node2D
     /// <param name="board">Active board for game.</param>
     /// <param name="highScore">Highscore for <paramref name="board"/>.</param>
     /// <param name="updateBestScore">Delegate for updating best score.</param>
+    /// <param name="levelName">Name of played campaign level, or null if not campaign.</param>
     /// <returns>Initialized <see cref="Game"/></returns>
-    private void ActivateGame(Board board, int highScore, UpdateBestScore updateBestScore)
+    private void ActivateGame(Board board, int highScore, UpdateBestScore updateBestScore, string levelName = null)
     {
         var game = Game.Create(GameScene, board, highScore, updateBestScore);
         ActivateNode(game);
         game.HUD.RestartState += OnRestartState;
         game.HUD.AdvanceState += OnAdvanceState;
         game.HUD.MenuState += OnMenuState;
-        game.Board.GameRules.CampaignLevelCleared += CampaignAdvance;
+        game.Board.GameRules.CampaignLevelCleared += () => CampaignAdvance(levelName);
     }
 
     /// <summary>
