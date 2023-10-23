@@ -3,7 +3,7 @@ namespace Blockfall.Scripts;
 using Godot;
 
 /// <summary>
-/// The main menu of app.
+/// The main menu of app. Display choises for different game modes.
 /// </summary>
 public partial class MainMenu : CanvasLayer
 {
