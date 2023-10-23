@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// The grid board playarea.
+/// The grid board playarea. Childnodes define the difficulty and rules.
 /// </summary>
 public partial class Board : Node2D
 {
