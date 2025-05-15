@@ -1,8 +1,7 @@
 ﻿namespace Blockfall.Scripts.Models.Nodes;
 
-using Godot;
 using Blockfall.Scripts.Models.RuleConditions;
-using System;
+using Godot;
 
 /// <summary>
 /// Node responsible for handling rules of <see cref="Game"/>. Win / Lose conditions etc.
@@ -43,7 +42,7 @@ public partial class GameRules : Node
     /// Reference to the board of which rules are being checked.
     /// </summary>
     [Export]
-    public Board Board {  get; set; }
+    public Board Board { get; set; }
 
     /// <summary>
     /// Reference to the lose condition.

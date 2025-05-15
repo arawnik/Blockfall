@@ -44,7 +44,7 @@ public partial class LoseEndless : ConditionLose
     /// <param name="removedLines">The lines that got removed.</param>
     public void UpdatePoints(Line[] removedLines)
     {
-        var currentDifficultyLevel = 1;// Mathf.FloorToInt(GameRules.getScoringMultiplier());
+        var currentDifficultyLevel = 1; // Mathf.FloorToInt(GameRules.getScoringMultiplier());
         switch (removedLines.Length)
         {
             case 1:

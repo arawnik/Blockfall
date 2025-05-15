@@ -1,9 +1,9 @@
-﻿using Godot;
-using SoulNETLib.Common.Extension;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Godot;
+using SoulNETLib.Common.Extension;
 
 namespace Blockfall.Scripts.Data;
 
@@ -28,10 +28,7 @@ public partial class CampaignLevels : Resource
     /// </summary>
     public PackedScene Current
     {
-        get
-        {
-            return this[CurrentLevel];
-        }
+        get { return this[CurrentLevel]; }
     }
 
     /// <summary>
@@ -114,8 +111,8 @@ public partial class CampaignLevels : Resource
     private static PackedScene GetValue(string key)
     {
         return ContainsKey(key)
-        ? ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{key}.tscn")
-        : null;
+            ? ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{key}.tscn")
+            : null;
     }
 
     /// <summary>
@@ -125,7 +122,7 @@ public partial class CampaignLevels : Resource
     /// <returns>Parsed <paramref name="levelText"/>.</returns>
     public static string LevelToName(string levelText)
     {
-        if(levelText.TryRemoveEnd("_board", out var boardText))
+        if (levelText.TryRemoveEnd("_board", out var boardText))
         {
             boardText = boardText.FirstCharToUpper();
             boardText = boardText.Replace('_', ' ');
@@ -141,7 +138,7 @@ public partial class CampaignLevels : Resource
     }
 
     /// <summary>
-    /// All level names in order. 
+    /// All level names in order.
     /// Levels should end with _board if they are game board.
     /// There has to be a scene that matches each string on the list in "Scenes/Levels" folder.
     /// </summary>

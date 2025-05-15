@@ -1,9 +1,9 @@
 namespace Blockfall.Scripts;
 
-using Godot;
-using Blockfall.Scripts.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Blockfall.Scripts.Models;
+using Godot;
 
 /// <summary>
 /// The tetrominos that include <see cref="Piece"/>s displayed on board.
@@ -35,6 +35,7 @@ public partial class TetrominoPawn : Tetromino
     /// The current rotation index of the Tetromino.
     /// </summary>
     protected int RotationIndex = 0;
+
     /// <summary>
     /// Wallkicks for this Tetromino.
     /// </summary>
@@ -42,6 +43,7 @@ public partial class TetrominoPawn : Tetromino
 
     //TODO: Remove when proper deferred call
     private Callable CallUpdateGhostPosition;
+
     //TODO: Remove when proper deferred call
     private Callable CallAddGhostTetrominoToRoot;
 
@@ -49,6 +51,7 @@ public partial class TetrominoPawn : Tetromino
     /// <see cref="Vector2"/> for location where drag gesture was started.
     /// </summary>
     private Vector2? _dragStart = null;
+
     /// <summary>
     /// State for if dragging gesture is ongoing.
     /// </summary>
@@ -83,8 +86,13 @@ public partial class TetrominoPawn : Tetromino
         CallUpdateGhostPosition = Callable.From(() => UpdateGhostPosition());
 
         // Init Tetromino
-        Position = PieceData.SpawnOffsetLeft ? Board.SPAWN_POINT + Vector2.Left * Board.PIECE_SIZE : Board.SPAWN_POINT;
-        WallKicks = PieceData.TetrominoType == TetrominoType.I ? Autoload.WallKicksI : Autoload.WallKicksOthers;
+        Position = PieceData.SpawnOffsetLeft
+            ? Board.SPAWN_POINT + Vector2.Left * Board.PIECE_SIZE
+            : Board.SPAWN_POINT;
+        WallKicks =
+            PieceData.TetrominoType == TetrominoType.I
+                ? Autoload.WallKicksI
+                : Autoload.WallKicksOthers;
         OtherPieces = _board.GetAllPiecesInLines();
 
         // Create ghost for the new active piece
@@ -210,9 +218,7 @@ public partial class TetrominoPawn : Tetromino
         if (finalDropPosition.HasValue)
         {
             GhostTetromino.Show();
-            var piecePositions = Pieces
-                .Select(piece => piece.Position)
-                .ToArray();
+            var piecePositions = Pieces.Select(piece => piece.Position).ToArray();
 
             GhostTetromino.SetGhostTetromino(finalDropPosition.Value, piecePositions);
             return true;
@@ -313,7 +319,10 @@ public partial class TetrominoPawn : Tetromino
     /// <param name="direction">Direction of the rotation.</param>
     private void ApplyRotation(int direction)
     {
-        var rotationMatrix = direction == 1 ? Autoload.ClockwiseRotationMatrix : Autoload.CounterClockwiseRotationMatrix;
+        var rotationMatrix =
+            direction == 1
+                ? Autoload.ClockwiseRotationMatrix
+                : Autoload.CounterClockwiseRotationMatrix;
 
         // Calculate cells based on rotation matrix
         for (int i = 0; i < TetrominoCells.Length; i++)
@@ -357,8 +366,6 @@ public partial class TetrominoPawn : Tetromino
             {
                 Rotate();
             }
-
-
         }
         else if (@event is InputEventMouseMotion motionEvent && Dragging)
         {

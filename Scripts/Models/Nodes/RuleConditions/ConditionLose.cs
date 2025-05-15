@@ -1,8 +1,8 @@
 ﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
-using Godot;
-using Blockfall.Scripts.Models.Nodes;
 using System.Linq;
+using Blockfall.Scripts.Models.Nodes;
+using Godot;
 
 /// <summary>
 /// Define lose condition and scoring for <see cref="GameRules"/>.
@@ -45,7 +45,6 @@ public abstract partial class ConditionLose : Node
     /// <returns><see cref="true"/> if active <see cref="Scoring"/> is new best score, <see cref="false"/> otherwise.</returns>
     public abstract bool CheckBestScore();
 
-
     /// <summary>
     /// Check if game is over and emit <see cref="GameOver"/> signal if so.
     /// </summary>
@@ -70,6 +69,8 @@ public abstract partial class ConditionLose : Node
     public virtual bool CheckGameOverOnTetrominoLocked()
     {
         // We only create lines when there are pieces for them. So if top line exists, game over.
-        return GameRules.Board.GetLines().Any(line => line.GlobalPosition.Y == GameRules.Board.MinVector.Y);
+        return GameRules
+            .Board.GetLines()
+            .Any(line => line.GlobalPosition.Y == GameRules.Board.MinVector.Y);
     }
 }

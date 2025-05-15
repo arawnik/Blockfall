@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public partial class WinClearPreset : ConditionWin
 {

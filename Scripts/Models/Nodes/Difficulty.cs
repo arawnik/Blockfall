@@ -1,8 +1,8 @@
 ﻿namespace Blockfall.Scripts.Models;
 
-using Godot;
 using System;
 using System.Linq;
+using Godot;
 
 /// <summary>
 /// Node responsible for handling the difficulty of <see cref="Game"/>.
@@ -83,8 +83,5 @@ public abstract partial class Difficulty : Node
     /// Function that should be called at _Process function.
     /// </summary>
     /// <param name="delta">The elapsed time since the previous frame.</param>
-    public virtual void OnProcess(float delta)
-    {
-
-    }
+    public virtual void OnProcess(float delta) { }
 }

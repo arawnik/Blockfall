@@ -1,8 +1,8 @@
 namespace Blockfall.Scripts;
 
-using Godot;
-using Blockfall.Scripts.Models;
 using System.Collections.Generic;
+using Blockfall.Scripts.Models;
+using Godot;
 
 /// <summary>
 /// The tetrominos that include <see cref="Piece"/>s displayed on board.

@@ -1,8 +1,8 @@
 namespace Blockfall.Scripts;
 
-using Godot;
 using Blockfall.Scripts.Models;
 using Blockfall.Scripts.Models.Nodes;
+using Godot;
 using static Blockfall.Scripts.Save.GameData;
 
 /// <summary>
@@ -82,9 +82,10 @@ public partial class Game : Node
     /// </summary>
     private void OnGameOver()
     {
-        if(
-            Board.GameRules.WinCondition.UpdateBestScoreOnLose && 
-            Board.GameRules.CheckUpdateBestScore(out var bestScore))
+        if (
+            Board.GameRules.WinCondition.UpdateBestScoreOnLose
+            && Board.GameRules.CheckUpdateBestScore(out var bestScore)
+        )
         {
             _updateBestScore(bestScore);
         }
@@ -118,7 +119,12 @@ public partial class Game : Node
     /// <param name="gameScene">Scene for creating new instances of game.</param>
     /// <param name="board">Board that is being played.</param>
     /// <returns>New game.</returns>
-    public static Game Create(PackedScene gameScene, Board board, int highScore, UpdateBestScore updateBestScore)
+    public static Game Create(
+        PackedScene gameScene,
+        Board board,
+        int highScore,
+        UpdateBestScore updateBestScore
+    )
     {
         var game = gameScene.Instantiate<Game>();
         game._updateBestScore = updateBestScore;

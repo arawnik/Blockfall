@@ -1,10 +1,9 @@
 ﻿namespace Blockfall.Scripts.Save;
 
-using Godot;
-using Blockfall.Scripts.Data;
-using System.Linq;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using Blockfall.Scripts.Data;
+using Godot;
 using SoulNETLib.Common.Extension;
 
 /// <summary>
@@ -68,7 +67,6 @@ public partial class GameData : Resource
     /// <param name="newBestScore">New best score.</param>
     public void UpdateCampaignBestScore(string levelName, int newBestScore)
     {
-
         CampaignBestScores[levelName] = newBestScore;
         Save();
     }
@@ -80,7 +78,7 @@ public partial class GameData : Resource
     /// <returns>Current best score that matches <paramref name="levelName"/>.</returns>
     public int CampaignBestScore(string levelName)
     {
-        if(!CampaignBestScores.ContainsKey(levelName))
+        if (!CampaignBestScores.ContainsKey(levelName))
         {
             CampaignBestScores[levelName] = 0;
         }

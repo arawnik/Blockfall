@@ -1,5 +1,4 @@
-﻿namespace Blockfall.Scripts.Models;
-
+﻿namespace Blockfall.Scripts.Data;
 
 /// <summary>
 /// State of the app. Handled by <see cref="Main"/>.
@@ -10,5 +9,5 @@ public enum AppState
     Campaign,
     LevelSelect,
     GameVanilla,
-    GameIncreasingDifficulty
+    GameIncreasingDifficulty,
 }

@@ -1,8 +1,8 @@
 namespace Blockfall.Scripts;
 
-using Godot;
 using Blockfall.Scripts.Models;
 using Blockfall.Scripts.Models.Nodes;
+using Godot;
 
 /// <summary>
 /// Head-Up Display also known as HUD. Will be used to display data around the screen.
@@ -12,7 +12,7 @@ public partial class Hud : CanvasLayer
     /// <summary>
     /// Scene that is used to instantiate new <see cref="Tetromino"/>'s.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene TetrominoScene { get; set; }
 
     /// <summary>
@@ -128,10 +128,10 @@ public partial class Hud : CanvasLayer
         GameEndLabel = GetNode<Label>(Resources.GameEndLabel);
         ScoringLabel = GetNode<Label>(Resources.ScoringLabel);
         ScoringTextLabel = GetNode<Label>(Resources.ScoringTextLabel);
-        
+
         BestScoreLabel = GetNode<Label>(Resources.BestScoreLabel);
         BestScoreTextLabel = GetNode<Label>(Resources.BestScoreTextLabel);
-        
+
         RestartButton = GetNode<Button>(Resources.RestartButton);
         AdvanceButton = GetNode<Button>(Resources.AdvanceButton);
         MenuButton = GetNode<Button>(Resources.MenuButton);
@@ -272,7 +272,7 @@ public partial class Hud : CanvasLayer
     {
         EmitSignal(SignalName.MenuState);
     }
-    
+
     private float Map(float x, float in_min, float in_max, float out_min, float out_max)
     {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -298,14 +298,18 @@ public partial class Hud : CanvasLayer
         public const string WinConditionTextLabel = "WinConditionContainer/WinConditionTextLabel";
         public const string DifficultyBar = "DifficultyContainer/DifficultyBar";
 
-        public const string GameEndLabel = "GameEndContainer/MarginContainer/VBoxContainer/GameEndLabel";
+        public const string GameEndLabel =
+            "GameEndContainer/MarginContainer/VBoxContainer/GameEndLabel";
         public const string ScoringLabel = "ScoringContainer/ScoringLabel";
         public const string ScoringTextLabel = "ScoringContainer/ScoringTextLabel";
         public const string BestScoreLabel = "BestScoreContainer/BestScoreLabel";
         public const string BestScoreTextLabel = "BestScoreContainer/BestScoreTextLabel";
 
-        public const string RestartButton = "GameEndContainer/MarginContainer/VBoxContainer/RestartButton";
-        public const string AdvanceButton = "GameEndContainer/MarginContainer/VBoxContainer/AdvanceButton";
-        public const string MenuButton = "GameEndContainer/MarginContainer/VBoxContainer/MenuButton";
+        public const string RestartButton =
+            "GameEndContainer/MarginContainer/VBoxContainer/RestartButton";
+        public const string AdvanceButton =
+            "GameEndContainer/MarginContainer/VBoxContainer/AdvanceButton";
+        public const string MenuButton =
+            "GameEndContainer/MarginContainer/VBoxContainer/MenuButton";
     }
 }
