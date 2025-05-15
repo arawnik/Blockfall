@@ -43,12 +43,12 @@ public abstract partial class Difficulty : Node
     /// <summary>
     /// Minimum value allowed for difficulty.
     /// </summary>
-    public float Min => 1;
+    public static float Min => 1;
 
     /// <summary>
     /// Maximum value allowed for difficulty.
     /// </summary>
-    public float Max => 10;
+    public static float Max => 10;
 
     /// <summary>
     /// Current wait time that matches <see cref="Current"/> difficulty.
@@ -74,7 +74,7 @@ public abstract partial class Difficulty : Node
     {
         var warnings = base._GetConfigurationWarnings();
         if (MoveTimer == null)
-            warnings = warnings.Append($"Please set an instance of {nameof(MoveTimer)}").ToArray();
+            warnings = [.. warnings, $"Please set an instance of {nameof(MoveTimer)}"];
 
         return warnings;
     }

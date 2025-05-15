@@ -20,7 +20,7 @@ public partial class Tetromino : Node2D
     /// <summary>
     /// List of all <see cref="Piece"/>s of the Tetromino.
     /// </summary>
-    public List<Piece> Pieces { get; set; } = new();
+    public List<Piece> Pieces { get; set; } = [];
 
     /// <summary>
     /// Data of <see cref="Piece"/>s that belong to the Tetromino.

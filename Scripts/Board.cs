@@ -149,9 +149,7 @@ public partial class Board : Node2D
         var pieces = new List<Piece>();
         foreach (var line in GetLines())
         {
-            pieces.AddRange(
-                line.GetChildren().Where(piece => piece is Piece).Cast<Piece>().ToList()
-            );
+            pieces.AddRange([.. line.GetChildren().Where(piece => piece is Piece).Cast<Piece>()]);
         }
         return pieces;
     }

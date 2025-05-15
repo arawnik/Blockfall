@@ -17,9 +17,7 @@ public partial class Autoload : Node
     /// <returns><see cref="Vector2[]"/> with vector for each cell.</returns>
     public static Vector2[] TetrominoCells(TetrominoType tetrominoType)
     {
-        return TetrominoBlocks[tetrominoType]
-            .Select(block => new Vector2(block.X, block.Y))
-            .ToArray();
+        return [.. TetrominoBlocks[tetrominoType].Select(block => new Vector2(block.X, block.Y))];
     }
 
     private static readonly Dictionary<TetrominoType, Vector2[]> TetrominoBlocks = new()

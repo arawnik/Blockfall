@@ -26,7 +26,7 @@ public partial class TetrominoPawn : Tetromino
     /// Store all other pieces under active pawn to avoid having to poll when situation changes.
     /// Data is fetched from parent each time we activate new Pawn.
     /// </summary>
-    public List<Piece> OtherPieces { get; set; } = new();
+    public List<Piece> OtherPieces { get; set; } = [];
 
     //TODO: check if we can get rid of this
     protected TetrominoGhost GhostTetromino;

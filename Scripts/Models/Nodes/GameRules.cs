@@ -59,7 +59,7 @@ public partial class GameRules : Node
     /// <summary>
     /// Delegate for fetching multiplier for scoring events.
     /// </summary>
-    public GetScoringMultiplier getScoringMultiplier { get; set; }
+    public GetScoringMultiplierDel GetScoringMultiplier { get; set; }
 
     /// <summary>
     /// Current scoring.
@@ -133,5 +133,5 @@ public partial class GameRules : Node
     /// Delegate for fetching multiplier for scoring events.
     /// </summary>
     /// <returns>Multiplier for scoring events.</returns>
-    public delegate float GetScoringMultiplier();
+    public delegate float GetScoringMultiplierDel();
 }
