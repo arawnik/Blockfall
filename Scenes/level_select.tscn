@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://codfmuqpafo0d"]
 
-[ext_resource type="Script" path="res://Scripts/LevelSelect.cs" id="1_e1fbx"]
+[ext_resource type="Script" uid="uid://bhea54d4k123e" path="res://Scripts/LevelSelect.cs" id="1_e1fbx"]
 [ext_resource type="Texture2D" uid="uid://broh48qbdrtib" path="res://Assets/SceneBack.png" id="1_hvm50"]
 [ext_resource type="PackedScene" uid="uid://d2pb5u1a3jdj4" path="res://Scenes/level_block.tscn" id="2_vvjmv"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="3_dqghf"]

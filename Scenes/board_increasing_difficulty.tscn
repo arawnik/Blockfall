@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://2k5m5xbuynrb"]
 
-[ext_resource type="Script" path="res://Scripts/Board.cs" id="1_1ykhy"]
+[ext_resource type="Script" uid="uid://c2wf36323cown" path="res://Scripts/Board.cs" id="1_1ykhy"]
 [ext_resource type="PackedScene" uid="uid://dmu7uklxf45d2" path="res://Scenes/tetromino_pawn.tscn" id="2_dvfbr"]
 [ext_resource type="PackedScene" uid="uid://qkblwe7uvboi" path="res://Scenes/line.tscn" id="3_lquo3"]
 [ext_resource type="PackedScene" uid="uid://uc56c38fa20d" path="res://Scenes/Nodes/difficulty_increasing.tscn" id="4_xhvlc"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://uc56c38fa20d"]
 
-[ext_resource type="Script" path="res://Scripts/Models/Nodes/DifficultyIncreasing.cs" id="1_ymmtt"]
+[ext_resource type="Script" uid="uid://bv3m4toujt267" path="res://Scripts/Models/Nodes/DifficultyIncreasing.cs" id="1_ymmtt"]
 
 [node name="Difficulty" type="Node" node_paths=PackedStringArray("MoveTimer")]
 script = ExtResource("1_ymmtt")

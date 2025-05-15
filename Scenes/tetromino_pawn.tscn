@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmu7uklxf45d2"]
 
-[ext_resource type="Script" path="res://Scripts/TetrominoPawn.cs" id="1_bpsqr"]
+[ext_resource type="Script" uid="uid://mi6d1icjf63l" path="res://Scripts/TetrominoPawn.cs" id="1_bpsqr"]
 
 [node name="TetrominoPawn" type="Node2D"]
 script = ExtResource("1_bpsqr")

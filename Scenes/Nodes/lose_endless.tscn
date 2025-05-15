@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1pkkbbosoepk"]
 
-[ext_resource type="Script" path="res://Scripts/Models/Nodes/RuleConditions/LoseEndless.cs" id="1_f60gm"]
+[ext_resource type="Script" uid="uid://mbfhq3lg07l8" path="res://Scripts/Models/Nodes/RuleConditions/LoseEndless.cs" id="1_f60gm"]
 
 [node name="LoseCondition" type="Node"]
 script = ExtResource("1_f60gm")
