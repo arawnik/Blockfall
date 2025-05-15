@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwkk2mhkf4vyt"]
 
-[ext_resource type="Script" path="res://Scripts/Models/Nodes/RuleConditions/WinClearPreset.cs" id="1_qe0p2"]
+[ext_resource type="Script" uid="uid://daa2dvwsyjthe" path="res://Scripts/Models/Nodes/RuleConditions/WinClearPreset.cs" id="1_qe0p2"]
 
 [node name="WinCondition" type="Node"]
 script = ExtResource("1_qe0p2")

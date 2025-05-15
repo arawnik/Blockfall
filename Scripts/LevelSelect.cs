@@ -1,12 +1,12 @@
 namespace Blockfall.Scripts;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Blockfall.Scripts.Data;
 using Blockfall.Scripts.Models;
 using Blockfall.Scripts.Models.Nodes;
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public partial class LevelSelect : CanvasLayer
 {
@@ -35,19 +35,21 @@ public partial class LevelSelect : CanvasLayer
     /// Called when the node enters the scene tree for the first time.
     /// </summary>
     public override void _Ready()
-	{
+    {
         LevelsGridContainer = GetNode<GridContainer>(Resources.LevelsGridContainer);
 
         foreach (var level in Levels)
         {
             if (CampaignLevels.TryGetValue(level.Key, out var scene))
             {
-                var difficultyNode = scene.Instantiate()
+                var difficultyNode = scene
+                    .Instantiate()
                     .GetChildren()
                     .Where(l => l is Difficulty)
                     .Cast<Difficulty>()
                     .FirstOrDefault();
-                var gameRulesNode = scene.Instantiate()
+                var gameRulesNode = scene
+                    .Instantiate()
                     .GetChildren()
                     .Where(l => l is GameRules)
                     .Cast<GameRules>()
@@ -59,7 +61,9 @@ public partial class LevelSelect : CanvasLayer
                 newLevelBlock.ActivateAction = () => ActivateAction(scene, level.Key, true);
 
                 newLevelBlock.DifficultyTextLabel.Text = difficultyNode.DifficultyText;
-                newLevelBlock.LoseConditionTextLabel.Text = gameRulesNode.LoseCondition.DifficultyExtensionText;
+                newLevelBlock.LoseConditionTextLabel.Text = gameRulesNode
+                    .LoseCondition
+                    .DifficultyExtensionText;
 
                 newLevelBlock.BestScoreLabel.Text = gameRulesNode.LoseCondition.BestScoreText;
 
@@ -79,7 +83,8 @@ public partial class LevelSelect : CanvasLayer
 
     public static class Resources
     {
-        public const string LevelsGridContainer = "ScrollContainer/CenterContainer/VBoxContainer/LevelsGridContainer";
+        public const string LevelsGridContainer =
+            "ScrollContainer/CenterContainer/VBoxContainer/LevelsGridContainer";
 
         //public const string LevelBlockScene = "res://Scenes/level_block.tscn";
     }

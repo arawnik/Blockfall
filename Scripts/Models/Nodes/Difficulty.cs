@@ -1,8 +1,8 @@
 ﻿namespace Blockfall.Scripts.Models;
 
-using Godot;
 using System;
 using System.Linq;
+using Godot;
 
 /// <summary>
 /// Node responsible for handling the difficulty of <see cref="Game"/>.
@@ -43,12 +43,12 @@ public abstract partial class Difficulty : Node
     /// <summary>
     /// Minimum value allowed for difficulty.
     /// </summary>
-    public float Min => 1;
+    public static float Min => 1;
 
     /// <summary>
     /// Maximum value allowed for difficulty.
     /// </summary>
-    public float Max => 10;
+    public static float Max => 10;
 
     /// <summary>
     /// Current wait time that matches <see cref="Current"/> difficulty.
@@ -74,7 +74,7 @@ public abstract partial class Difficulty : Node
     {
         var warnings = base._GetConfigurationWarnings();
         if (MoveTimer == null)
-            warnings = warnings.Append($"Please set an instance of {nameof(MoveTimer)}").ToArray();
+            warnings = [.. warnings, $"Please set an instance of {nameof(MoveTimer)}"];
 
         return warnings;
     }
@@ -83,8 +83,5 @@ public abstract partial class Difficulty : Node
     /// Function that should be called at _Process function.
     /// </summary>
     /// <param name="delta">The elapsed time since the previous frame.</param>
-    public virtual void OnProcess(float delta)
-    {
-
-    }
+    public virtual void OnProcess(float delta) { }
 }

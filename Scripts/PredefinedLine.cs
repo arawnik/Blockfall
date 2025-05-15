@@ -1,7 +1,7 @@
 namespace Blockfall.Scripts;
 
-using Godot;
 using System;
+using Godot;
 
 /// <summary>
 /// Predefined line that is added to board before start. Mainly used for campaign levels.
@@ -19,10 +19,7 @@ public partial class PredefinedLine : Node2D
     [Export(PropertyHint.Range, "0,20,")]
     public int Row
     {
-        get
-        {
-            return _row;
-        }
+        get { return _row; }
         set
         {
             if (value < 0 || value > Board.ROW_COUNT)

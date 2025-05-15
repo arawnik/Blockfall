@@ -12,5 +12,5 @@ public enum TetrominoType
     J,
     L,
     S,
-    Z
+    Z,
 }

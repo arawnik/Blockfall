@@ -1,7 +1,7 @@
 ﻿namespace Blockfall.Scripts.Models;
 
-using Godot;
 using System;
+using Godot;
 
 /// <summary>
 /// Difficulty that starts from <see cref="InitialDifficulty"/> and will increasy over time depending on <see cref="DeltaMultiplier"/>.

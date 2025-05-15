@@ -1,7 +1,7 @@
 namespace Blockfall.Scripts;
 
-using Godot;
 using Blockfall.Scripts.Models;
+using Godot;
 
 /// <summary>
 /// Additional data for <see cref="Piece"/> resource.
@@ -11,7 +11,7 @@ public partial class PieceData : Resource
     /// <summary>
     /// Texture of <see cref="Piece"/>.
     /// </summary>
-	[Export]
+    [Export]
     public Texture2D PieceTexture { get; set; }
 
     /// <summary>

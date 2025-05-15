@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2pb5u1a3jdj4"]
 
-[ext_resource type="Script" path="res://Scripts/LevelBlock.cs" id="1_54570"]
+[ext_resource type="Script" uid="uid://bnnqnrkt5htfr" path="res://Scripts/LevelBlock.cs" id="1_54570"]
 [ext_resource type="FontFile" uid="uid://6f0hm4xq67te" path="res://Assets/Fonts/SourceSans3.ttf" id="2_sxltn"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="3_aa1rm"]
 

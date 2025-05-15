@@ -1,8 +1,7 @@
 ﻿namespace Blockfall.Scripts.Models.Nodes;
 
-using Godot;
 using Blockfall.Scripts.Models.RuleConditions;
-using System;
+using Godot;
 
 /// <summary>
 /// Node responsible for handling rules of <see cref="Game"/>. Win / Lose conditions etc.
@@ -43,7 +42,7 @@ public partial class GameRules : Node
     /// Reference to the board of which rules are being checked.
     /// </summary>
     [Export]
-    public Board Board {  get; set; }
+    public Board Board { get; set; }
 
     /// <summary>
     /// Reference to the lose condition.
@@ -60,7 +59,7 @@ public partial class GameRules : Node
     /// <summary>
     /// Delegate for fetching multiplier for scoring events.
     /// </summary>
-    public GetScoringMultiplier getScoringMultiplier { get; set; }
+    public GetScoringMultiplierDel GetScoringMultiplier { get; set; }
 
     /// <summary>
     /// Current scoring.
@@ -134,5 +133,5 @@ public partial class GameRules : Node
     /// Delegate for fetching multiplier for scoring events.
     /// </summary>
     /// <returns>Multiplier for scoring events.</returns>
-    public delegate float GetScoringMultiplier();
+    public delegate float GetScoringMultiplierDel();
 }

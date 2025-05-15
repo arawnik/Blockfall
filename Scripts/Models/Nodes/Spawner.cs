@@ -1,8 +1,8 @@
 namespace Blockfall.Scripts.Models.Nodes;
 
-using Godot;
-using Blockfall.Scripts.Models;
 using System;
+using Blockfall.Scripts.Models;
+using Godot;
 
 /// <summary>
 /// Spawns <see cref="TetrominoPawn"/>s to Board.
@@ -12,7 +12,7 @@ public partial class Spawner : Node
     /// <summary>
     /// The currently active <see cref="TetrominoPawn"/> that is controlled by user.
     /// </summary>
-	public TetrominoType CurrentTetromino;
+    public TetrominoType CurrentTetromino;
 
     /// <summary>
     /// Next <see cref="Tetromino"/> displayed on HUD.
@@ -61,5 +61,8 @@ public partial class Spawner : Node
     /// </summary>
     /// <param name="CurrentTetromino">The currently active <see cref="TetrominoPawn"/> that is controlled by user.</param>
     /// <param name="NextTetromino">Next <see cref="Tetromino"/> displayed on HUD.</param>
-    public delegate void UpdateTetrominos(TetrominoType CurrentTetromino, TetrominoType NextTetromino);
+    public delegate void UpdateTetrominos(
+        TetrominoType CurrentTetromino,
+        TetrominoType NextTetromino
+    );
 }

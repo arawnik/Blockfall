@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cqb4hi0u38wof"]
 
-[ext_resource type="Script" path="res://Scripts/Hud.cs" id="1_3xmyb"]
+[ext_resource type="Script" uid="uid://dy70tco34ksba" path="res://Scripts/Hud.cs" id="1_3xmyb"]
 [ext_resource type="FontFile" uid="uid://bt4of20em0snk" path="res://Assets/Fonts/GameFont.ttf" id="1_7bnq4"]
 [ext_resource type="PackedScene" uid="uid://d0pr30d2mbnue" path="res://Scenes/tetromino.tscn" id="2_4oj4m"]
 [ext_resource type="Theme" uid="uid://dkb32drs0ri8a" path="res://Theme/basic_theme.tres" id="4_hjl7v"]

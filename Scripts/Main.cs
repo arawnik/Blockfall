@@ -1,8 +1,8 @@
 namespace Blockfall.Scripts;
 
-using Godot;
-using Blockfall.Scripts.Models;
+using Blockfall.Scripts.Data;
 using Blockfall.Scripts.Save;
+using Godot;
 using static Blockfall.Scripts.Save.GameData;
 
 /// <summary>
@@ -13,19 +13,19 @@ public partial class Main : Node2D
     /// <summary>
     /// Scene that is used to instantiate new <see cref="Game"/>.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene GameScene { get; set; }
 
     /// <summary>
     /// Scene that is used to instantiate new <see cref="MainMenu"/>.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene MainMenuScene { get; set; }
 
     /// <summary>
     /// Scene that is used to instantiate new <see cref="LevelSelect"/>.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene LevelScene { get; set; }
 
     /// <summary>
@@ -110,7 +110,6 @@ public partial class Main : Node2D
             default:
                 break;
         }
-
     }
 
     /// <summary>
@@ -160,7 +159,7 @@ public partial class Main : Node2D
     /// <param name="levelName">Name of the played level.</param>
     public void CampaignAdvance(string levelName)
     {
-        if(GameData.CampaignLevels.CurrentLevel == levelName)
+        if (GameData.CampaignLevels.CurrentLevel == levelName)
         {
             CampaignAdvanceCurrent();
         }
@@ -192,7 +191,11 @@ public partial class Main : Node2D
     {
         var boardScene = ResourceLoader.Load<PackedScene>(Resources.BoardIncreasingDifficultyScene);
         var board = boardScene.Instantiate<Board>();
-        ActivateGame(board, GameData.IncreasingDifficultyBestScore, GameData.UpdateIncreasingDifficultyBestScore);
+        ActivateGame(
+            board,
+            GameData.IncreasingDifficultyBestScore,
+            GameData.UpdateIncreasingDifficultyBestScore
+        );
     }
 
     /// <summary>
@@ -208,7 +211,12 @@ public partial class Main : Node2D
         if (isBoard)
         {
             var board = scene.Instantiate<Board>();
-            ActivateGame(board, GameData.CampaignBestScore(levelName), (bestScore) => GameData.UpdateCampaignBestScore(levelName, bestScore), levelName);
+            ActivateGame(
+                board,
+                GameData.CampaignBestScore(levelName),
+                (bestScore) => GameData.UpdateCampaignBestScore(levelName, bestScore),
+                levelName
+            );
         }
         else
         {
@@ -224,7 +232,12 @@ public partial class Main : Node2D
     /// <param name="updateBestScore">Delegate for updating best score.</param>
     /// <param name="levelName">Name of played campaign level, or null if not campaign.</param>
     /// <returns>Initialized <see cref="Game"/></returns>
-    private void ActivateGame(Board board, int highScore, UpdateBestScore updateBestScore, string levelName = null)
+    private void ActivateGame(
+        Board board,
+        int highScore,
+        UpdateBestScore updateBestScore,
+        string levelName = null
+    )
     {
         var game = Game.Create(GameScene, board, highScore, updateBestScore);
         ActivateNode(game);
@@ -248,6 +261,7 @@ public partial class Main : Node2D
     public static class Resources
     {
         public const string BoardVanillaScene = "res://Scenes/board_vanilla.tscn";
-        public const string BoardIncreasingDifficultyScene = "res://Scenes/board_increasing_difficulty.tscn";
+        public const string BoardIncreasingDifficultyScene =
+            "res://Scenes/board_increasing_difficulty.tscn";
     }
 }

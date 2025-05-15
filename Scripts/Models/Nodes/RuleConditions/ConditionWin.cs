@@ -1,7 +1,7 @@
 ﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
-using Godot;
 using Blockfall.Scripts.Models.Nodes;
+using Godot;
 
 /// <summary>
 /// Define win condition for <see cref="GameRules"/>.

@@ -1,10 +1,9 @@
 ﻿namespace Blockfall.Scripts.Save;
 
-using Godot;
-using Blockfall.Scripts.Data;
-using System.Linq;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using Blockfall.Scripts.Data;
+using Godot;
 using SoulNETLib.Common.Extension;
 
 /// <summary>
@@ -28,7 +27,7 @@ public partial class GameData : Resource
     /// Best scores for campaign levels.
     /// </summary>
     [Export]
-    public Godot.Collections.Dictionary<string, int> CampaignBestScores { get; set; } = new();
+    public Godot.Collections.Dictionary<string, int> CampaignBestScores { get; set; } = [];
 
     /// <summary>
     /// Information related to campaign levels, and current state.
@@ -68,7 +67,6 @@ public partial class GameData : Resource
     /// <param name="newBestScore">New best score.</param>
     public void UpdateCampaignBestScore(string levelName, int newBestScore)
     {
-
         CampaignBestScores[levelName] = newBestScore;
         Save();
     }
@@ -80,11 +78,12 @@ public partial class GameData : Resource
     /// <returns>Current best score that matches <paramref name="levelName"/>.</returns>
     public int CampaignBestScore(string levelName)
     {
-        if(!CampaignBestScores.ContainsKey(levelName))
+        if (!CampaignBestScores.TryGetValue(levelName, out int value))
         {
-            CampaignBestScores[levelName] = 0;
+            value = 0;
+            CampaignBestScores[levelName] = value;
         }
-        return CampaignBestScores[levelName];
+        return value;
     }
 
     /// <summary>
@@ -92,7 +91,7 @@ public partial class GameData : Resource
     /// </summary>
     public List<KeyValuePair<string, int>> CampaignClearedLevels()
     {
-        return CampaignBestScores.OrderBy(level => level.Key.GetDigitsInt()).ToList();
+        return [.. CampaignBestScores.OrderBy(level => level.Key.GetDigitsInt())];
     }
 
     /// <summary>

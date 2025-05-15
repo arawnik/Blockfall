@@ -1,11 +1,11 @@
 namespace Blockfall.Scripts;
 
-using Godot;
+using System.Collections.Generic;
+using System.Linq;
 using Blockfall.Scripts.Models;
 using Blockfall.Scripts.Models.Nodes;
 using Blockfall.Scripts.Models.RuleConditions;
-using System.Collections.Generic;
-using System.Linq;
+using Godot;
 
 /// <summary>
 /// The grid board playarea. Childnodes define the difficulty and rules.
@@ -33,7 +33,7 @@ public partial class Board : Node2D
     /// <summary>
     /// Scene that is used to instantiate new <see cref="Line"/>s into the board.
     /// </summary>
-	[Export]
+    [Export]
     public PackedScene LineScene { get; set; }
 
     /// <summary>
@@ -58,24 +58,29 @@ public partial class Board : Node2D
     /// Amount of rows on the board.
     /// </summary>
     public const int ROW_COUNT = 20;
+
     /// <summary>
     /// Amount of columns on the board.
     /// </summary>
     public const int COLUMN_COUNT = 11;
-    /// <summary>
-    /// Size of each <see cref="Piece" /> designed for the board.
-    /// </summary>
-	public const int PIECE_SIZE = 48;
 
     /// <summary>
     /// Size of each <see cref="Piece" /> designed for the board.
     /// </summary>
-	public const int HALF_PIECE_SIZE = PIECE_SIZE / 2;
+    public const int PIECE_SIZE = 48;
+
+    /// <summary>
+    /// Size of each <see cref="Piece" /> designed for the board.
+    /// </summary>
+    public const int HALF_PIECE_SIZE = PIECE_SIZE / 2;
 
     /// <summary>
     /// Vector for <see cref="TetrominoPawn"/> spawn point.
     /// </summary>
-	public static readonly Vector2 SPAWN_POINT = new((COLUMN_COUNT + 1)  / 2 * PIECE_SIZE - HALF_PIECE_SIZE, Bounds.MinY);
+    public static readonly Vector2 SPAWN_POINT = new(
+        (COLUMN_COUNT + 1) / 2 * PIECE_SIZE - HALF_PIECE_SIZE,
+        Bounds.MinY
+    );
 
     /// <summary>
     /// Min values for GlobalPosition that belongs to board.
@@ -86,7 +91,6 @@ public partial class Board : Node2D
     /// Max values for GlobalPosition that belongs to board.
     /// </summary>
     public Vector2 MaxVector;
-
 
     /// <summary>
     /// Called when the node enters the scene tree for the first time.
@@ -118,7 +122,8 @@ public partial class Board : Node2D
     {
         tetromino.Pieces.ForEach(piece =>
         {
-            var line = GetLines().FirstOrDefault(line => line.GlobalPosition.Y == piece.GlobalPosition.Y);
+            var line = GetLines()
+                .FirstOrDefault(line => line.GlobalPosition.Y == piece.GlobalPosition.Y);
             if (line != null)
             {
                 piece.Reparent(line);
@@ -144,10 +149,7 @@ public partial class Board : Node2D
         var pieces = new List<Piece>();
         foreach (var line in GetLines())
         {
-            pieces.AddRange(line.GetChildren()
-                .Where(piece => piece is Piece)
-                .Cast<Piece>()
-                .ToList());
+            pieces.AddRange([.. line.GetChildren().Where(piece => piece is Piece).Cast<Piece>()]);
         }
         return pieces;
     }
@@ -158,9 +160,7 @@ public partial class Board : Node2D
     /// <returns><see cref="List{Line}"/> of lines on board.</returns>
     public IEnumerable<Line> GetLines()
     {
-        return GetChildren(false)
-            .Where(child => child is Line)
-            .Cast<Line>();
+        return GetChildren(false).Where(child => child is Line).Cast<Line>();
     }
 
     /// <summary>
@@ -169,9 +169,7 @@ public partial class Board : Node2D
     /// <returns><see cref="List{PredefinedLine}"/> of predefined lines on board.</returns>
     public IEnumerable<PredefinedLine> GetPredefinedLines()
     {
-        return GetChildren(false)
-            .Where(child => child is PredefinedLine)
-            .Cast<PredefinedLine>();
+        return GetChildren(false).Where(child => child is PredefinedLine).Cast<PredefinedLine>();
     }
 
     /// <summary>
@@ -201,9 +199,7 @@ public partial class Board : Node2D
     /// </summary>
     private void RemoveFullLines()
     {
-        var fullLines = GetLines()
-            .Where(line => line.IsLineFull())
-            .ToArray();
+        var fullLines = GetLines().Where(line => line.IsLineFull()).ToArray();
 
         EmitSignal(SignalName.LinesRemoved, fullLines);
         foreach (var line in fullLines)
@@ -222,7 +218,12 @@ public partial class Board : Node2D
         GetLines()
             .Where(line => line.GlobalPosition.Y < y)
             .ToList()
-            .ForEach(line => line.GlobalPosition = new Vector2(line.GlobalPosition.X, (line.GlobalPosition.Y + PIECE_SIZE)));
+            .ForEach(line =>
+                line.GlobalPosition = new Vector2(
+                    line.GlobalPosition.X,
+                    (line.GlobalPosition.Y + PIECE_SIZE)
+                )
+            );
     }
 
     /// <summary>
@@ -238,7 +239,10 @@ public partial class Board : Node2D
             foreach (var predefinedLine in GetPredefinedLines())
             {
                 var newLine = LineScene.Instantiate<Line>();
-                newLine.GlobalPosition = new Vector2(-HALF_PIECE_SIZE, predefinedLine.Row * PIECE_SIZE - HALF_PIECE_SIZE);
+                newLine.GlobalPosition = new Vector2(
+                    -HALF_PIECE_SIZE,
+                    predefinedLine.Row * PIECE_SIZE - HALF_PIECE_SIZE
+                );
                 foreach (var pieceIndex in predefinedLine.Pieces)
                 {
                     var piece = pieceScene.Instantiate<Piece>();
@@ -248,7 +252,6 @@ public partial class Board : Node2D
                 }
 
                 WinClearPreset.ClearableLines.Add(newLine);
-
 
                 RemoveChild(predefinedLine);
                 AddChild(newLine);

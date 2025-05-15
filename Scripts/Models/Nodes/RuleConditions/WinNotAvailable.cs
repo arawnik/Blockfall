@@ -1,7 +1,7 @@
 ﻿namespace Blockfall.Scripts.Models.RuleConditions;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public partial class WinNotAvailable : ConditionWin
 {

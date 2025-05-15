@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public partial class WinClearPreset : ConditionWin
 {
     /// <summary>
     /// The lines that need to be cleared to win.
     /// </summary>
-    public List<Line> ClearableLines { get; set; } = new List<Line>();
+    public List<Line> ClearableLines { get; set; } = [];
 
     /// <summary>
     /// Explanation for the win condition that will be displayed in HUD.
@@ -34,8 +34,8 @@ public partial class WinClearPreset : ConditionWin
     /// <param name="lines">The checked lines.</param>
     private void CheckLineRemove(Line[] lines)
     {
-        ClearableLines = ClearableLines.Except(lines).ToList();
-        if (!ClearableLines.Any())
+        ClearableLines = [.. ClearableLines.Except(lines)];
+        if (ClearableLines.Count == 0)
         {
             GameRules.ProcessGameWin();
         }

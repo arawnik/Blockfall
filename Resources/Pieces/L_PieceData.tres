@@ -1,9 +1,10 @@
 [gd_resource type="Resource" load_steps=3 format=3 uid="uid://4irp0stexjkp"]
 
 [ext_resource type="Texture2D" uid="uid://pg2ovosp32i5" path="res://Assets/Pieces/Orange.png" id="1_lmgyu"]
-[ext_resource type="Script" path="res://Scripts/PieceData.cs" id="2_n6lcf"]
+[ext_resource type="Script" uid="uid://bnkxsrvxqrg05" path="res://Scripts/PieceData.cs" id="2_n6lcf"]
 
 [resource]
 script = ExtResource("2_n6lcf")
 PieceTexture = ExtResource("1_lmgyu")
 TetrominoType = 4
+SpawnOffsetLeft = false
